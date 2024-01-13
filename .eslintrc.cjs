@@ -13,7 +13,8 @@ module.exports = {
         "sourceType": "module",
         "project": [
             "./tsconfig.json",
-            "./commitlint.config.js"],
+            "./commitlint.config.js",
+            "./.prettierrc.js"],
         "parser": "@typescript-eslint/parser",
         "extraFileExtensions": [".vue"], // 新增
     },

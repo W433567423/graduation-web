@@ -1,12 +1,12 @@
 <!--
 * DONE
-* @description: DashBoard 组件
+* @description: New Project 组件
 * @author: tutu
 * @time: 2024/1/13 16:20
 -->
 <template>
-  <div class="dash-board">
-    <h2>DashBoard 组件</h2>
+  <div class="new-project">
+    <h2>New Project 组件</h2>
   </div>
 </template>
 
@@ -15,7 +15,7 @@
 </script>
 
 <style lang="less" scoped>
-.dash-board {
+.new-project {
 
 }
 </style>

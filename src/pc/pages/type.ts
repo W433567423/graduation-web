@@ -1,13 +1,8 @@
 interface IMenuItem {
+  id: number
   title: string
   link: string
-  icon?: string
-}
-
-interface IMenuItem {
-  title: string
-  link: string
-  icon?: string
+  icon: string
 }
 
 export type { IMenuItem }

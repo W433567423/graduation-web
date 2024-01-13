@@ -1,10 +1,10 @@
 <template>
   <div class="index">
-    <el-menu
-        class="el-menu-vertical-demo"
-        default-active="1">
-      <template v-for="(e,i) in menuList" :key="i+1">
-        <el-menu-item :index="String(i+1)">
+    <el-menu class="el-menu-vertical-demo"
+             default-active="1"
+             router>
+      <template v-for="e in menuList" :key="e.id">
+        <el-menu-item :index="e.link">
           <el-icon>
             <component :is="e.icon"/>
           </el-icon>
@@ -12,7 +12,9 @@
         </el-menu-item>
       </template>
     </el-menu>
-    <router-view/>
+    <section class="layout">
+      <router-view/>
+    </section>
   </div>
 </template>
 
@@ -21,16 +23,19 @@ import { ref, type Ref } from 'vue'
 import { type IMenuItem } from './type.ts'
 
 const menuList: Ref<IMenuItem[]> = ref([{
+  id: 0,
   title: '面板',
-  link: '/',
+  link: 'dash',
   icon: 'menu'
 }, {
+  id: 1,
   title: '新建项目',
-  link: '/',
+  link: 'new',
   icon: 'plus'
 }, {
+  id: 2,
   title: '设置',
-  link: '/',
+  link: 'set',
   icon: 'setting'
 }])
 
@@ -43,6 +48,11 @@ const menuList: Ref<IMenuItem[]> = ref([{
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
     height: 100vh;
+  }
+
+  .layout {
+    margin: 12px;
+    max-width: 100%;
   }
 }
 
