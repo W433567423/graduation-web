@@ -9,7 +9,7 @@
       "DOM.Iterable"
     ],
     "skipLibCheck": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"

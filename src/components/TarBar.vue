@@ -6,7 +6,7 @@
 -->
 <template>
   <div class="tar-bar">
-    <div v-for="(e) in menuList">
+    <div v-for="(e,i) in menuList" :key="i">
       <router-link :class="['link-box',route.path===e.link?'active':'']" :to="e.link">{{
           e.title
         }}
@@ -16,13 +16,13 @@
 </template>
 
 <script lang="ts" setup>
-import {IMenuItem} from "./index";
-import {useRoute} from "vue-router";
+import { type IMenuItem } from './index'
+import { useRoute } from 'vue-router'
 
 const menuList: IMenuItem[] = [
-  {title: '首页', link: '/'},
-  {title: '可视化', link: '/result'},
-  {title: '设置', link: '/setting'}
+  { title: '首页', link: '/' },
+  { title: '可视化', link: '/result' },
+  { title: '设置', link: '/setting' }
 ]
 const route = useRoute()
 console.log(route.path)

@@ -1,6 +1,6 @@
 interface IMenuItem {
-    title: string
-    link: string
+  title: string
+  link: string
 }
 
-export type {IMenuItem}
+export type { IMenuItem }

@@ -1,32 +1,25 @@
 module.exports = {
+    "parser": 'vue-eslint-parser',//vue解析器
     "env": {
         "browser": true,
-        "es2021": true
+        "es2021": true,
     },
     "extends": [
         "standard-with-typescript",
         "plugin:vue/vue3-essential"
     ],
-    "overrides": [
-        {
-            "env": {
-                "node": true
-            },
-            "files": [
-                ".eslintrc.{js,cjs}"
-            ],
-            "parserOptions": {
-                "sourceType": "script"
-            }
-        }
-    ],
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module",
-        "project": ['./tsconfig.json']
+        "project": ['./tsconfig.json'],
+        "parser": "@typescript-eslint/parser",
+        "extraFileExtensions": ['.vue'], // 新增
     },
     "plugins": [
         "vue"
     ],
-    "rules": {}
+    "rules": {
+        // 关闭名称校验
+        'vue/multi-word-component-names': "off"
+    }
 }
