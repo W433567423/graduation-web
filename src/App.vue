@@ -4,8 +4,7 @@
 </script>
 
 <template>
-  <router-view></router-view>
-  <!--  <tar-bar/>-->
+  <router-view/>
 </template>
 
 <style lang="less" scoped>
