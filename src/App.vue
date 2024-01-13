@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import TarBar from './components/TarBar.vue'
+
+// import TarBar from './components/TarBar.vue'
 </script>
 
 <template>
-
   <router-view></router-view>
-  <tar-bar/>
+  <!--  <tar-bar/>-->
 </template>
 
 <style lang="less" scoped>
