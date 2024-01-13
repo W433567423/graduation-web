@@ -13,6 +13,15 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@cpn/*": [
+        "./src/components/*"
+      ],
+      "@pc/*": [
+        "./src/pc/*"
+      ],
+      "@m/*": [
+        "./src/mobile/*"
       ]
     },
     /* Bundler mode */

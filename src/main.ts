@@ -1,9 +1,11 @@
 import { type Component, createApp } from 'vue'
+import 'normalize.css'
 import './style.css'
 import App from './App.vue'
 import router from './router'
-import 'normalize.css'
+import { rejectElement } from '@/common'
 
-createApp(App as Component)
-  .use(router)
-  .mount('#app')
+const app = createApp(App as Component)
+app.use(router)
+rejectElement(app)
+app.mount('#app')

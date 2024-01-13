@@ -2,38 +2,37 @@
   <div class="index">
     <el-menu
         class="el-menu-vertical-demo"
-        default-active="2"
-    >
-      <el-menu-item index="1">
-        <el-icon>
-          <icon-menu/>
-        </el-icon>
-        <template #title>新建项目</template>
-      </el-menu-item>
-
-      <el-menu-item index="2">
-        <el-icon>
-          <setting/>
-        </el-icon>
-        <template #title>设置</template>
-      </el-menu-item>
-
-      <el-menu-item index="3">
-        <el-icon>
-          <setting/>
-        </el-icon>
-        <template #title>设置</template>
-      </el-menu-item>
+        default-active="1">
+      <template v-for="(e,i) in menuList" :key="i+1">
+        <el-menu-item :index="String(i+1)">
+          <el-icon>
+            <component :is="e.icon"/>
+          </el-icon>
+          <template #title>{{ e.title }}</template>
+        </el-menu-item>
+      </template>
     </el-menu>
     <router-view/>
   </div>
 </template>
 
 <script lang="ts" setup>
-import {
-  Menu as IconMenu,
-  Setting
-} from '@element-plus/icons-vue'
+import { ref, type Ref } from 'vue'
+import { type IMenuItem } from './type.ts'
+
+const menuList: Ref<IMenuItem[]> = ref([{
+  title: '面板',
+  link: '/',
+  icon: 'menu'
+}, {
+  title: '新建项目',
+  link: '/',
+  icon: 'plus'
+}, {
+  title: '设置',
+  link: '/',
+  icon: 'setting'
+}])
 
 </script>
 

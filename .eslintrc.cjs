@@ -11,7 +11,9 @@ module.exports = {
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module",
-        "project": ["./tsconfig.json"],
+        "project": [
+            "./tsconfig.json",
+            "./commitlint.config.js"],
         "parser": "@typescript-eslint/parser",
         "extraFileExtensions": [".vue"], // 新增
     },
