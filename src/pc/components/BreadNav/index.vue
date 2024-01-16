@@ -1,0 +1,58 @@
+<!--
+* TODO
+* @description: bread-nav 组件
+* @author: tutu
+* @time: 2024/1/16 16:58
+-->
+<template>
+  <div class="bread-nav">
+
+    <el-breadcrumb :separator-icon="ArrowRight">
+      <el-breadcrumb-item :to="routerMapString().url" class="nav-item">/{{
+          routerMapString().title
+        }}
+      </el-breadcrumb-item>
+
+    </el-breadcrumb>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ArrowRight } from '@element-plus/icons-vue'
+import { useRoute } from 'vue-router'
+
+const routerMapString = () => {
+  const renderData = { url: useRoute().path, title: '' }
+  switch (useRoute().path) {
+    case '/pc/dash':
+      renderData.title = '面板'
+      break
+    case '/pc/new':
+      renderData.title = '新建项目'
+      break
+    case '/pc/set':
+      renderData.title = '设置'
+      break
+  }
+  console.log(renderData)
+  return renderData
+}
+
+</script>
+
+<style lang="less" scoped>
+.bread-nav {
+  height: 48px;
+  line-height: 48px;
+  display: flex;
+  align-items: center;
+  background-color: #f6f6f9;
+  padding-left: 12px;
+
+  .nav-item :hover {
+    cursor: pointer;
+    color: #79bbff;
+  }
+
+}
+</style>

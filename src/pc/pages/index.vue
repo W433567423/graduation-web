@@ -1,28 +1,29 @@
 <template>
   <div class="index">
-    <el-menu class="el-menu-vertical-demo"
-             default-active="1"
-             router>
-      <template v-for="e in menuList" :key="e.id">
-        <el-menu-item :index="e.link">
-          <el-icon>
-            <component :is="e.icon"/>
-          </el-icon>
-          <template #title>{{ e.title }}</template>
-        </el-menu-item>
-      </template>
-    </el-menu>
 
-    <div class="layout">
-      <div class="layout-nav">
-        <el-breadcrumb :separator-icon="ArrowRight">
-          <el-breadcrumb-item class="nav-item" to="/pc/dash">/面板</el-breadcrumb-item>
+    <header class="index-header">
+      <img class="header-avatar-img" src="@/assets/images/touxiang.jpg">
+    </header>
+    <div class="index-inner">
+      <el-menu class="el-menu-vertical-demo"
+               default-active="1"
+               router>
+        <template v-for="e in menuList" :key="e.id">
+          <el-menu-item :index="e.link">
+            <el-icon>
+              <component :is="e.icon"/>
+            </el-icon>
+            <template #title>{{ e.title }}</template>
+          </el-menu-item>
+        </template>
+      </el-menu>
 
-        </el-breadcrumb>
+      <div class="layout">
+        <bread-nav/>
+        <section class="layout-inner">
+          <router-view/>
+        </section>
       </div>
-      <section class="layout-inner">
-        <router-view/>
-      </section>
     </div>
   </div>
 </template>
@@ -30,8 +31,7 @@
 <script lang="ts" setup>
 import { ref, type Ref } from 'vue'
 import { type IMenuItem } from './type.ts'
-import { useRoute } from 'vue-router'
-import { ArrowRight } from '@element-plus/icons-vue'
+import breadNav from '@pc/components/BreadNav/index.vue'
 
 const menuList: Ref<IMenuItem[]> = ref([{
   id: 0,
@@ -49,46 +49,69 @@ const menuList: Ref<IMenuItem[]> = ref([{
   link: 'set',
   icon: 'setting'
 }])
-const route = useRoute()
-console.log(route)
+
+// const
+// const
+//   {
+//     path: routerPath
+//   } = useRoute()
+// const routerMapString = (routePath: string) => {
+//   const data = {}
+//   switch (routePath) {
+//     case '':
+//       data.path = ''
+//       data.title = ''
+//       break
+//   }
+//   return data
+// }
 
 </script>
 
 <style lang="less" scoped>
 .index {
-  display: flex;
+  width: 100%;
 
-  .el-menu-vertical-demo:not(.el-menu--collapse) {
-    width: 200px;
-    height: 100vh;
-  }
-
-  .layout {
-    width: 100%;
+  .index-header {
+    height: 56px;
+    background-color: #000;
     display: flex;
-    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    padding: 0 12px;
+    box-sizing: border-box;
 
-    .layout-nav {
-      height: 48px;
-      line-height: 48px;
-      display: flex;
-      align-items: center;
-      background-color: #f6f6f9;
-      padding-left: 12px;
-
-      .nav-item :hover {
-        transition: 0.3s;
-        font-size: 16px;
-
-        &:hover {
-          cursor: pointer;
-          font-weight: bolder;
-        }
-      }
+    .header-avatar-img {
+      width: 42px;
+      height: 42px;
+      border-radius: 28px;
+      transition: .5s;
     }
 
-    .layout-inner {
-      margin: 12px;
+    .header-avatar-img:hover {
+      transform: rotate(360deg);
+    }
+  }
+
+  .index-inner {
+    width: 100%;
+    display: flex;
+
+    .el-menu-vertical-demo:not(.el-menu--collapse) {
+      width: 280px;
+      height: calc(100vh - 56px);
+    }
+
+    .layout {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+
+      .layout-inner {
+        box-sizing: border-box;
+        padding: 12px;
+      }
     }
   }
 }
