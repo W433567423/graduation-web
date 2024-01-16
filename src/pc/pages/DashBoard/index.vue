@@ -6,16 +6,21 @@
 -->
 <template>
   <div class="dash-board">
-    <h2>DashBoard 组件</h2>
+    <program-item :list="list"/>
   </div>
 </template>
 
 <script lang="ts" setup>
+import ProgramItem from '@pc/components/ProgramItem/index.vue'
+import { ref, type Ref } from 'vue'
+import { type IProgramItem } from '@pc/pages/type.ts'
 
+const list: Ref<IProgramItem[] | undefined> = ref()
 </script>
 
 <style lang="less" scoped>
 .dash-board {
+  width: 100%;
 
 }
 </style>

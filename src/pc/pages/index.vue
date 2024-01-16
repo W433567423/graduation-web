@@ -52,7 +52,7 @@ const menuList: Ref<IMenuItem[]> = ref([{
 
   .layout {
     margin: 12px;
-    max-width: 100%;
+    width: 100%;
   }
 }
 
