@@ -54,20 +54,6 @@
 <script lang="ts" setup>
 import { type IProgramItem } from '@pc/pages/type'
 
-// interface IProps {
-//   list: {
-//     type:
-//         IProgramItem[]
-//     default: [{
-//       id: 0
-//       name: 'string'
-//       statusCode: 0
-//       lastSuccessTime: 'string23'
-//       lastFileTime: 'string12'
-//       lastRunTime: 'string3453'
-//     }]
-//   }
-// }
 interface IProps {
   list: IProgramItem[]
 }
@@ -75,6 +61,13 @@ interface IProps {
 const { list } = withDefaults(defineProps<IProps>(), {
   list () {
     return [{
+      id: 0,
+      name: 'string1',
+      statusCode: 0,
+      lastSuccessTime: 'string23',
+      lastFileTime: 'string12',
+      lastRunTime: 'string3453'
+    }, {
       id: 0,
       name: 'string1',
       statusCode: 0,
@@ -94,12 +87,22 @@ const { list } = withDefaults(defineProps<IProps>(), {
   background-color: #f4f4f8;
   padding: 4px;
 
+  & > .el-row {
+    //background-color: red;
+    padding: 4px 0 8px;
+    text-align: center;
+  }
+
   .program-item {
     background-color: #fff;
-    margin-top: 8px;
     width: 100%;
-    height: 100px;
+    height: 60px;
     text-align: center;
+    border-radius: 8px;
+
+    &:not(:last-child) {
+      margin-bottom: 2px;
+    }
   }
 }
 </style>

@@ -21,6 +21,5 @@ const list: Ref<IProgramItem[] | undefined> = ref()
 <style lang="less" scoped>
 .dash-board {
   width: 100%;
-
 }
 </style>
