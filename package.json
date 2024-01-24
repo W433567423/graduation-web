@@ -14,6 +14,7 @@
     "test": "npm run lint"
   },
   "dependencies": {
+    "dayjs": "^1.11.10",
     "element-plus": "^2.5.1",
     "normalize.css": "^8.0.1",
     "vue": "^3.3.11",
