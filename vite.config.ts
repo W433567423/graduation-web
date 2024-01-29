@@ -23,5 +23,16 @@ export default defineConfig({
             '@pc': path.join(__dirname, './src/pc'),
             '@m': path.join(__dirname, './src/mobile')
         }
+    }, server: {
+        port: 8003,
+        open: true,
+        proxy: {
+            // '/api': {
+            //     target: 'http://localhost:8004',	//实际请求地址
+            //     changeOrigin: true,
+            //     rewrite: (path) => path.replace(/^\/api/, '')
+            // },
+
+        }
     }
 })

@@ -5,6 +5,7 @@ import axios, {
 } from 'axios'
 import { ElMessage, ElLoading } from 'element-plus'
 import { getLocalStorage } from '@/utils'
+import { BASE_URL, TIMEOUT } from '@/config/axios.config.ts'
 
 const loadingInstance = ElLoading.service
 let requestCount = 0
@@ -19,12 +20,11 @@ const closeLoading = () => {
 
 const service: AxiosInstance = axios.create({
   method: 'get',
-  baseURL: import.meta.env.VITE_APP_API,
+  baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json;charset=utf-8'
   },
-
-  timeout: 10000
+  timeout: TIMEOUT
 })
 // 请求拦截
 
@@ -53,8 +53,6 @@ service.interceptors.request.use(
     } else {
       requestMap.set(key, controller)
     }
-    console.log(123)
-
     const { loading = true, isToken = true } = config
 
     if (loading) showLoading()
@@ -75,21 +73,27 @@ service.interceptors.response.use(
     const { data, config } = res
 
     const { loading = true } = config
-    if (loading) closeLoading()
-
-    if (data.code !== 200) {
-      ElMessage({
-        message: data.describe,
-        type: 'error'
-      })
-      if (data.code === 401) {
-        // 登录状态已过期.处理路由重定向
-        console.log('loginOut')
-      }
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      throw new Error(data.describe)
+    if (loading) {
+      closeLoading()
     }
-    return data
+    // code处理
+    (function () {
+      switch (true) {
+        case data.code >= 200 && data.code < 300:
+          break
+        case data.code === 401:
+          // 登录状态已过期.处理路由重定向
+          console.log('loginOut')
+          break
+        default:
+          ElMessage.error({
+            message: typeof data.msg === 'string' ? data.msg : data.msg.join('且')
+          })
+          break
+      }
+    })()
+
+    return data.data
   },
   async (error) => {
     closeLoading()

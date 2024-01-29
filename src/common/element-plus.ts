@@ -1,5 +1,6 @@
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import type { App } from 'vue'
+import 'element-plus/dist/index.css'
 
 export const rejectElement = (app: App<Element>) => {
   for (const [key, component] of Object.entries(ElementPlusIconsVue)) {

@@ -26,6 +26,8 @@ module.exports = {
         "vue/multi-word-component-names": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
         //     关闭boolean校验
-        "@typescript-eslint/strict-boolean-expressions": "off"
+        "@typescript-eslint/strict-boolean-expressions": "off",
+    //     关闭没有使用的变量校验
+        "@typescript-eslint/no-unused-vars":"off"
     }
 }
