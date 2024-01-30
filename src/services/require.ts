@@ -6,6 +6,7 @@ import axios, {
 import { ElMessage, ElLoading } from 'element-plus'
 import { getLocalStorage } from '@/utils'
 import { BASE_URL, TIMEOUT } from '@/config/axios.config.ts'
+import useUserStore from '@/stores/user.ts'
 
 const loadingInstance = ElLoading.service
 let requestCount = 0
@@ -34,13 +35,6 @@ declare module 'axios' {
     isToken?: boolean
   }
 }
-declare module 'axios' {
-  interface AxiosRequestConfig {
-    loading?: boolean
-    isToken?: boolean
-  }
-}
-
 const requestMap = new Map()
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig<any>) => {
@@ -57,10 +51,8 @@ service.interceptors.request.use(
 
     if (loading) showLoading()
     if ((getLocalStorage('token') != null) && !isToken) {
-      config.headers.Authorization =
-                'Bearer ' + localStorage.getItem('token') // 让每个请求携带自定义token 请根据实际情况自行修改
+      config.headers.Authorization = useUserStore().token
     }
-
     return config
   },
   (error) => {

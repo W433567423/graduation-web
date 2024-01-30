@@ -1,6 +1,8 @@
 <script lang="ts" setup>
+import useUserStore from '@/stores/user.ts'
 
-// import TarBar from './components/TarBar.vue'
+const userStore = useUserStore()
+userStore.init()
 </script>
 
 <template>

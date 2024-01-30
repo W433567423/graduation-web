@@ -66,6 +66,9 @@ import { User, Lock, Key } from '@element-plus/icons-vue'
 import { getLocalStorage, setLocalStorage } from '@/utils'
 import type { IUserLogin } from '@/services'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import useUserStore from '@/stores/user.ts'
+
+const userStore = useUserStore()
 
 const ruleFormRef = ref<FormInstance>()
 
@@ -109,8 +112,8 @@ const userLogin = async (formEl: FormInstance | undefined) => {
   })
 
   const { username, password } = form.value
-  const token = await postUserLogin(form.value)
-  console.log(token)
+  const token = await postUserLogin(form.value) as any
+  userStore.setToken(token as string)
   if (token) ElMessage.success({ message: '登陆成功' })
   setLocalStorage('user', { username, password })
 }
