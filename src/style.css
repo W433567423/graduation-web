@@ -1,4 +1,12 @@
+@import 'normalize.css';
+@import 'element-plus/dist/index.css';
+
 .app {
     /*width: 100vw;*/
     /*min-height: 100vh;*/
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
 }

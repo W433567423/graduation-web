@@ -156,7 +156,7 @@ onBeforeMount(() => {
   .login-text {
     padding: 36px 0;
     font-weight: bold;
-    font-size: 32px;
+    font-size: 36px;
     color: #6c6c6c;
   }
 
@@ -178,27 +178,38 @@ onBeforeMount(() => {
 
     //记住用户/忘记密码
     .form-extra-wrap {
-      margin-top: 24px;
+      margin-top: 32px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      font-size: 14px;
+
+      a:hover {
+        color: red;
+      }
     }
 
     //登录按钮
     .form-submit-wrap {
-      margin-top: 24px;
+      margin-top: 28px;
       display: flex;
       justify-content: center;
+
+      .login-button {
+        width: 120px;
+        font-size: 18px;
+      }
     }
   }
 
-  .login-button {
-    width: 100px;
-
-  }
-
+  // 注册区域
   .registry-wrap {
     margin-top: 32px;
+    font-size: 14px;
+
+    a {
+      color: #79bbff;
+    }
   }
 }
 </style>
