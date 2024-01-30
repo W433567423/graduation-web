@@ -10,7 +10,7 @@ import eslint from 'vite-plugin-eslint'
 export default defineConfig({
     plugins: [
         vue(),
-        eslint(),
+        // eslint(),
         AutoImport({
             resolvers: [ElementPlusResolver()]
         }),
