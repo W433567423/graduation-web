@@ -32,7 +32,6 @@ const service: AxiosInstance = axios.create({
 declare module 'axios' {
   interface InternalAxiosRequestConfig {
     loading?: boolean
-    isToken?: boolean
   }
 }
 const requestMap = new Map()
@@ -47,10 +46,10 @@ service.interceptors.request.use(
     } else {
       requestMap.set(key, controller)
     }
-    const { loading = true, isToken = true } = config
+    const { loading = true } = config
 
     if (loading) showLoading()
-    if ((getLocalStorage('token') != null) && !isToken) {
+    if ((getLocalStorage('token') != null)) {
       config.headers.Authorization = useUserStore().token
     }
     return config

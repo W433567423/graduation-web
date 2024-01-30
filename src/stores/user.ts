@@ -11,12 +11,13 @@ export default defineStore('user', {
     // 初始化
     init () {
       this.token = getLocalStorage('token')
+      console.log('初始化读取token', this.token)
     },
     // 设置token
     setToken (token: string) {
-      console.log('设置token', token)
       this.token = 'Bearer ' + token
-      setLocalStorage('token', token)
+      console.log('设置token', this.token)
+      setLocalStorage('token', this.token)
     }
   }
 })
