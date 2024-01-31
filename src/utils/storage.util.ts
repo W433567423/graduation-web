@@ -1,3 +1,4 @@
+// 获取本地缓存
 export const getLocalStorage = (key: string) => {
   const temp = window.localStorage.getItem(key) ?? ''
   try {
@@ -6,6 +7,13 @@ export const getLocalStorage = (key: string) => {
     return temp
   }
 }
+
+// 设置本地缓存
 export const setLocalStorage = (key: string, value: any) => {
   window.localStorage.setItem(key, JSON.stringify(value))
+}
+
+// 清除所有缓存
+export const clearLocalStorage = () => {
+  window.localStorage.clear()
 }

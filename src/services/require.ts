@@ -77,6 +77,7 @@ service.interceptors.response.use(
         case data.code === 401:
           // 登录状态已过期.处理路由重定向
           console.log('登录状态已过期')
+          useUserStore().clearStorage()
           void router.replace({
             path: '/pc-login',
             query: { redirect: router.currentRoute.value.fullPath }

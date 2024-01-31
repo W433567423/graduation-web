@@ -2,7 +2,7 @@
   <div class="index">
 
     <header class="index-header">
-      <img alt="" class="header-avatar-img" src="@/assets/images/touxiang.jpg">
+      <img alt="" class="header-avatar-img" src="@/assets/images/avatar.jpg">
     </header>
     <div class="index-inner">
       <el-menu class="el-menu-vertical-demo"
@@ -49,22 +49,6 @@ const menuList: Ref<IMenuItem[]> = ref([{
   link: 'set',
   icon: 'setting'
 }])
-
-// const
-// const
-//   {
-//     path: routerPath
-//   } = useRoute()
-// const routerMapString = (routePath: string) => {
-//   const data = {}
-//   switch (routePath) {
-//     case '':
-//       data.path = ''
-//       data.title = ''
-//       break
-//   }
-//   return data
-// }
 
 </script>
 
