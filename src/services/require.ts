@@ -25,7 +25,8 @@ const service: AxiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json;charset=utf-8'
   },
-  timeout: TIMEOUT
+  timeout: TIMEOUT,
+  withCredentials: true
 })
 // 请求拦截
 
