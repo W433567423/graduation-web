@@ -190,7 +190,7 @@ onBeforeMount(async () => {
   }
 
   .form-wrap {
-    width: 90%;
+    width: 92%;
     // 验证码
     .form-valida-wrap {
       display: flex;

@@ -2,7 +2,7 @@ import request from '@/services/require.ts'
 import type { IUserLogin } from './index.d'
 
 // 获取 验证码
-export const getValidaCode = async (width = 92, height = 40) => {
+export const getValidaCode = async (width = 108, height = 40) => {
   return await request({
     url: '/captcha',
     method: 'get',
