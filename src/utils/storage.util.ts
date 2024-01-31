@@ -13,6 +13,11 @@ export const setLocalStorage = (key: string, value: any) => {
   window.localStorage.setItem(key, JSON.stringify(value))
 }
 
+// 清除本地缓存
+export const removeLocalStorage = (key: string) => {
+  window.localStorage.removeItem(key)
+}
+
 // 清除所有缓存
 export const clearLocalStorage = () => {
   window.localStorage.clear()

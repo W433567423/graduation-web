@@ -2,7 +2,17 @@
   <div class="index">
 
     <header class="index-header">
-      <img alt="" class="header-avatar-img" src="@/assets/images/avatar.jpg">
+      <el-dropdown>
+        <img alt="" class="header-avatar-img" src="@/assets/images/avatar.jpg">
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>Action 1</el-dropdown-item>
+            <el-dropdown-item>Action 2</el-dropdown-item>
+            <el-dropdown-item>Action 3</el-dropdown-item>
+            <el-dropdown-item divided @click="handleLogout">退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </header>
     <div class="index-inner">
       <el-menu class="el-menu-vertical-demo"
@@ -32,6 +42,11 @@
 import { ref, type Ref } from 'vue'
 import { type IMenuItem } from './type.ts'
 import breadNav from '@pc/components/BreadNav/index.vue'
+import useUserStore from '@/stores/user.ts'
+import router from '@/router'
+import { ElMessage } from 'element-plus'
+
+const userStore = useUserStore()
 
 const menuList: Ref<IMenuItem[]> = ref([{
   id: 0,
@@ -50,6 +65,12 @@ const menuList: Ref<IMenuItem[]> = ref([{
   icon: 'setting'
 }])
 
+// 退出登录
+const handleLogout = async () => {
+  userStore.clearToken()
+  await router.replace('/pc-login')
+  ElMessage.success({ message: '退出登录成功' })
+}
 </script>
 
 <style lang="less" scoped>
