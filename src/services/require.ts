@@ -7,6 +7,7 @@ import { ElMessage, ElLoading } from 'element-plus'
 import { getLocalStorage } from '@/utils'
 import { BASE_URL, TIMEOUT } from '@/config/axios.config.ts'
 import useUserStore from '@/stores/user.ts'
+import router from '@/router'
 
 const loadingInstance = ElLoading.service
 let requestCount = 0
@@ -75,7 +76,11 @@ service.interceptors.response.use(
           break
         case data.code === 401:
           // 登录状态已过期.处理路由重定向
-          console.log('loginOut')
+          console.log('登录状态已过期')
+          void router.replace({
+            path: '/pc-login',
+            query: { redirect: router.currentRoute.value.fullPath }
+          })
           break
         default:
           ElMessage.error({

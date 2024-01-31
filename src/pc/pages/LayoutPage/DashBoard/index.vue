@@ -12,10 +12,14 @@
 
 <script lang="ts" setup>
 import ProgramItem from '@pc/components/ProgramItem/index.vue'
-import { ref, type Ref } from 'vue'
+import { onBeforeMount, ref, type Ref } from 'vue'
 import { type IProgramItem } from '@pc/pages/type.ts'
+import { test } from '@/services/user.api.ts'
 
 const list: Ref<IProgramItem[] | undefined> = ref()
+onBeforeMount(() => {
+  // void test()
+})
 </script>
 
 <style lang="less" scoped>

@@ -6,7 +6,7 @@
 -->
 <template>
   <div class="login-form-wrap">
-    <div class="login-text">Login</div>
+    <div class="login-text">{{ isLoginPage ? "Login" : "Registry" }}</div>
     <el-form ref="ruleFormRef" :model="form" :rules="formRules" class="form-wrap"
              label-position='left' label-width="72px"
              size="large">
@@ -35,7 +35,9 @@
 
       <div class="form-extra-wrap">
         <div class="remember-wrap">
-          <el-checkbox v-model="isRemember" @change="handleChangeRemember">记住我</el-checkbox>
+          <el-checkbox v-if="isLoginPage" v-model="isRemember" @change="handleChangeRemember">
+            记住我
+          </el-checkbox>
         </div>
         <router-link to="">忘记密码</router-link>
       </div>
@@ -43,13 +45,15 @@
       <div class="form-submit-wrap">
 
         <el-button class="login-button" round type="success"
-                   @click="userLogin(ruleFormRef)">登录
+                   @click="userLoginOrRegistry(ruleFormRef)">{{ isLoginPage ? "登录" : "注册" }}
         </el-button>
       </div>
     </el-form>
 
-    <div class="registry-wrap">没有账号？
-      <router-link to="">去注册</router-link>
+    <div class="registry-wrap">{{ isLoginPage ? "没有账号？" : "已有账号" }}
+      <el-button link type="primary" @click="changeStatus">
+        {{ isLoginPage ? "去注册" : "去登录" }}
+      </el-button>
     </div>
   </div>
 </template>
@@ -61,10 +65,13 @@ import useUserStore from '@/stores/user.ts'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { type Ref, ref, onBeforeMount } from 'vue'
 import { type IUserLogin } from '@/services'
-import { getValidaCode, postUserLogin } from '@/services/user.api.ts'
+import { getValidaCode, postUserLogin, postUserRegistry } from '@/services/user.api.ts'
 import { getLocalStorage, setLocalStorage } from '@/utils'
+import { useRoute, useRouter } from 'vue-router'
 
 const userStore = useUserStore()
+const route = useRoute()
+const router = useRouter()
 
 const ruleFormRef = ref<FormInstance>()
 
@@ -72,9 +79,10 @@ const form: Ref<IUserLogin> = ref({
   username: '',
   password: '',
   valida: ''
-})
-const isRemember = ref(false)
-const imgSrc = ref('')
+}) // 表单
+const isRemember = ref(false) // 记住用户
+const imgSrc = ref('') // 验证码
+const isLoginPage = ref(true)
 
 const formRules = ref<FormRules<IUserLogin>>({
   username: [
@@ -98,19 +106,29 @@ const flashValidaCode = async () => {
 }
 
 // 登录功能
-const userLogin = (formEl: FormInstance | undefined) => {
+const userLoginOrRegistry = (formEl: FormInstance | undefined) => {
   if (!formEl) return
 
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   void formEl.validate(async (valid) => {
     if (valid) {
       const { username, password } = form.value
-      const token = await postUserLogin(form.value) as any
-      if (token) {
-        userStore.setToken(token as string)
-        ElMessage.success({ message: '登陆成功' })
-        setLocalStorage('user', { username, password })
+      let token = ''
+      if (isLoginPage.value) {
+        // 登录
+        token = await postUserLogin(form.value) as any
+      } else {
+        //   注册
+        token = await postUserRegistry(form.value) as any
       }
+      if (token) {
+        userStore.setToken(token)
+        ElMessage.success({ message: (isLoginPage.value ? '登录' : '注册') + '成功' })
+        setLocalStorage('user', { username, password })
+        // 登录/注册成功后跳转
+        if (typeof route.query.redirect === 'string') await router.replace(route.query.redirect)
+        else await router.replace('/pc/dash')
+      } else await flashValidaCode()
     }
   })
 }
@@ -118,6 +136,12 @@ const userLogin = (formEl: FormInstance | undefined) => {
 // 缓存记住我
 const handleChangeRemember = (value: string | number | boolean) => {
   setLocalStorage('isRemember', String(value))
+}
+
+// 切换登录/注册
+const changeStatus = () => {
+  isLoginPage.value = !isLoginPage.value
+  void flashValidaCode()
 }
 
 // 初始化
@@ -135,9 +159,14 @@ const init = () => {
   }
 }
 
-onBeforeMount(() => {
-  void flashValidaCode()
-  init()
+onBeforeMount(async () => {
+  if (userStore.token) {
+    // 如果有token直接去面板页面
+    await router.replace('/pc/dash')
+  } else {
+    await flashValidaCode()
+    init()
+  }
 })
 </script>
 
@@ -183,6 +212,7 @@ onBeforeMount(() => {
       align-items: center;
       justify-content: space-between;
       font-size: 14px;
+      height: 40px;
 
       a:hover {
         color: red;

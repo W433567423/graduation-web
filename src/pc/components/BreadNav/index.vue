@@ -34,7 +34,6 @@ const routerMapString = () => {
       renderData.title = '设置'
       break
   }
-  console.log(renderData)
   return renderData
 }
 

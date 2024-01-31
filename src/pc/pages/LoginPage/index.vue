@@ -19,7 +19,7 @@
 
 <script lang="ts" setup>
 
-import LoginForm from '@pc/pages/LoginIndex/cpns/LoginForm.vue'
+import LoginForm from '@pc/pages/LoginPage/cpns/LoginForm.vue'
 </script>
 
 <style lang="less" scoped>
@@ -37,9 +37,9 @@ import LoginForm from '@pc/pages/LoginIndex/cpns/LoginForm.vue'
     width: 760px;
     height: 510px;
     display: flex;
-    box-shadow: rgba(17, 17, 26, 0.1) 0 4px 16px,
-    rgba(17, 17, 26, 0.1) 0 8px 24px,
-    rgba(17, 17, 26, 0.1) 0 16px 56px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 4px 16px,
+    rgba(0, 0, 0, 0.2) 0 8px 24px,
+    rgba(0, 0, 0, 0.2) 0 16px 56px;
     border-radius: 4px;
     overflow: hidden;
 

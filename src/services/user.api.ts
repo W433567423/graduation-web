@@ -10,10 +10,28 @@ export const getValidaCode = async (width = 92, height = 40) => {
   })
 }
 
+// 登录接口
 export const postUserLogin = async (data: IUserLogin) => {
   return await request({
     url: '/users/login',
     method: 'post',
     data
+  })
+}
+
+// 注册接口
+export const postUserRegistry = async (data: IUserLogin) => {
+  return await request({
+    url: '/users/registry',
+    method: 'post',
+    data
+  })
+}
+
+// 鉴权接口
+export const test = async () => {
+  return await request({
+    url: '/users/auth',
+    method: 'get'
   })
 }
