@@ -199,7 +199,7 @@ onBeforeMount(async () => {
       line-height: 0;
 
       .valida-wrap {
-        width: 100px;
+        width: 108px;
         margin-left: 12px;
         cursor: pointer;
       }
@@ -221,7 +221,7 @@ onBeforeMount(async () => {
 
     //登录按钮
     .form-submit-wrap {
-      margin-top: 28px;
+      margin-top: 21px;
       display: flex;
       justify-content: center;
 

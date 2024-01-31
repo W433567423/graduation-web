@@ -1,20 +1,19 @@
 <template>
-  <div class="index">
+  <el-header class="index-header">
+    <el-dropdown>
+      <img alt="" class="header-avatar-img" src="@/assets/images/avatar.jpg">
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item>个人资料</el-dropdown-item>
+          <el-dropdown-item>其他功能</el-dropdown-item>
+          <el-dropdown-item divided @click="handleLogout">退出登录</el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
+  </el-header>
 
-    <header class="index-header">
-      <el-dropdown>
-        <img alt="" class="header-avatar-img" src="@/assets/images/avatar.jpg">
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>Action 1</el-dropdown-item>
-            <el-dropdown-item>Action 2</el-dropdown-item>
-            <el-dropdown-item>Action 3</el-dropdown-item>
-            <el-dropdown-item divided @click="handleLogout">退出登录</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-    </header>
-    <div class="index-inner">
+  <el-container>
+    <el-aside width="240px">
       <el-menu class="el-menu-vertical-demo"
                default-active="1"
                router>
@@ -27,15 +26,15 @@
           </el-menu-item>
         </template>
       </el-menu>
+    </el-aside>
 
-      <div class="layout">
-        <bread-nav/>
-        <section class="layout-inner">
-          <router-view/>
-        </section>
+    <el-main class="p0!">
+      <bread-nav/>
+      <div class="p20px">
+        <router-view/>
       </div>
-    </div>
-  </div>
+    </el-main>
+  </el-container>
 </template>
 
 <script lang="ts" setup>
@@ -74,51 +73,31 @@ const handleLogout = async () => {
 </script>
 
 <style lang="less" scoped>
-.index {
+
+.index-header {
+  height: 64px;
+  background-color: #000;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   width: 100%;
+  padding: 0 12px;
+  box-sizing: border-box;
 
-  .index-header {
-    height: 56px;
-    background-color: #000;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    width: 100%;
-    padding: 0 12px;
-    box-sizing: border-box;
-
-    .header-avatar-img {
-      width: 42px;
-      height: 42px;
-      border-radius: 28px;
-      transition: .5s;
-    }
-
-    .header-avatar-img:hover {
-      transform: rotate(360deg);
-    }
+  .header-avatar-img {
+    width: 42px;
+    height: 42px;
+    border-radius: 28px;
+    transition: .5s;
+    cursor: pointer;
   }
 
-  .index-inner {
-    width: 100%;
-    display: flex;
-
-    .el-menu-vertical-demo:not(.el-menu--collapse) {
-      width: 280px;
-      height: calc(100vh - 56px);
-    }
-
-    .layout {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-
-      .layout-inner {
-        box-sizing: border-box;
-        padding: 12px;
-      }
-    }
+  .header-avatar-img:hover {
+    transform: rotate(360deg);
   }
 }
 
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  height: calc(100vh - 64px);
+}
 </style>
