@@ -2,7 +2,7 @@
   <div class="index">
 
     <header class="index-header">
-      <img class="header-avatar-img" src="@/assets/images/touxiang.jpg">
+      <img alt="" class="header-avatar-img" src="@/assets/images/touxiang.jpg">
     </header>
     <div class="index-inner">
       <el-menu class="el-menu-vertical-demo"
