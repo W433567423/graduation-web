@@ -6,7 +6,8 @@ export const getValidaCode = async (width = 108, height = 40) => {
   return await request({
     url: '/captcha',
     method: 'get',
-    params: { width, height }
+    params: { width, height },
+    loading: false
   })
 }
 // 获取 手机验证码
@@ -14,7 +15,8 @@ export const getPhoneValidaCode = async (phoneNum: string) => {
   return await request({
     url: '/captcha/phone',
     method: 'get',
-    params: { phoneNum }
+    params: { phoneNum },
+    loading: false
   })
 }
 

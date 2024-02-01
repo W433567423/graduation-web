@@ -44,8 +44,8 @@
         </div>
       </el-form-item>
 
-      <el-form-item v-else label="手机验证码" prop="phoneValida" required>
-        <div class="form-valida-wrap">
+      <el-form-item v-else label="手机验证码"  required>
+        <div class="form-valida-wrap mb-16px">
           <el-input v-model="form.phoneValida"
                     :prefix-icon="Key"
                     clearable
@@ -83,7 +83,7 @@
 <script lang="ts" setup>
 import { Key, Lock, User, Phone } from '@element-plus/icons-vue'
 import useUserStore from '@/stores/user.ts'
-import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import { ElMessage,  ElNotification, type FormInstance, type FormRules } from 'element-plus'
 import { type Ref, ref, onBeforeMount } from 'vue'
 import { type IUserLogin } from '@/services'
 import {
@@ -127,9 +127,6 @@ const formRules = ref<FormRules<IUserLogin>>({
     { required: true, message: '验证码必填', trigger: 'blur' },
     { len: 4, message: '验证码错误', trigger: 'blur' }
   ],
-  phoneValida: [
-    { required: true, message: '验证码错误', trigger: 'blur', len: 6 }
-  ],
   phoneNum: [
     { required: true, message: '手机号必填', trigger: 'blur' },
     {
@@ -148,10 +145,14 @@ const flashValidaCode = async () => {
 
 // 获取手机验证码
 const flashPhoneValidaCode = async () => {
-  isValidaLoading.value = !isValidaLoading.value
-  const res = await getPhoneValidaCode(form.value.phoneNum)
-  console.log(res)
-  isValidaLoading.value = !isValidaLoading.value
+    if (form.value.phoneNum?.length===11) {
+    isValidaLoading.value = !isValidaLoading.value
+    getPhoneValidaCode(form.value.phoneNum).finally(()=>isValidaLoading.value = !isValidaLoading.value)
+    
+    } else {
+    ElNotification.error({message:'手机号码不正确'})
+  }
+  
 }
 
 // 登录功能
@@ -239,7 +240,7 @@ onBeforeMount(async () => {
   }
 
   .form-wrap {
-    width: 95%;
+    width: 94%;
     // 验证码
     .form-valida-wrap {
       display: flex;
