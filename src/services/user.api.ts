@@ -1,47 +1,36 @@
 import request from '@/services/require.ts'
-import type { IUserLogin } from './index.d'
+import type { IUserLoginForm } from './index.d'
 
 // 获取 验证码
 export const getValidaCode = async (width = 108, height = 40) => {
-  return await request({
-    url: '/captcha',
-    method: 'get',
+  return await request.get('/captcha', {
     params: { width, height },
     loading: false
   })
 }
 // 获取 手机验证码
 export const getPhoneValidaCode = async (phoneNum: string) => {
-  return await request({
-    url: '/captcha/phone',
-    method: 'get',
+  return await request.get('/captcha/phone', {
     params: { phoneNum },
     loading: false
   })
 }
 
 // 登录接口
-export const postUserLogin = async (data: IUserLogin) => {
-  return await request({
-    url: '/users/login',
-    method: 'post',
+export const postUserLogin = async (data: IUserLoginForm) => {
+  return await request.post('/users/login', {
     data
   })
 }
 
 // 注册接口
-export const postUserRegistry = async (data: IUserLogin) => {
-  return await request({
-    url: '/users/registry',
-    method: 'post',
+export const postUserRegistry = async (data: IUserLoginForm) => {
+  return await request.post('/users/registry', {
     data
   })
 }
 
 // 鉴权接口
 export const test = async () => {
-  return await request({
-    url: '/users/auth',
-    method: 'get'
-  })
+  return await request.get('/users/auth')
 }

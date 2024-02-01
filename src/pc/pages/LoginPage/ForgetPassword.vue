@@ -69,60 +69,60 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, Ref, onBeforeMount } from "vue";
-import { IForgetLoginForm } from "@/services";
-import { Key, User, Phone } from "@element-plus/icons-vue";
-import { getValidaCode } from "@/services/user.api";
-import { type FormRules, type FormInstance } from "element-plus";
+import { ref, type Ref, onBeforeMount } from 'vue'
+import { type IForgetLoginForm } from '@/services'
+import { Key, User, Phone } from '@element-plus/icons-vue'
+import { getValidaCode } from '@/services/user.api'
+import { type FormRules, type FormInstance } from 'element-plus'
 
-const ruleFormRef = ref<FormInstance>();
-const active = ref(0); // 步骤条
-const imgSrc = ref(""); // 验证码
+const ruleFormRef = ref<FormInstance>()
+const active = ref(0) // 步骤条
+const imgSrc = ref('') // 验证码
 const form: Ref<IForgetLoginForm> = ref({
-  username: "",
-  valida: "",
-  phoneNum: "",
-}); // 表单
+  username: '',
+  valida: '',
+  phoneNum: ''
+}) // 表单
 
 const formRules = ref<FormRules<IForgetLoginForm>>({
   username: [
-    { required: true, message: "用户名必填", trigger: "blur" },
-    { min: 3, max: 10, message: "用户名长度未3-10", trigger: "blur" },
+    { required: true, message: '用户名必填', trigger: 'blur' },
+    { min: 3, max: 10, message: '用户名长度未3-10', trigger: 'blur' }
   ],
   valida: [
-    { required: true, message: "验证码必填", trigger: "blur" },
-    { len: 4, message: "验证码错误", trigger: "blur" },
+    { required: true, message: '验证码必填', trigger: 'blur' },
+    { len: 4, message: '验证码错误', trigger: 'blur' }
   ],
   phoneNum: [
-    { required: true, message: "手机号必填", trigger: "blur" },
+    { required: true, message: '手机号必填', trigger: 'blur' },
     {
       pattern:
         /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
-      message: "手机号不正确",
-      trigger: "blur",
-    },
-  ],
-}); // 校验规则
+      message: '手机号不正确',
+      trigger: 'blur'
+    }
+  ]
+}) // 校验规则
 
 const flashValidaCode = async () => {
-  const res = await getValidaCode();
-  imgSrc.value = res as any;
-};
+  const res = await getValidaCode()
+  imgSrc.value = res as any
+}
 
 const handleNextStep = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  console.log(formEl.validate);
+  if (!formEl) return
+  console.log(formEl.validate)
 
-  formEl.validate((valid) => {
+  void formEl.validate((valid) => {
     if (valid) {
-      active.value++;
+      active.value++
     }
-  });
-};
+  })
+}
 
 onBeforeMount(() => {
-  flashValidaCode();
-});
+  void flashValidaCode()
+})
 </script>
 
 <style lang="less" scoped>

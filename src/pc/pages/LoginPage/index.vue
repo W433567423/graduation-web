@@ -9,16 +9,15 @@
     <!--登录注册-->
     <el-card v-if="!forgetPage" body-class="login-dialog" shadow="hover">
       <div class="login-dialog-left">
-        <LoginForm @change-page="forgetPage=!forgetPage"/>
+        <LoginForm @change-page="forgetPage = !forgetPage" />
       </div>
 
-      <div class="login-dialog-right">
-      </div>
+      <div class="login-dialog-right"></div>
     </el-card>
 
     <!--    忘记密码-->
     <el-card v-else body-class="login-dialog" shadow="hover">
-      <ForgetPassword/>
+      <ForgetPassword />
     </el-card>
   </div>
 </template>
@@ -29,8 +28,7 @@ import { ElCard } from 'element-plus'
 import LoginForm from './cpns/LoginForm.vue'
 import ForgetPassword from '@pc/pages/LoginPage/ForgetPassword.vue'
 
-const forgetPage = ref(true) // 是否是忘记密码页面
-
+const forgetPage = ref(false) // 是否是忘记密码页面
 </script>
 
 <style lang="less" scoped>
@@ -64,7 +62,6 @@ const forgetPage = ref(true) // 是否是忘记密码页面
         width: 50%;
         background: url("@/assets/images/login-column-bg.jpg");
         background-size: cover;
-
       }
     }
   }
