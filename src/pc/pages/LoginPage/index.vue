@@ -18,11 +18,7 @@
 
     <!--    忘记密码-->
     <el-card v-else body-class="login-dialog" shadow="hover">
-      <el-steps :active="active" class="w-full" finish-status="success">
-        <el-step title="Step 1"/>
-        <el-step title="Step 2"/>
-        <el-step title="Step 3"/>
-      </el-steps>
+      <ForgetPassword/>
     </el-card>
   </div>
 </template>
@@ -30,11 +26,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElCard } from 'element-plus'
-import LoginForm from '@pc/pages/LoginPage/cpns/LoginForm.vue'
+import LoginForm from './cpns/LoginForm.vue'
+import ForgetPassword from '@pc/pages/LoginPage/ForgetPassword.vue'
 
-const forgetPage = ref(true) // 是否是忘记密码页面
+const forgetPage = ref(false) // 是否是忘记密码页面
 
-const active = ref(0)
 </script>
 
 <style lang="less" scoped>
@@ -53,8 +49,8 @@ const active = ref(0)
     border-radius: 8px;
 
     .login-dialog {
-      width: 760px;
-      height: 510px;
+      width: 810px;
+      aspect-ratio: 3/2;
       display: flex;
       padding: 0;
       overflow: hidden;

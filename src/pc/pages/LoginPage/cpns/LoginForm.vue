@@ -8,7 +8,7 @@
   <div class="login-form-wrap">
     <div class="login-text">{{ isLoginPage ? "Login" : "Registry" }}</div>
     <el-form ref="ruleFormRef" :model="form" :rules="formRules" class="form-wrap"
-             label-position='left' label-width="72px"
+             label-position='left' label-width="96px"
              size="large">
       <el-form-item label="账户名" prop="username" required>
         <el-input v-model="form.username"
@@ -24,18 +24,41 @@
                   type="password"/>
       </el-form-item>
 
-      <el-form-item label="验证码" prop="valida" required>
+      <el-form-item v-if="!isLoginPage" label="手机号" prop="phoneNum" required>
+        <el-input v-model="form.phoneNum"
+                  :prefix-icon="Phone"
+                  clearable
+                  placeholder="请输入手机号"
+        />
+      </el-form-item>
+
+      <el-form-item v-if="isLoginPage" label="验证码" prop="valida" required>
         <div class="form-valida-wrap">
-          <el-input v-model="form.valida" :prefix-icon="Key" clearable
+          <el-input v-model="form.valida"
+                    :prefix-icon="Key"
+                    clearable
                     placeholder="请输入验证码"/>
           <div class="valida-wrap" @click="flashValidaCode" v-html="imgSrc">
           </div>
+
         </div>
       </el-form-item>
 
-      <div class="form-extra-wrap">
+      <el-form-item v-else label="手机验证码" prop="phoneValida" required>
+        <div class="form-valida-wrap">
+          <el-input v-model="form.phoneValida"
+                    :prefix-icon="Key"
+                    clearable
+                    placeholder="请输入验证码"/>
+          <el-button :loading="isValidaLoading" class="ml-12px" @click="flashPhoneValidaCode">
+            发送
+          </el-button>
+        </div>
+      </el-form-item>
+
+      <div v-if="isLoginPage" class="form-extra-wrap">
         <div class="remember-wrap">
-          <el-checkbox v-if="isLoginPage" v-model="isRemember" @change="handleChangeRemember">
+          <el-checkbox v-model="isRemember" @change="handleChangeRemember">
             记住我
           </el-checkbox>
         </div>
@@ -43,7 +66,6 @@
       </div>
 
       <div class="form-submit-wrap">
-
         <el-button class="login-button" round type="success"
                    @click="userLoginOrRegistry(ruleFormRef)">{{ isLoginPage ? "登录" : "注册" }}
         </el-button>
@@ -59,13 +81,17 @@
 </template>
 
 <script lang="ts" setup>
-
-import { Key, Lock, User } from '@element-plus/icons-vue'
+import { Key, Lock, User, Phone } from '@element-plus/icons-vue'
 import useUserStore from '@/stores/user.ts'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { type Ref, ref, onBeforeMount } from 'vue'
 import { type IUserLogin } from '@/services'
-import { getValidaCode, postUserLogin, postUserRegistry } from '@/services/user.api.ts'
+import {
+  getPhoneValidaCode,
+  getValidaCode,
+  postUserLogin,
+  postUserRegistry
+} from '@/services/user.api.ts'
 import { getLocalStorage, setLocalStorage } from '@/utils'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -79,11 +105,14 @@ const emits = defineEmits(['changePage'])
 const form: Ref<IUserLogin> = ref({
   username: '',
   password: '',
-  valida: ''
+  valida: '',
+  phoneValida: '',
+  phoneNum: ''
 }) // 表单
 const isRemember = ref(false) // 记住用户
 const imgSrc = ref('') // 验证码
-const isLoginPage = ref(true) // 是否登录页面（1:登录,2:注册）
+const isLoginPage = ref(false) // 是否登录页面（1:登录,2:注册）
+const isValidaLoading = ref(false) // 获取验证码loading状态
 
 const formRules = ref<FormRules<IUserLogin>>({
   username: [
@@ -96,7 +125,18 @@ const formRules = ref<FormRules<IUserLogin>>({
   ],
   valida: [
     { required: true, message: '验证码必填', trigger: 'blur' },
-    { len: 4, message: '验证码不正确', trigger: 'blur' }
+    { len: 4, message: '验证码错误', trigger: 'blur' }
+  ],
+  phoneValida: [
+    { required: true, message: '验证码错误', trigger: 'blur', len: 6 }
+  ],
+  phoneNum: [
+    { required: true, message: '手机号必填', trigger: 'blur' },
+    {
+      pattern: /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
+      message: '手机号不正确',
+      trigger: 'blur'
+    }
   ]
 }) // 校验规则
 
@@ -104,6 +144,14 @@ const formRules = ref<FormRules<IUserLogin>>({
 const flashValidaCode = async () => {
   const res = await getValidaCode()
   imgSrc.value = res as any
+}
+
+// 获取手机验证码
+const flashPhoneValidaCode = async () => {
+  isValidaLoading.value = !isValidaLoading.value
+  const res = await getPhoneValidaCode(form.value.phoneNum)
+  console.log(res)
+  isValidaLoading.value = !isValidaLoading.value
 }
 
 // 登录功能
@@ -191,7 +239,7 @@ onBeforeMount(async () => {
   }
 
   .form-wrap {
-    width: 92%;
+    width: 95%;
     // 验证码
     .form-valida-wrap {
       display: flex;

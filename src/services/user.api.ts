@@ -9,6 +9,14 @@ export const getValidaCode = async (width = 108, height = 40) => {
     params: { width, height }
   })
 }
+// 获取 手机验证码
+export const getPhoneValidaCode = async (phoneNum: string) => {
+  return await request({
+    url: '/captcha/phone',
+    method: 'get',
+    params: { phoneNum }
+  })
+}
 
 // 登录接口
 export const postUserLogin = async (data: IUserLogin) => {
