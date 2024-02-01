@@ -1,9 +1,13 @@
-interface IUserLogin {
-  username: string
-  password: string
-  valida: string
-  phoneValida: string
-  phoneNum: string
+interface IUserForm {
+  username: string;
+  valida: string;
 }
-
-export type { IUserLogin }
+interface IUserLoginForm extends IUserForm {
+  password: string;
+  phoneValida: string;
+  phoneNum: string;
+}
+interface IForgetLoginForm extends IUserForm {
+  phoneNum: string;
+}
+export type { IUserLoginForm, IForgetLoginForm };
