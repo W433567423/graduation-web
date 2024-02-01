@@ -6,21 +6,35 @@
 -->
 <template>
   <div class="login-page">
-
-    <el-card body-class="login-dialog" shadow="hover">
+    <!--登录注册-->
+    <el-card v-if="!forgetPage" body-class="login-dialog" shadow="hover">
       <div class="login-dialog-left">
-        <LoginForm/>
+        <LoginForm @change-page="forgetPage=!forgetPage"/>
       </div>
 
       <div class="login-dialog-right">
       </div>
     </el-card>
+
+    <!--    忘记密码-->
+    <el-card v-else body-class="login-dialog" shadow="hover">
+      <el-steps :active="active" class="w-full" finish-status="success">
+        <el-step title="Step 1"/>
+        <el-step title="Step 2"/>
+        <el-step title="Step 3"/>
+      </el-steps>
+    </el-card>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue'
 import { ElCard } from 'element-plus'
 import LoginForm from '@pc/pages/LoginPage/cpns/LoginForm.vue'
+
+const forgetPage = ref(true) // 是否是忘记密码页面
+
+const active = ref(0)
 </script>
 
 <style lang="less" scoped>

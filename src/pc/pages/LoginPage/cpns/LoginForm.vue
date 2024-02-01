@@ -39,7 +39,7 @@
             记住我
           </el-checkbox>
         </div>
-        <router-link to="">忘记密码</router-link>
+        <el-text @click="emits('changePage')">忘记密码</el-text>
       </div>
 
       <div class="form-submit-wrap">
@@ -51,9 +51,9 @@
     </el-form>
 
     <div class="registry-wrap">{{ isLoginPage ? "没有账号？" : "已有账号" }}
-      <el-button link type="primary" @click="changeStatus">
+      <el-text type="info" @click="changeStatus">
         {{ isLoginPage ? "去注册" : "去登录" }}
-      </el-button>
+      </el-text>
     </div>
   </div>
 </template>
@@ -74,6 +74,7 @@ const route = useRoute()
 const router = useRouter()
 
 const ruleFormRef = ref<FormInstance>()
+const emits = defineEmits(['changePage'])
 
 const form: Ref<IUserLogin> = ref({
   username: '',
@@ -82,7 +83,7 @@ const form: Ref<IUserLogin> = ref({
 }) // 表单
 const isRemember = ref(false) // 记住用户
 const imgSrc = ref('') // 验证码
-const isLoginPage = ref(true)
+const isLoginPage = ref(true) // 是否登录页面（1:登录,2:注册）
 
 const formRules = ref<FormRules<IUserLogin>>({
   username: [
@@ -97,7 +98,7 @@ const formRules = ref<FormRules<IUserLogin>>({
     { required: true, message: '验证码必填', trigger: 'blur' },
     { len: 4, message: '验证码不正确', trigger: 'blur' }
   ]
-})
+}) // 校验规则
 
 // 刷新验证码
 const flashValidaCode = async () => {
@@ -211,11 +212,15 @@ onBeforeMount(async () => {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 14px;
       height: 40px;
 
-      a:hover {
-        color: red;
+      span {
+        font-size: 14px;
+
+        &:hover {
+          cursor: pointer;
+          color: #79bbff;
+        }
       }
     }
 
@@ -237,7 +242,8 @@ onBeforeMount(async () => {
     margin-top: 32px;
     font-size: 14px;
 
-    a {
+    span:hover {
+      cursor: pointer;
       color: #79bbff;
     }
   }
