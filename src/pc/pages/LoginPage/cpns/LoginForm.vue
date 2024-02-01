@@ -83,7 +83,7 @@
 <script lang="ts" setup>
 import { Key, Lock, User, Phone } from '@element-plus/icons-vue'
 import useUserStore from '@/stores/user.ts'
-import { ElMessage,  ElNotification, type FormInstance, type FormRules } from 'element-plus'
+import { ElMessage, ElNotification, type FormInstance, type FormRules } from 'element-plus'
 import { type Ref, ref, onBeforeMount } from 'vue'
 import { type IUserLogin } from '@/services'
 import {
@@ -111,7 +111,7 @@ const form: Ref<IUserLogin> = ref({
 }) // 表单
 const isRemember = ref(false) // 记住用户
 const imgSrc = ref('') // 验证码
-const isLoginPage = ref(false) // 是否登录页面（1:登录,2:注册）
+const isLoginPage = ref(true) // 是否登录页面（1:登录,2:注册）
 const isValidaLoading = ref(false) // 获取验证码loading状态
 
 const formRules = ref<FormRules<IUserLogin>>({
@@ -144,15 +144,14 @@ const flashValidaCode = async () => {
 }
 
 // 获取手机验证码
-const flashPhoneValidaCode = async () => {
-    if (form.value.phoneNum?.length===11) {
+const flashPhoneValidaCode = () => {
+  if (form.value.phoneNum?.length === 11) {
     isValidaLoading.value = !isValidaLoading.value
-    getPhoneValidaCode(form.value.phoneNum).finally(()=>isValidaLoading.value = !isValidaLoading.value)
-    
-    } else {
-    ElNotification.error({message:'手机号码不正确'})
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    getPhoneValidaCode(form.value.phoneNum).finally(() => { isValidaLoading.value = !isValidaLoading.value })
+  } else {
+    ElNotification.error({ message: '手机号码不正确' })
   }
-  
 }
 
 // 登录功能
