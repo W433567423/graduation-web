@@ -114,155 +114,159 @@
 </template>
 
 <script lang="ts" setup>
-import { Key, Lock, User, Phone } from '@element-plus/icons-vue'
-import useUserStore from '@/stores/user.ts'
+import { Key, Lock, User, Phone } from "@element-plus/icons-vue";
+import useUserStore from "@/stores/user.ts";
 import {
   ElMessage,
   ElNotification,
   type FormInstance,
-  type FormRules
-} from 'element-plus'
-import { type Ref, ref, onBeforeMount } from 'vue'
-import { type IUserLoginForm } from '@/services'
+  type FormRules,
+} from "element-plus";
+import { type Ref, ref, onBeforeMount } from "vue";
+import { type IUserLoginForm } from "@/services";
 import {
   getPhoneValidaCode,
   getValidaCode,
   postUserLogin,
-  postUserRegistry
-} from '@/services/user.api.ts'
-import { getLocalStorage, setLocalStorage } from '@/utils'
-import { useRoute, useRouter } from 'vue-router'
+  postUserRegistry,
+} from "@/services/user.api.ts";
+import { getLocalStorage, setLocalStorage } from "@/utils";
+import { useRoute, useRouter } from "vue-router";
 
-const userStore = useUserStore()
-const route = useRoute()
-const router = useRouter()
+const userStore = useUserStore();
+const route = useRoute();
+const router = useRouter();
 
-const ruleFormRef = ref<FormInstance>()
-const emits = defineEmits(['changePage'])
+const ruleFormRef = ref<FormInstance>();
+const emits = defineEmits(["changePage"]);
 
 const form: Ref<IUserLoginForm> = ref({
-  username: '',
-  password: '',
-  valida: '',
-  phoneValida: '',
-  phoneNum: ''
-}) // 表单
-const isRemember = ref(false) // 记住用户
-const imgSrc = ref('') // 验证码
-const isLoginPage = ref(true) // 是否登录页面（1:登录,2:注册）
-const isValidaLoading = ref(false) // 获取验证码loading状态
+  username: "",
+  password: "",
+  valida: "",
+  phoneValida: "",
+  phoneNum: "",
+}); // 表单
+const isRemember = ref(false); // 记住用户
+const imgSrc = ref(""); // 验证码
+const isLoginPage = ref(true); // 是否登录页面（1:登录,2:注册）
+const isValidaLoading = ref(false); // 获取验证码loading状态
 
 const formRules = ref<FormRules<IUserLoginForm>>({
   username: [
-    { required: true, message: '用户名必填', trigger: 'blur' },
-    { min: 3, max: 10, message: '用户名长度未3-10', trigger: 'blur' }
+    { required: true, message: "用户名必填", trigger: "blur" },
+    { min: 3, max: 10, message: "用户名长度未3-10", trigger: "blur" },
   ],
   password: [
-    { required: true, message: '密码必填', trigger: 'blur' },
-    { min: 3, max: 10, message: '密码长度未3-10', trigger: 'blur' }
+    { required: true, message: "密码必填", trigger: "blur" },
+    { min: 3, max: 10, message: "密码长度未3-10", trigger: "blur" },
   ],
   valida: [
-    { required: true, message: '验证码必填', trigger: 'blur' },
-    { len: 4, message: '验证码错误', trigger: 'blur' }
+    { required: true, message: "验证码必填", trigger: "blur" },
+    { len: 4, message: "验证码错误", trigger: "blur" },
+  ],
+  phoneValida: [
+    { required: true, message: "手机验证码必填", trigger: "blur" },
+    { len: 6, message: "手机验证码错误", trigger: "blur" },
   ],
   phoneNum: [
-    { required: true, message: '手机号必填', trigger: 'blur' },
+    { required: true, message: "手机号必填", trigger: "blur" },
     {
       pattern:
         /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
-      message: '手机号不正确',
-      trigger: 'blur'
-    }
-  ]
-}) // 校验规则
+      message: "手机号不正确",
+      trigger: "blur",
+    },
+  ],
+}); // 校验规则
 
 // 刷新验证码
 const flashValidaCode = async () => {
   if (isLoginPage.value) {
-    const res = await getValidaCode()
-    imgSrc.value = res as any
+    const res = await getValidaCode();
+    imgSrc.value = res as any;
   }
-}
+};
 
 // 获取手机验证码
 const flashPhoneValidaCode = () => {
   if (form.value.phoneNum?.length === 11) {
-    isValidaLoading.value = !isValidaLoading.value
+    isValidaLoading.value = !isValidaLoading.value;
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     getPhoneValidaCode(form.value.phoneNum).finally(() => {
-      isValidaLoading.value = !isValidaLoading.value
-    })
+      isValidaLoading.value = !isValidaLoading.value;
+    });
   } else {
-    ElNotification.error({ message: '手机号码不正确' })
+    ElNotification.error({ message: "手机号码不正确" });
   }
-}
+};
 
 // 登录功能
 const userLoginOrRegistry = (formEl: FormInstance | undefined) => {
-  if (!formEl) return
+  if (!formEl) return;
 
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   void formEl.validate(async (valid) => {
     if (valid) {
-      const { username, password } = form.value
-      let token = ''
+      const { username, password } = form.value;
+      let token = "";
       if (isLoginPage.value) {
         // 登录
-        token = (await postUserLogin(form.value)) as any
+        token = (await postUserLogin(form.value)) as any;
       } else {
         //   注册
-        token = (await postUserRegistry(form.value)) as any
+        token = (await postUserRegistry(form.value)) as any;
       }
       if (token) {
-        userStore.setToken(token)
+        userStore.setToken(token);
         ElMessage.success({
-          message: (isLoginPage.value ? '登录' : '注册') + '成功'
-        })
-        setLocalStorage('user', { username, password })
+          message: (isLoginPage.value ? "登录" : "注册") + "成功",
+        });
+        setLocalStorage("user", { username, password });
         // 登录/注册成功后跳转
-        if (typeof route.query.redirect === 'string') {
-          await router.replace(route.query.redirect)
-        } else await router.replace('/pc/dash')
-      } else await flashValidaCode()
+        if (typeof route.query.redirect === "string") {
+          await router.replace(route.query.redirect);
+        } else await router.replace("/pc/dash");
+      } else await flashValidaCode();
     }
-  })
-}
+  });
+};
 
 // 缓存记住我
 const handleChangeRemember = (value: string | number | boolean) => {
-  setLocalStorage('isRemember', String(value))
-}
+  setLocalStorage("isRemember", String(value));
+};
 
 // 切换登录/注册
 const changeStatus = () => {
-  isLoginPage.value = !isLoginPage.value
-  void flashValidaCode()
-}
+  isLoginPage.value = !isLoginPage.value;
+  void flashValidaCode();
+};
 
 // 初始化
 const init = () => {
-  isRemember.value = Boolean(getLocalStorage('isRemember') === 'true')
+  isRemember.value = Boolean(getLocalStorage("isRemember") === "true");
   if (isRemember.value) {
-    const userStorage = getLocalStorage('user')
+    const userStorage = getLocalStorage("user");
     if (userStorage instanceof Object) {
       try {
-        form.value = userStorage
+        form.value = userStorage;
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
     }
   }
-  void flashValidaCode()
-}
+  void flashValidaCode();
+};
 
 onBeforeMount(async () => {
   if (userStore.token) {
     // 如果有token直接去面板页面
-    await router.replace('/pc/dash')
+    await router.replace("/pc/dash");
   } else {
-    init()
+    init();
   }
-})
+});
 </script>
 
 <style lang="less" scoped>

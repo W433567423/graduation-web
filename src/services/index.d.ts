@@ -1,32 +1,35 @@
-import type { InternalAxiosRequestConfig } from 'axios'
+import type { InternalAxiosRequestConfig } from "axios";
 interface IUserForm {
-  username: string
-  valida: string
+  username: string;
+  valida: string;
 }
 interface IUserLoginForm extends IUserForm {
-  password: string
-  phoneValida: string
-  phoneNum: string
+  password: string;
+  phoneValida: string;
+  phoneNum: string;
 }
-interface IForgetLoginForm extends IUserForm {
-  phoneNum: string
+interface IForgetLoginForm {
+  email: string;
+  phoneNum: string;
+  phoneValida: string;
+  valida: string;
 }
 // 返回
 interface IResData {
-  message: string
-  code: number
+  message: string;
+  code: number;
 }
 interface ResultData<T = any> extends IResData {
-  data?: T
+  data?: T;
 }
 
 interface InternalAxiosRequestConfigAAA extends InternalAxiosRequestConfig {
-  loading?: boolean
+  loading?: boolean;
 }
 export type {
   IUserLoginForm,
   IForgetLoginForm,
   ResultData,
   InternalAxiosRequestConfigAAA,
-  IResData
-}
+  IResData,
+};
