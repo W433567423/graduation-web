@@ -1,9 +1,8 @@
 import axios, {
   type AxiosResponse,
-  type AxiosInstance,
-  type AxiosRequestConfig
+  type AxiosInstance
 } from 'axios'
-import { type ResultData, type InternalAxiosRequestConfigAAA } from './index'
+import type { ResultData, InternalAxiosRequestConfigAAA, requestConfig } from './index'
 
 import { ElMessage, ElLoading } from 'element-plus'
 import { getLocalStorage } from '@/utils'
@@ -132,7 +131,7 @@ class RequestHttp {
   // 常用方法封装
   async get<T>(
     url: string,
-    params?: AxiosRequestConfig
+    params?: requestConfig
   ): Promise<ResultData<T>> {
     return await this.service.get(url, params)
   }

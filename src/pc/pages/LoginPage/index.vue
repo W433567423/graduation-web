@@ -27,7 +27,7 @@ import { ElCard } from "element-plus";
 import LoginForm from "./cpns/LoginForm.vue";
 import ForgetPassword from "@pc/pages/LoginPage/ForgetPassword.vue";
 
-const forgetPage = ref(true); // 是否是忘记密码页面
+const forgetPage = ref(false); // 是否是忘记密码页面
 </script>
 
 <style lang="less" scoped>

@@ -15,11 +15,12 @@ module.exports = {
   plugins: ["vue"],
   rules: {
     // 关闭名称校验
-    "vue/multi-word-component-names": "off",
-    "@typescript-eslint/explicit-function-return-type": "off",
+    "vue/multi-word-component-names": 0,
+    "@typescript-eslint/explicit-function-return-type": 0,
     //     关闭boolean校验
-    "@typescript-eslint/strict-boolean-expressions": "off",
+    "@typescript-eslint/strict-boolean-expressions": 0,
     //     关闭没有使用的变量校验
-    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": 0,
+    "no-useless-escape": 0,
   },
 };

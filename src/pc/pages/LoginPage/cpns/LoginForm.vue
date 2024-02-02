@@ -7,77 +7,35 @@
 <template>
   <div class="login-form-wrap">
     <div class="login-text">{{ isLoginPage ? "Login" : "Registry" }}</div>
-    <el-form
-      ref="ruleFormRef"
-      :model="form"
-      :rules="formRules"
-      class="form-wrap"
-      label-position="left"
-      label-width="96px"
-      size="large"
-    >
+    <el-form ref="ruleFormRef" :model="form" :rules="formRules" class="form-wrap" label-position="left" label-width="96px"
+      size="large">
       <el-form-item label="账户名" prop="username" required>
-        <el-input
-          v-model="form.username"
-          :prefix-icon="User"
-          clearable
-          placeholder="请输入账号名"
-        />
+        <el-input v-model="form.username" :prefix-icon="User" clearable placeholder="请输入账号名" />
       </el-form-item>
 
       <el-form-item label="密码" prop="password" required>
-        <el-input
-          v-model="form.password"
-          :prefix-icon="Lock"
-          clearable
-          placeholder="请输入密码"
-          show-password
-          type="password"
-        />
+        <el-input v-model="form.password" :prefix-icon="Lock" clearable placeholder="请输入密码" show-password
+          type="password" />
       </el-form-item>
 
-      <el-form-item v-if="!isLoginPage" label="手机号" prop="phoneNum" required>
-        <el-input
-          v-model="form.phoneNum"
-          :prefix-icon="Phone"
-          clearable
-          placeholder="请输入手机号"
-        />
+      <el-form-item v-if="!isLoginPage" label="邮箱" prop="emailNum" required>
+        <el-input v-model="form.emailNum" :prefix-icon="Message" clearable placeholder="请输入邮箱" />
       </el-form-item>
 
       <el-form-item v-if="isLoginPage" label="验证码" prop="valida" required>
         <div class="form-valida-wrap">
-          <el-input
-            v-model="form.valida"
-            :prefix-icon="Key"
-            clearable
-            placeholder="请输入验证码"
-          />
-          <div
-            class="valida-wrap"
-            @click="flashValidaCode"
-            v-html="imgSrc"
-            v-if="imgSrc"
-          />
+          <el-input v-model="form.valida" :prefix-icon="Key" clearable placeholder="请输入验证码" />
+          <div class="valida-wrap" @click="flashValidaCode" v-html="imgSrc" v-if="imgSrc" />
           <div class="valida-wrap" v-else>
             <el-image class="w-108px h-40px" />
           </div>
         </div>
       </el-form-item>
 
-      <el-form-item v-else label="手机验证码" required>
+      <el-form-item v-else label="邮箱验证码" required prop="emailValida">
         <div class="form-valida-wrap mb-16px">
-          <el-input
-            v-model="form.phoneValida"
-            :prefix-icon="Key"
-            clearable
-            placeholder="请输入验证码"
-          />
-          <el-button
-            :loading="isValidaLoading"
-            class="ml-12px"
-            @click="flashPhoneValidaCode"
-          >
+          <el-input v-model="form.emailValida" :prefix-icon="Key" clearable  placeholder="请输入验证码"/>
+          <el-button :loading="isValidaLoading" class="ml-12px" @click="flashEmailValidaCode">
             发送
           </el-button>
         </div>
@@ -93,12 +51,8 @@
       </div>
 
       <div class="form-submit-wrap">
-        <el-button
-          class="login-button"
-          round
-          type="success"
-          @click="userLoginOrRegistry(ruleFormRef)"
-        >
+        <el-button class="login-button" round type="success"
+        @click="userLoginOrRegistry(ruleFormRef)">
           {{ isLoginPage ? "登录" : "注册" }}
         </el-button>
       </div>
@@ -114,7 +68,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Key, Lock, User, Phone } from '@element-plus/icons-vue'
+import { Key, Lock, User, Message } from '@element-plus/icons-vue'
 import useUserStore from '@/stores/user.ts'
 import {
   ElMessage,
@@ -125,7 +79,7 @@ import {
 import { type Ref, ref, onBeforeMount } from 'vue'
 import { type IUserLoginForm } from '@/services'
 import {
-  getPhoneValidaCode,
+  getEmailValidaCode,
   getValidaCode,
   postUserLogin,
   postUserRegistry
@@ -144,13 +98,14 @@ const form: Ref<IUserLoginForm> = ref({
   username: '',
   password: '',
   valida: '',
-  phoneValida: '',
-  phoneNum: ''
+  emailValida: '',
+  emailNum: ''
 }) // 表单
 const isRemember = ref(false) // 记住用户
 const imgSrc = ref('') // 验证码
-const isLoginPage = ref(true) // 是否登录页面（1:登录,2:注册）
+const isLoginPage = ref(false) // 是否登录页面（true:登录,false:注册）
 const isValidaLoading = ref(false) // 获取验证码loading状态
+const emailRex = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
 
 const formRules = ref<FormRules<IUserLoginForm>>({
   username: [
@@ -165,16 +120,15 @@ const formRules = ref<FormRules<IUserLoginForm>>({
     { required: true, message: '验证码必填', trigger: 'blur' },
     { len: 4, message: '验证码错误', trigger: 'blur' }
   ],
-  phoneValida: [
-    { required: true, message: '手机验证码必填', trigger: 'blur' },
-    { len: 6, message: '手机验证码错误', trigger: 'blur' }
+  emailValida: [
+    { required: true, message: '邮箱验证码必填', trigger: 'blur' },
+    { len: 6, message: '邮箱验证码错误', trigger: 'blur' }
   ],
-  phoneNum: [
-    { required: true, message: '手机号必填', trigger: 'blur' },
+  emailNum: [
+    { required: true, message: '邮箱必填', trigger: 'blur' },
     {
-      pattern:
-        /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
-      message: '手机号不正确',
+      pattern: emailRex,
+      message: '邮箱不正确',
       trigger: 'blur'
     }
   ]
@@ -188,16 +142,16 @@ const flashValidaCode = async () => {
   }
 }
 
-// 获取手机验证码
-const flashPhoneValidaCode = () => {
-  if (form.value.phoneNum?.length === 11) {
+// 获取邮箱验证码
+const flashEmailValidaCode = () => {
+  if (emailRex.test(form.value.emailNum)) {
     isValidaLoading.value = !isValidaLoading.value
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    getPhoneValidaCode(form.value.phoneNum).finally(() => {
+    getEmailValidaCode(form.value.emailNum).then(() => ElNotification.success({ message: '发送验证码成功' })).finally(() => {
       isValidaLoading.value = !isValidaLoading.value
     })
   } else {
-    ElNotification.error({ message: '手机号码不正确' })
+    ElNotification.error({ message: '邮箱不正确' })
   }
 }
 
@@ -290,6 +244,7 @@ onBeforeMount(async () => {
 
   .form-wrap {
     width: 94%;
+
     // 验证码
     .form-valida-wrap {
       display: flex;

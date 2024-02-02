@@ -1,12 +1,12 @@
-import type { InternalAxiosRequestConfig } from 'axios'
+import type { InternalAxiosRequestConfig, AxiosRequestConfig } from 'axios'
 interface IUserForm {
   username: string
   valida: string
 }
 interface IUserLoginForm extends IUserForm {
   password: string
-  phoneValida: string
-  phoneNum: string
+  emailValida: string
+  emailNum: string
 }
 interface IForgetLoginForm {
   email: string
@@ -26,10 +26,13 @@ interface ResultData<T = any> extends IResData {
 interface InternalAxiosRequestConfigAAA extends InternalAxiosRequestConfig {
   loading?: boolean
 }
+interface requestConfig extends AxiosRequestConfig {
+  loading?: boolean
+}
 export type {
   IUserLoginForm,
   IForgetLoginForm,
   ResultData,
   InternalAxiosRequestConfigAAA,
-  IResData
+  IResData, requestConfig
 }

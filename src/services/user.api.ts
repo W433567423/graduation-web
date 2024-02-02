@@ -8,6 +8,13 @@ export const getValidaCode = async (width = 108, height = 40) => {
     loading: false
   })
 }
+// 获取 邮箱验证码
+export const getEmailValidaCode = async (emailNum: string) => {
+  return await request.get('/captcha/email', {
+    params: { emailNum },
+    loading: false
+  })
+}
 // 获取 手机验证码
 export const getPhoneValidaCode = async (phoneNum: string) => {
   return await request.get('/captcha/phone', {
