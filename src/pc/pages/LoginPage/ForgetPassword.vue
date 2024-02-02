@@ -78,9 +78,7 @@
             :prefix-icon="Message"
             clearable
             placeholder="请输入邮箱"
-          >
-            <template #append>.com</template>
-          </el-input>
+          />
         </el-form-item>
 
         <el-form-item label="验证码" prop="valida" required>
@@ -142,81 +140,83 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, type Ref, onBeforeMount } from "vue";
-import { type IForgetLoginForm } from "@/services";
-import { Key, Phone, Message } from "@element-plus/icons-vue";
-import { getValidaCode } from "@/services/user.api";
-import { type FormRules, type FormInstance } from "element-plus";
-import type { InternalRuleItem } from "async-validator/dist-types/interface";
+import { ref, type Ref, onBeforeMount } from 'vue'
+import { type IForgetLoginForm } from '@/services'
+import { Key, Phone, Message } from '@element-plus/icons-vue'
+import { getValidaCode } from '@/services/user.api'
+import { type FormRules, type FormInstance } from 'element-plus'
+import type { InternalRuleItem } from 'async-validator/dist-types/interface'
 
-const ruleFormRef = ref<FormInstance>();
-const active = ref(0); // 步骤条
-const imgSrc = ref(""); // 验证码
-const whichMethon = ref(0); // 使用什么找回密码(0:手机号找回，1:邮箱找回)
+const ruleFormRef = ref<FormInstance>()
+const active = ref(0) // 步骤条
+const imgSrc = ref('') // 验证码
+const whichMethon = ref(0) // 使用什么找回密码(0:手机号找回，1:邮箱找回)
 const form: Ref<IForgetLoginForm> = ref({
-  email: "",
-  phoneValida: "",
-  valida: "",
-  phoneNum: "",
-}); // 表单
+  email: '',
+  phoneValida: '',
+  valida: '',
+  phoneNum: ''
+}) // 表单
 
-//邮箱校验规则
+// 邮箱校验规则
 const checkEmail = (
   _rule: InternalRuleItem,
   value: string,
-  callback: (error?: string | Error | undefined) => void,
+  callback: (error?: string | Error | undefined) => void
 ) => {
-  const regEmail = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]/;
-  if (value != "" && !regEmail.test(value)) {
-    callback(new Error("请输入有效的邮箱"));
+  // const regEmail = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
+  const regEmail = /^([a-zA-Z]|[0-9])(\w)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
+  if (value !== '' && !regEmail.test(value)) {
+    callback(new Error('请输入有效的邮箱'))
   }
-};
+}
 // 校验规则
 const formRules = ref<FormRules<IForgetLoginForm>>({
   email: [
-    { required: true, message: "邮箱必填", trigger: "blur" },
-    { validator: checkEmail, message: "邮箱错误", trigger: "blur" },
+    { required: true, message: '邮箱必填', trigger: 'blur' },
+    { validator: checkEmail, message: '邮箱错误', trigger: 'blur' }
   ],
   valida: [
-    { required: true, message: "验证码必填", trigger: "blur" },
-    { len: 4, message: "验证码错误", trigger: "blur" },
+    { required: true, message: '验证码必填', trigger: 'blur' },
+    { len: 4, message: '验证码错误', trigger: 'blur' }
   ],
   phoneValida: [
-    { required: true, message: "手机验证码必填", trigger: "blur" },
-    { len: 6, message: "手机验证码错误", trigger: "blur" },
+    { required: true, message: '手机验证码必填', trigger: 'blur' },
+    { len: 6, message: '手机验证码错误', trigger: 'blur' }
   ],
   phoneNum: [
     {
       required: true,
       pattern:
         /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
-      message: "手机号不正确",
-      trigger: "blur",
-    },
-  ],
-}); // 校验规则
+      message: '手机号不正确',
+      trigger: 'blur'
+    }
+  ]
+}) // 校验规则
 
 const flashValidaCode = async () => {
-  const res = await getValidaCode();
-  imgSrc.value = res as any;
-};
+  const res = await getValidaCode()
+  imgSrc.value = res as any
+}
 
 const handleNextStep = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
+  if (!formEl) return
 
   void formEl.validate((valid) => {
     if (valid) {
-      active.value++;
+      active.value++
     }
-  });
-};
+  })
+}
 const handleResetPassword = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-};
+  // if (!formEl) return
+  console.log(formEl, form.value)
+}
 
 onBeforeMount(() => {
-  void flashValidaCode();
-});
+  void flashValidaCode()
+})
 </script>
 
 <style lang="less" scoped>
