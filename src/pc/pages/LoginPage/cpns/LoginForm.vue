@@ -79,11 +79,13 @@ import {
 import { type Ref, ref, onBeforeMount } from 'vue'
 import { type IUserLoginForm } from '@/services'
 import {
-  getEmailValidaCode,
-  getValidaCode,
   postUserLogin,
   postUserRegistry
 } from '@/services/user.api.ts'
+import {
+  getEmailValidaCode,
+  getValidaCode
+} from '@/services/captcha.api.ts'
 import { getLocalStorage, setLocalStorage } from '@/utils'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -103,7 +105,7 @@ const form: Ref<IUserLoginForm> = ref({
 }) // 表单
 const isRemember = ref(false) // 记住用户
 const imgSrc = ref('') // 验证码
-const isLoginPage = ref(false) // 是否登录页面（true:登录,false:注册）
+const isLoginPage = ref(true) // 是否登录页面（true:登录,false:注册）
 const isValidaLoading = ref(false) // 获取验证码loading状态
 const emailRex = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
 

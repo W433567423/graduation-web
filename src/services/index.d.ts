@@ -9,30 +9,31 @@ interface IUserLoginForm extends IUserForm {
   emailNum: string
 }
 interface IForgetLoginForm {
-  email: string
-  phoneNum: string
-  phoneValida: string
-  valida: string
+  emailNum: string
+  emailValida: string
+  newPassword: string
 }
 // 返回
-interface IResData {
-  message: string
+interface IResponseData<T = any> {
+  msg: string
   code: number
+  data?: T
 }
 interface ResultData<T = any> extends IResData {
   data?: T
 }
 
-interface InternalAxiosRequestConfigAAA extends InternalAxiosRequestConfig {
+interface IAxiosRequestConfig extends InternalAxiosRequestConfig {
   loading?: boolean
 }
-interface requestConfig extends AxiosRequestConfig {
+interface IRequestConfig extends AxiosRequestConfig {
   loading?: boolean
 }
 export type {
   IUserLoginForm,
   IForgetLoginForm,
   ResultData,
-  InternalAxiosRequestConfigAAA,
-  IResData, requestConfig
+  IAxiosRequestConfig,
+  IResponseData,
+  IRequestConfig
 }

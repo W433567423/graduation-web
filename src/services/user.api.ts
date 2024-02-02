@@ -1,43 +1,25 @@
 import request from '@/services/require.ts'
-import type { IUserLoginForm } from './index.d'
+import type { IUserLoginForm, IForgetLoginForm } from './index.d'
 
-// 获取 验证码
-export const getValidaCode = async (width = 108, height = 40) => {
-  return await request.get('/captcha', {
-    params: { width, height },
-    loading: false
-  })
-}
-// 获取 邮箱验证码
-export const getEmailValidaCode = async (emailNum: string) => {
-  return await request.get('/captcha/email', {
-    params: { emailNum },
-    loading: false
-  })
-}
-// 获取 手机验证码
-export const getPhoneValidaCode = async (phoneNum: string) => {
-  return await request.get('/captcha/phone', {
-    params: { phoneNum },
-    loading: false
-  })
-}
-
+const baseUrl = '/users'
 // 登录接口
 export const postUserLogin = async (data: IUserLoginForm) => {
-  return await request.post('/users/login', {
-    data
-  })
+  return await request.post(baseUrl + '/login',
+    { data }
+  )
 }
 
 // 注册接口
 export const postUserRegistry = async (data: IUserLoginForm) => {
-  return await request.post('/users/registry', {
-    data
-  })
+  return await request.post(baseUrl + '/registry', { data })
+}
+
+// 忘记密码接口
+export const postUserForgetPassword = async (data: IForgetLoginForm) => {
+  return await request.post(baseUrl + '/forgetPassword', { data })
 }
 
 // 鉴权接口
 export const test = async () => {
-  return await request.get('/users/auth')
+  return await request.get(baseUrl + '/auth')
 }

@@ -1,12 +1,15 @@
 import axios, {
   type AxiosResponse,
-  type AxiosInstance
+  type AxiosInstance,
+  type AxiosError,
+  type InternalAxiosRequestConfig,
+  type AxiosRequestConfig
 } from 'axios'
-import type { ResultData, InternalAxiosRequestConfigAAA, requestConfig } from './index'
+import type { ResultData, IAxiosRequestConfig, IRequestConfig, IResponseData } from './index'
 
 import { ElMessage, ElLoading } from 'element-plus'
 import { getLocalStorage } from '@/utils'
-import { BASE_URL, TIMEOUT } from '@/config/axios.config.ts'
+import { createAxiosConfig } from '@/config/axios.config'
 import useUserStore from '@/stores/user.ts'
 import router from '@/router'
 
@@ -22,21 +25,12 @@ const closeLoading = () => {
 }
 // 请求响应参数，包含data
 
-class RequestHttp {
+class HttpRequest {
   // 定义成员变量并指定类型
   service: AxiosInstance
   public constructor () {
     // 实例化axios
-    this.service = axios.create({
-      baseURL: BASE_URL, // 默认地址
-      // 设置超时时间
-      timeout: TIMEOUT,
-      // 跨域时候允许携带凭证
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8'
-      }
-    })
+    this.service = axios.create(createAxiosConfig)
 
     /**
      * eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -48,7 +42,8 @@ class RequestHttp {
      */
     const requestMap = new Map()
     this.service.interceptors.request.use(
-      (config: InternalAxiosRequestConfigAAA) => {
+      (config: IAxiosRequestConfig) => {
+        // 判定唯一请求
         const controller = new AbortController()
         const key = config.data + config.url
         config.signal = controller.signal
@@ -58,6 +53,7 @@ class RequestHttp {
         } else {
           requestMap.set(key, controller)
         }
+        // 全局loading效果
         const { loading = true } = config
 
         if (loading) showLoading()
@@ -66,8 +62,9 @@ class RequestHttp {
         }
         return config
       },
-      (error) => {
-        console.log(error)
+      async (error: AxiosError) => {
+        console.log('Request Error!', error)
+        return await Promise.reject(error)
       }
     )
 
@@ -76,7 +73,7 @@ class RequestHttp {
      * 服务器换返回信息 -> [拦截统一处理] -> 客户端JS获取到信息
      */
     this.service.interceptors.response.use(
-      (res: AxiosResponse<any, any>) => {
+      (res: AxiosResponse<IResponseData, any>): AxiosResponse['data'] => {
         const { data, config } = res
 
         const { loading = true } = config as any
@@ -84,11 +81,15 @@ class RequestHttp {
           closeLoading()
         }
         // code处理
-        this.handleCode(data.code as number, data.msg)
+        if (data.code) {
+          this.handleCode(data.code, data.msg)
+        } else {
+          return Promise.reject(new Error('Response Error! 没有code!'))
+        }
 
         return data.data
       },
-      async (error) => {
+      async (error: AxiosError) => {
         closeLoading()
         let { message }: { message: string } = error
         if (message === 'Network Error') {
@@ -108,46 +109,38 @@ class RequestHttp {
   }
 
   handleCode (code: number, msg: any): void {
-    switch (true) {
-      case code >= 200 && code < 300:
-        break
-      case code === 401:
-        // 登录状态已过期.处理路由重定向
-        console.log('登录状态已过期')
-        useUserStore().clearToken()
-        void router.replace({
-          path: '/pc-login',
-          query: { redirect: router.currentRoute.value.fullPath }
-        })
-        break
-      default:
-        ElMessage.error({
-          message: typeof msg === 'string' ? msg : msg.join('且')
-        })
-        break
+    if (code === 401) {
+      // 登录状态已过期.处理路由重定向
+      console.log('登录状态已过期')
+      useUserStore().clearToken()
+      void router.replace({
+        path: '/pc-login',
+        query: { redirect: router.currentRoute.value.fullPath }
+      })
+    } else if (code > 299) {
+      ElMessage.error({
+        message: typeof msg === 'string' ? msg : msg.join('且')
+      })
     }
   }
 
   // 常用方法封装
-  async get<T>(
-    url: string,
-    params?: requestConfig
-  ): Promise<ResultData<T>> {
-    return await this.service.get(url, params)
+  async get<T=any>(url: string, config?: IRequestConfig): Promise<ResultData<T>> {
+    return await this.service.request({ url, method: 'GET', ...config })
   }
 
-  async post<T>(url: string, params?: object): Promise<ResultData<T>> {
-    return await this.service.post(url, params)
+  async post<T=any>(url: string, config?: IRequestConfig): Promise<ResultData<T>> {
+    return await this.service.request({ url, method: 'POST', ...config })
   }
 
-  async put<T>(url: string, params?: object): Promise<ResultData<T>> {
-    return await this.service.put(url, params)
+  async put<T=any>(url: string, config?: IRequestConfig): Promise<ResultData<T>> {
+    return await this.service.request({ url, method: 'PUT', ...config })
   }
 
-  async delete<T>(url: string, params?: object): Promise<ResultData<T>> {
-    return await this.service.delete(url, params)
+  async delete<T=any>(url: string, config?: IRequestConfig): Promise<ResultData<T>> {
+    return await this.service.request({ url, method: 'DELETE', ...config })
   }
 }
 
 // 导出一个实例对象
-export default new RequestHttp()
+export default new HttpRequest()

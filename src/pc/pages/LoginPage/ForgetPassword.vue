@@ -51,12 +51,13 @@
     </div>
     <div v-if="active === 1" class="forget-password-step-wrap">
       <el-form
-        label-position="top"
+        label-position="right"
         ref="ruleFormRef"
         class="forget-form-wrap"
         :rules="formRules"
         size="large"
         :model="form"
+        label-width="96px"
       >
         <el-form-item
           label="手机号"
@@ -65,7 +66,7 @@
           v-if="whichMethon === 0"
         >
           <el-input
-            v-model="form.phoneNum"
+            v-model="form.emailNum"
             :prefix-icon="Phone"
             clearable
             placeholder="请输入手机号"
@@ -73,37 +74,30 @@
         </el-form-item>
         <el-form-item
           label="邮箱"
-          prop="email"
+          prop="emailNum"
           required
           v-if="whichMethon === 1"
         >
           <el-input
-            v-model="form.email"
+            v-model="form.emailNum"
             :prefix-icon="Message"
             clearable
             placeholder="请输入邮箱"
           />
         </el-form-item>
 
-        <el-form-item label="验证码" prop="valida" required>
-          <div class="form-valida-wrap">
-            <el-input
-              v-model="form.valida"
-              :prefix-icon="Key"
-              clearable
-              placeholder="请输入验证码"
-            />
-            <div
-              class="valida-wrap"
-              @click="flashValidaCode"
-              v-html="imgSrc"
-              v-if="imgSrc"
-            />
-            <div class="valida-wrap" v-else>
-              <el-image class="w-108px h-40px" />
-            </div>
-          </div>
-        </el-form-item>
+      <el-form-item label="密码" prop="newPassword" required>
+        <el-input v-model="form.newPassword" :prefix-icon="Lock" clearable placeholder="请输入密码" show-password
+          type="password" />
+      </el-form-item>
+        <el-form-item :label="whichMethon === 0?'手机验证码':'邮箱验证码'" required prop="emailValida">
+        <div class="form-valida-wrap mb-16px">
+          <el-input v-model="form.emailValida" :prefix-icon="Key" clearable  placeholder="请输入验证码"/>
+          <el-button :loading="isValidaLoading" class="ml-12px" @click="flashEmailValidaCode">
+            发送
+          </el-button>
+        </div>
+      </el-form-item>
       </el-form>
 
       <div class="">
@@ -114,58 +108,41 @@
           type="primary"
           class="ml-32px"
           size="large"
-          @click="handleNextStep(ruleFormRef)"
+          @click="handleResetPassword(ruleFormRef)"
         >
-          下一步
+          重设密码
         </el-button>
       </div>
     </div>
     <div v-if="active === 2">
-      <el-form
-        label-position="top"
-        ref="ruleFormRef"
-        class="forget-form-wrap"
-        :rules="formRules"
-        size="large"
-        :model="form"
-      ></el-form>
-
-      <el-button
-        type="primary"
-        class="next-button"
-        size="large"
-        @click="handleResetPassword(ruleFormRef)"
-      >
-        重设密码
-      </el-button>
     </div>
-    <div v-if="active === 3">scsc</div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, type Ref, onBeforeMount, defineEmits } from 'vue'
 import { type IForgetLoginForm } from '@/services'
-import { Key, Phone, Message } from '@element-plus/icons-vue'
-import { getValidaCode } from '@/services/user.api'
-import { type FormRules, type FormInstance } from 'element-plus'
+import { Key, Phone, Message, Lock } from '@element-plus/icons-vue'
+import { postUserForgetPassword } from '@/services/user.api'
+import { getEmailValidaCode } from '@/services/captcha.api'
+import { type FormRules, type FormInstance, ElNotification } from 'element-plus'
 
 const emits = defineEmits(['changeStatus'])
 
 const ruleFormRef = ref<FormInstance>()
 const active = ref(0) // 步骤条
-const imgSrc = ref('') // 验证码
 const whichMethon = ref(0) // 使用什么找回密码(0:手机号找回，1:邮箱找回)
+const emailRex = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/ // 邮箱正则校验
+const isValidaLoading = ref(false) // 获取验证码loading状态
 const form: Ref<IForgetLoginForm> = ref({
-  email: '',
-  phoneValida: '',
-  valida: '',
-  phoneNum: ''
+  emailValida: '',
+  emailNum: '',
+  newPassword: ''
 }) // 表单
 
 // 校验规则
 const formRules = ref<FormRules<IForgetLoginForm>>({
-  email: [
+  emailNum: [
     { required: true, message: '邮箱必填', trigger: 'blur' },
     {
       pattern: /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/,
@@ -173,46 +150,41 @@ const formRules = ref<FormRules<IForgetLoginForm>>({
       trigger: 'blur'
     }
   ],
-  valida: [
-    { required: true, message: '验证码必填', trigger: 'blur' },
-    { len: 4, message: '验证码错误', trigger: 'blur' }
-  ],
-  phoneValida: [
+  emailValida: [
     { required: true, message: '手机验证码必填', trigger: 'blur' },
     { len: 6, message: '手机验证码错误', trigger: 'blur' }
   ],
-  phoneNum: [
-    {
-      required: true,
-      pattern:
-        /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
-      message: '手机号不正确',
-      trigger: 'blur'
-    }
+  newPassword: [
+    { required: true, message: '密码必填', trigger: 'blur' },
+    { min: 3, max: 10, message: '密码长度未3-10', trigger: 'blur' }
   ]
 }) // 校验规则
 
-const flashValidaCode = async () => {
-  const res = await getValidaCode()
-  imgSrc.value = res as any
-}
-
-const handleNextStep = (formEl: FormInstance | undefined) => {
+// 重设密码
+const handleResetPassword = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
-
-  void formEl.validate((valid) => {
-    if (valid) {
-      active.value++
-    }
+  await formEl?.validate(() => {
+    postUserForgetPassword(form.value).then(() => {
+      ElNotification.success({ message: '修改密码成功' })
+    }).catch((e) => {
+      console.log('error', e)
+    })
   })
 }
-const handleResetPassword = (formEl: FormInstance | undefined) => {
-  // if (!formEl) return
-  console.log(formEl, form.value)
-}
 
+// 获取邮箱验证码
+const flashEmailValidaCode = () => {
+  if (emailRex.test(form.value.emailNum)) {
+    isValidaLoading.value = !isValidaLoading.value
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    getEmailValidaCode(form.value.emailNum).then(() => ElNotification.success({ message: '发送验证码成功' })).finally(() => {
+      isValidaLoading.value = !isValidaLoading.value
+    })
+  } else {
+    ElNotification.error({ message: '邮箱不正确' })
+  }
+}
 onBeforeMount(() => {
-  void flashValidaCode()
 })
 </script>
 
