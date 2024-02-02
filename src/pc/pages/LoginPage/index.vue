@@ -7,28 +7,27 @@
 <template>
   <div class="login-page">
     <!--登录注册-->
-    <el-card v-if="!forgetPage" body-class="login-dialog" shadow="hover">
-      <div class="login-dialog-left">
-        <LoginForm @change-page="forgetPage = !forgetPage" />
-      </div>
+    <el-card body-class="login-dialog" shadow="hover">
+      <template v-if="!forgetPage">
+        <div class="login-dialog-left">
+          <LoginForm @change-page="forgetPage = !forgetPage" />
+        </div>
 
-      <div class="login-dialog-right"></div>
-    </el-card>
-
-    <!--    忘记密码-->
-    <el-card v-else body-class="login-dialog" shadow="hover">
-      <ForgetPassword />
+        <div class="login-dialog-right"></div>
+      </template>
+      <!--    忘记密码-->
+      <ForgetPassword v-else @change-status="forgetPage = !forgetPage" />
     </el-card>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { ElCard } from 'element-plus'
-import LoginForm from './cpns/LoginForm.vue'
-import ForgetPassword from '@pc/pages/LoginPage/ForgetPassword.vue'
+import { ref } from "vue";
+import { ElCard } from "element-plus";
+import LoginForm from "./cpns/LoginForm.vue";
+import ForgetPassword from "@pc/pages/LoginPage/ForgetPassword.vue";
 
-const forgetPage = ref(true) // 是否是忘记密码页面
+const forgetPage = ref(true); // 是否是忘记密码页面
 </script>
 
 <style lang="less" scoped>

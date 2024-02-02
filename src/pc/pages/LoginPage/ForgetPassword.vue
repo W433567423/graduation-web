@@ -11,41 +11,45 @@
       <el-step title="Step 2" />
       <el-step title="Step 3" />
     </el-steps>
-    <div
-      v-if="active === 0"
-      class="flex flex-items-center justify-around mt-81px"
-    >
-      <div class="flex flex-col flex-items-center">
-        <div
-          class="forget-icon-radius-box mb-32px"
-          @click="
-            active++;
-            whichMethon = 0;
-          "
-        >
-          <el-icon size="108px" color="#79bbff"><Iphone /></el-icon>
+    <div v-if="active === 0" class="forget-password-step-wrap">
+      <section class="flex justify-around w-100%">
+        <div class="flex flex-col flex-items-center">
+          <div
+            class="forget-icon-radius-box mb-32px"
+            @click="
+              active++;
+              whichMethon = 0;
+            "
+          >
+            <el-icon size="108px" color="#79bbff"><Iphone /></el-icon>
+          </div>
+          <el-text class="forget-icon-text">手机号找回</el-text>
         </div>
-        <el-text class="forget-icon-text">手机号找回</el-text>
-      </div>
-      <div class="flex flex-col flex-items-center">
-        <div
-          class="forget-icon-radius-box mb-32px border-#95d475!"
-          @click="
-            active++;
-            whichMethon = 1;
-          "
-        >
-          <el-icon size="108px" color="#95d475">
-            <Message />
-          </el-icon>
+        <div class="flex flex-col flex-items-center">
+          <div
+            class="forget-icon-radius-box mb-32px border-#95d475!"
+            @click="
+              active++;
+              whichMethon = 1;
+            "
+          >
+            <el-icon size="108px" color="#95d475">
+              <Message />
+            </el-icon>
+          </div>
+          <el-text class="forget-icon-text">邮箱找回</el-text>
         </div>
-        <el-text class="forget-icon-text">邮箱找回</el-text>
-      </div>
+      </section>
+      <el-button
+        type="warning"
+        class="w-80px"
+        size="large"
+        @click="emits('changeStatus')"
+      >
+        上一步
+      </el-button>
     </div>
-    <div
-      v-if="active === 1"
-      class="flex flex-col justify-around flex-items-center"
-    >
+    <div v-if="active === 1" class="forget-password-step-wrap">
       <el-form
         label-position="top"
         ref="ruleFormRef"
@@ -102,7 +106,7 @@
         </el-form-item>
       </el-form>
 
-      <div class="flex justify-center mt-108px">
+      <div class="">
         <el-button type="warning" size="large" @click="active--">
           上一步
         </el-button>
@@ -140,83 +144,85 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, type Ref, onBeforeMount } from 'vue'
-import { type IForgetLoginForm } from '@/services'
-import { Key, Phone, Message } from '@element-plus/icons-vue'
-import { getValidaCode } from '@/services/user.api'
-import { type FormRules, type FormInstance } from 'element-plus'
-import type { InternalRuleItem } from 'async-validator/dist-types/interface'
+import { ref, type Ref, onBeforeMount, defineEmits } from "vue";
+import { type IForgetLoginForm } from "@/services";
+import { Key, Phone, Message } from "@element-plus/icons-vue";
+import { getValidaCode } from "@/services/user.api";
+import { type FormRules, type FormInstance } from "element-plus";
+import type { InternalRuleItem } from "async-validator/dist-types/interface";
 
-const ruleFormRef = ref<FormInstance>()
-const active = ref(0) // 步骤条
-const imgSrc = ref('') // 验证码
-const whichMethon = ref(0) // 使用什么找回密码(0:手机号找回，1:邮箱找回)
+const emits = defineEmits(["changeStatus"]);
+
+const ruleFormRef = ref<FormInstance>();
+const active = ref(0); // 步骤条
+const imgSrc = ref(""); // 验证码
+const whichMethon = ref(0); // 使用什么找回密码(0:手机号找回，1:邮箱找回)
 const form: Ref<IForgetLoginForm> = ref({
-  email: '',
-  phoneValida: '',
-  valida: '',
-  phoneNum: ''
-}) // 表单
+  email: "",
+  phoneValida: "",
+  valida: "",
+  phoneNum: "",
+}); // 表单
 
 // 邮箱校验规则
 const checkEmail = (
   _rule: InternalRuleItem,
   value: string,
-  callback: (error?: string | Error | undefined) => void
+  callback: (error?: string | Error | undefined) => void,
 ) => {
   // const regEmail = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
-  const regEmail = /^([a-zA-Z]|[0-9])(\w)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
-  if (value !== '' && !regEmail.test(value)) {
-    callback(new Error('请输入有效的邮箱'))
+  const regEmail = /^([a-zA-Z]|[0-9])(\w)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+  if (value !== "" && !regEmail.test(value)) {
+    callback(new Error("请输入有效的邮箱"));
   }
-}
+};
 // 校验规则
 const formRules = ref<FormRules<IForgetLoginForm>>({
   email: [
-    { required: true, message: '邮箱必填', trigger: 'blur' },
-    { validator: checkEmail, message: '邮箱错误', trigger: 'blur' }
+    { required: true, message: "邮箱必填", trigger: "blur" },
+    { validator: checkEmail, message: "邮箱错误", trigger: "blur" },
   ],
   valida: [
-    { required: true, message: '验证码必填', trigger: 'blur' },
-    { len: 4, message: '验证码错误', trigger: 'blur' }
+    { required: true, message: "验证码必填", trigger: "blur" },
+    { len: 4, message: "验证码错误", trigger: "blur" },
   ],
   phoneValida: [
-    { required: true, message: '手机验证码必填', trigger: 'blur' },
-    { len: 6, message: '手机验证码错误', trigger: 'blur' }
+    { required: true, message: "手机验证码必填", trigger: "blur" },
+    { len: 6, message: "手机验证码错误", trigger: "blur" },
   ],
   phoneNum: [
     {
       required: true,
       pattern:
         /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/,
-      message: '手机号不正确',
-      trigger: 'blur'
-    }
-  ]
-}) // 校验规则
+      message: "手机号不正确",
+      trigger: "blur",
+    },
+  ],
+}); // 校验规则
 
 const flashValidaCode = async () => {
-  const res = await getValidaCode()
-  imgSrc.value = res as any
-}
+  const res = await getValidaCode();
+  imgSrc.value = res as any;
+};
 
 const handleNextStep = (formEl: FormInstance | undefined) => {
-  if (!formEl) return
+  if (!formEl) return;
 
   void formEl.validate((valid) => {
     if (valid) {
-      active.value++
+      active.value++;
     }
-  })
-}
+  });
+};
 const handleResetPassword = (formEl: FormInstance | undefined) => {
   // if (!formEl) return
-  console.log(formEl, form.value)
-}
+  console.log(formEl, form.value);
+};
 
 onBeforeMount(() => {
-  void flashValidaCode()
-})
+  void flashValidaCode();
+});
 </script>
 
 <style lang="less" scoped>
@@ -226,16 +232,24 @@ onBeforeMount(() => {
   height: 100%;
   padding: 32px 32px;
   box-sizing: border-box;
-  .forget-icon-radius-box {
-    position: relative;
-    border: 2px solid #79bbff;
-    padding: 24px;
-    border-radius: 80px;
-    transition: 0.5s;
-    cursor: pointer;
+  .forget-password-step-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 350px;
+    padding-top: 50px;
+    .forget-icon-radius-box {
+      position: relative;
+      border: 2px solid #79bbff;
+      padding: 24px;
+      border-radius: 80px;
+      transition: 0.5s;
+      cursor: pointer;
 
-    &:hover {
-      transform: scale(1.1);
+      &:hover {
+        transform: scale(1.1);
+      }
     }
   }
   .forget-icon-text {
