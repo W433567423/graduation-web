@@ -7,11 +7,13 @@
 <template>
   <div class="forget-password-wrap">
     <el-steps :active="active" class="w-full" finish-status="success">
-      <el-step title="Step 1" />
-      <el-step title="Step 2" />
-      <el-step title="Step 3" />
+      <el-step title="选择验证方式" />
+      <el-step title="重置密码" />
+      <el-step title="完成" />
     </el-steps>
-    <div v-if="active === 0" class="forget-password-step-wrap">
+    <div  class="forget-password-step-wrap">
+
+    <template v-if="active === 0">
       <section class="flex justify-around w-100%">
         <div class="flex flex-col flex-items-center">
           <div
@@ -48,8 +50,8 @@
       >
         上一步
       </el-button>
-    </div>
-    <div v-if="active === 1" class="forget-password-step-wrap">
+    </template>
+    <template v-if="active === 1">
       <el-form
         label-position="right"
         ref="ruleFormRef"
@@ -86,8 +88,8 @@
           />
         </el-form-item>
 
-      <el-form-item label="密码" prop="newPassword" required>
-        <el-input v-model="form.newPassword" :prefix-icon="Lock" clearable placeholder="请输入密码" show-password
+      <el-form-item label="新密码" prop="newPassword" required>
+        <el-input v-model="form.newPassword" :prefix-icon="Lock" clearable placeholder="请输入新密码" show-password
           type="password" />
       </el-form-item>
         <el-form-item :label="whichMethon === 0?'手机验证码':'邮箱验证码'" required prop="emailValida">
@@ -101,7 +103,7 @@
       </el-form>
 
       <div class="">
-        <el-button type="warning" size="large" @click="active--">
+        <el-button type="warning" size="large" @click="handleLastStep(true)">
           上一步
         </el-button>
         <el-button
@@ -113,27 +115,37 @@
           重设密码
         </el-button>
       </div>
-    </div>
-    <div v-if="active === 2">
+    </template>
+    <template v-if="active === 2">
+      <div class="guide-dash-wrap">
+      <el-icon class="check-icon"><Check /></el-icon>
+        <text class="mt-40px">密码已重新设置,{{ countDownTime }}秒后自动跳转到面板页面</text>
+        <text class="mt-24px">如果未自动跳转,请手动 <el-button link @click="gotoDash" type="primary">点击跳转</el-button></text>
+      </div>
+    </template>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, type Ref, onBeforeMount, defineEmits } from 'vue'
+import { ref, type Ref, defineEmits } from 'vue'
 import { type IForgetLoginForm } from '@/services'
 import { Key, Phone, Message, Lock } from '@element-plus/icons-vue'
 import { postUserForgetPassword } from '@/services/user.api'
 import { getEmailValidaCode } from '@/services/captcha.api'
 import { type FormRules, type FormInstance, ElNotification } from 'element-plus'
+import { useRouter } from 'vue-router'
 
 const emits = defineEmits(['changeStatus'])
+const router = useRouter()
 
 const ruleFormRef = ref<FormInstance>()
 const active = ref(0) // 步骤条
 const whichMethon = ref(0) // 使用什么找回密码(0:手机号找回，1:邮箱找回)
 const emailRex = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/ // 邮箱正则校验
 const isValidaLoading = ref(false) // 获取验证码loading状态
+const countDownTime = ref(3) // 倒计时
+let timer = 0 // 定时器
 const form: Ref<IForgetLoginForm> = ref({
   emailValida: '',
   emailNum: '',
@@ -166,6 +178,13 @@ const handleResetPassword = async (formEl: FormInstance | undefined) => {
   await formEl?.validate(() => {
     postUserForgetPassword(form.value).then(() => {
       ElNotification.success({ message: '修改密码成功' })
+      active.value++
+      timer = setInterval(() => { countDownTime.value-- }, 1000)
+      setTimeout(async () => {
+        clearInterval(timer)
+        console.log(countDownTime.value)
+        await gotoDash()
+      }, 3000)
     }).catch((e) => {
       console.log('error', e)
     })
@@ -184,8 +203,25 @@ const flashEmailValidaCode = () => {
     ElNotification.error({ message: '邮箱不正确' })
   }
 }
-onBeforeMount(() => {
-})
+
+// 重置表单
+const clearForm = () => {
+  form.value.emailNum = ''
+  form.value.emailValida = ''
+  form.value.newPassword = ''
+}
+
+// 回到上一步
+const handleLastStep = (isClearForm = false) => {
+  active.value--
+  isClearForm && clearForm()
+}
+
+// 跳转到面板页面
+const gotoDash = async () => {
+  await router.push({ path: '/pc/dash' })
+}
+
 </script>
 
 <style lang="less" scoped>
@@ -213,6 +249,23 @@ onBeforeMount(() => {
       &:hover {
         transform: scale(1.1);
       }
+    }
+    .guide-dash-wrap{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    .check-icon{
+      width: 64px;
+      height: 64px;
+      font-size: 48px;
+      font-weight: bold;
+      border-radius: 50%;
+      background-color: #95d475;
+      color: #fff;
+      margin-top: 32px;
+    }
+
     }
   }
   .forget-icon-text {
