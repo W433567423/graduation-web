@@ -135,6 +135,10 @@ class HttpRequest {
     return await this.service.request({ url, method: 'PUT', ...config })
   }
 
+  async patch<T=any>(url: string, config?: IRequestConfig): Promise<T> {
+    return await this.service.request({ url, method: 'PATCH', ...config })
+  }
+
   async delete<T=any>(url: string, config?: IRequestConfig): Promise<T> {
     return await this.service.request({ url, method: 'DELETE', ...config })
   }

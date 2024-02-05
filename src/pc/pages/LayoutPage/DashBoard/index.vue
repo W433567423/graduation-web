@@ -6,7 +6,7 @@
 -->
 <template>
   <div class="dash-board">
-    <program-item :list="list"/>
+    <program-item :list="list" @update:list="flashList" />
   </div>
 </template>
 
@@ -16,7 +16,7 @@ import { onBeforeMount, ref, type Ref } from 'vue'
 import { type IProjectListItem } from '@/services/interfaces/projects'
 import { getProjectList } from '@/services/projects.api'
 
-const list: Ref<IProjectListItem[] > = ref([{
+const list: Ref<IProjectListItem[]> = ref([{
   id: 0,
   projectName: '示例项目1',
   lastStatus: 0,
@@ -32,10 +32,15 @@ const list: Ref<IProjectListItem[] > = ref([{
 
 const total = ref(0) // 项目总数
 
-onBeforeMount(async () => {
+// 刷新列表数据
+const flashList = async () => {
   const res = await getProjectList()
   list.value = res.list
   total.value = res.total
+}
+
+onBeforeMount(async () => {
+  await flashList()
 })
 </script>
 
