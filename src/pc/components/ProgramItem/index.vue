@@ -5,50 +5,38 @@
 * @time: 2024/1/13 17:37
 -->
 <template>
-  <section class="program-list">
-    <!--  head-->
-    <el-row align="middle">
-      <el-col :span="2">状态</el-col>
-      <el-col :span="4">名称</el-col>
-      <el-col :span="5">创建时间</el-col>
-      <el-col :span="5">上次运行时间</el-col>
-      <el-col :span="3">上次运行状态</el-col>
-      <el-col :span="5">操作</el-col>
-    </el-row>
-    <!--  body-->
-    <el-row align="middle" v-for="e in list" :key="e.id" class="program-item">
-      <el-col :span="2">
-        <el-icon>
-          <VideoPlay />
-        </el-icon>
-        <el-icon>
-          <VideoPause />
-        </el-icon>
-      </el-col>
-      <el-col :span="4">
-        {{ e.projectName }}
-      </el-col>
-      <el-col :span="5">
-        {{ dayjs(e.createTime).format("YYYY-MM-DD hh:mm:ss") }}
-      </el-col>
-      <el-col :span="5">
-        {{ dayjs(e.updateTime).format("YYYY-MM-DD hh:mm:ss") }}
-      </el-col>
-      <el-col :span="3">
-        {{ mapRunStatus(e.lastStatus) }}
-      </el-col>
-      <el-col :span="5" class="justify-content">
-        <el-button :icon="Delete" circle />
+  <el-table :data="list" style="width: 100%" stripe height="100%">
+    <el-table-column prop="date" label="状态" width="80" />
+    <el-table-column prop="projectName" sortable label="名称" width="210" />
+    <el-table-column prop="createTime" sortable label="创建时间" width="210" />
+    <el-table-column prop="updateTime" sortable label="上次运行时间" width="210" />
+    <el-table-column prop="lastStatus" label="上次运行状态" :filters="[
+      { text: '未运行', value: '0' }, { text: '运行失败', value: '-1' }, { text: '运行成功', value: '1' },]"
+      :filter-method="filterRunStatusHandler" align="center" width="180">
+      <template #default="scope">
+        {{ mapRunStatus(scope.row.lastStatus) }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="action" label="操作" fixed="right">
+      <template #default="scope">
         <el-dropdown>
           <el-button :icon="More" circle />
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item @click="openRenameDialog(e.id)">
+              <el-dropdown-item @click="openRenameDialog(scope.row.id)">
                 <el-icon>
                   <EditPen />
                 </el-icon>
                 重命名
               </el-dropdown-item>
+
+              <el-dropdown-item @click="openDeleteDialog(scope.row.id)">
+                <el-icon>
+                  <Delete />
+                </el-icon>
+                删除项目
+              </el-dropdown-item>
+
               <el-dropdown-item>
                 <el-icon>
                   <EditPen />
@@ -58,41 +46,44 @@
             </el-dropdown-menu>
           </template>
         </el-dropdown>
-      </el-col>
-    </el-row>
-  </section>
+      </template>
+    </el-table-column>
+  </el-table>
 
   <el-dialog v-model="renameDialogFormVisible" title="重命名项目" width="500">
 
     <el-form-item label="新名称"> <el-input v-model="newName" maxlength="12" autocomplete="off" /></el-form-item>
-
     <template #footer>
-      <div class="dialog-footer">
-        <el-button @click="renameDialogFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="renameProject">
-          确认
-        </el-button>
-      </div>
+      <el-button @click="renameDialogFormVisible = false">取消</el-button>
+      <el-button type="primary" @click="renameProject">
+        确认修改
+      </el-button>
+    </template>
+  </el-dialog>
+  <el-dialog v-model="deleteDialogFormVisible" title="删除项目" width="500">
+    是否要删除该项目，此操作一旦成功将无法撤回
+    <template #footer>
+      <el-button @click="deleteDialogFormVisible = false">取消</el-button>
+      <el-button type="primary" @click="deleteProject">
+        确认修改
+      </el-button>
     </template>
   </el-dialog>
 </template>
 
 <script lang="ts" setup>
-import dayjs from 'dayjs'
-import { ref } from 'vue'
+import { mapRunStatus } from '@/utils/'
 import {
   Delete,
   EditPen,
-  More,
-  VideoPlay,
-  VideoPause
+  More
 } from '@element-plus/icons-vue'
-import { mapRunStatus } from '@/utils/'
+import { ref } from 'vue'
 
-import { putReNameProject } from '@/services/projects.api'
+import { deleteProjectById, putReNameProject } from '@/services/projects.api'
 
 import type { IProjectListItem } from '@/services/interfaces/projects'
-import { ElMessage } from 'element-plus'
+import { ElNotification } from 'element-plus'
 
 interface IProps {
   list: IProjectListItem[]
@@ -101,20 +92,43 @@ interface IProps {
 const emits = defineEmits(['update:list'])
 
 const renameDialogFormVisible = ref(false) // 重命名对话框
-const newName = ref('')
-const localProjectId = ref(0)
+const deleteDialogFormVisible = ref(false) // 重命名对话框
+const newName = ref('') // 项目的新名字
+const localProjectId = ref(0) // 当前操作的项目id
 const { list } = defineProps<IProps>()
 
-const openRenameDialog = async (id: number) => {
+// 运行状态筛选
+const filterRunStatusHandler = (value: string,
+  row: IProjectListItem) => {
+  console.log(String(row.lastStatus) === value)
+
+  return String(row.lastStatus) === value
+}
+
+// 打开重命名对话框
+const openRenameDialog = (id: number) => {
   localProjectId.value = id
   renameDialogFormVisible.value = true
 }
-const renameProject = async () => {
-  const res = await putReNameProject(localProjectId.value, newName.value)
-  console.log(res)
 
+// 打开删除对话框
+const openDeleteDialog = (id: number) => {
+  localProjectId.value = id
+  deleteDialogFormVisible.value = true
+}
+
+// 重命名项目功能
+const renameProject = async () => {
+  await putReNameProject(localProjectId.value, newName.value)
   renameDialogFormVisible.value = false
-  ElMessage.success({ message: '重命名成功' })
+  ElNotification.success({ message: '重命名成功' })
+  emits('update:list')
+}
+// 删除项目
+const deleteProject = async () => {
+  await deleteProjectById(localProjectId.value)
+  deleteDialogFormVisible.value = false
+  ElNotification.success({ message: '删除项目成功' })
   emits('update:list')
 }
 </script>

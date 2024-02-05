@@ -11,12 +11,14 @@
 </template>
 
 <script lang="ts" setup>
-import ProgramItem from '@pc/components/ProgramItem/index.vue'
-import { onBeforeMount, ref, type Ref } from 'vue'
-import { type IProjectListItem } from '@/services/interfaces/projects'
+import type { IProjectListItem } from '@/services/interfaces/projects'
 import { getProjectList } from '@/services/projects.api'
+import { mapListProjects } from '@/utils'
+import ProgramItem from '@pc/components/ProgramItem/index.vue'
+import { ElLoading } from 'element-plus'
+import { onBeforeMount, ref, type Ref } from 'vue'
 
-const list: Ref<IProjectListItem[]> = ref([{
+const defaultList = [{
   id: 0,
   projectName: '示例项目1',
   lastStatus: 0,
@@ -28,18 +30,25 @@ const list: Ref<IProjectListItem[]> = ref([{
   lastStatus: 0,
   createTime: '创建时间',
   updateTime: '上次运行时间'
-}]) // 项目列表
+}]
+
+const list: Ref<IProjectListItem[]> = ref(defaultList) // 项目列表
 
 const total = ref(0) // 项目总数
 
 // 刷新列表数据
 const flashList = async () => {
-  const res = await getProjectList()
-  list.value = res.list
+  const loadingInstance = ElLoading.service({ fullscreen: true })
+  const res = await getProjectList(0, 20)
+  loadingInstance.close()
+  list.value = res.list.length
+    ? mapListProjects(res.list)
+    : defaultList
   total.value = res.total
 }
 
 onBeforeMount(async () => {
+  // ElLoading.service()
   await flashList()
 })
 </script>
@@ -47,5 +56,7 @@ onBeforeMount(async () => {
 <style lang="less" scoped>
 .dash-board {
   width: 100%;
+  height: calc(100vh - 152px);
+  background-color: red;
 }
 </style>

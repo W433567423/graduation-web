@@ -9,10 +9,19 @@ export const getProjectList = async (page = 0, size = 15) => {
     loading: false
   })
 }
+
 // 重命名 项目
 export const putReNameProject = async (projectId: number, newName: string) => {
   return await request.patch(baseUrl + '/rename', {
     data: { projectId, newName },
+    loading: false
+  })
+}
+
+// 删除 项目
+export const deleteProjectById = async (projectId: number) => {
+  return await request.delete(baseUrl + '/delete', {
+    data: { projectId },
     loading: false
   })
 }

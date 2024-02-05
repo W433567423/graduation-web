@@ -1,4 +1,4 @@
 import { getLocalStorage, setLocalStorage } from '@/utils/storage.util'
-import { mapRunStatus } from '@/utils/handleMap.utils'
+import { mapRunStatus, mapListProjects } from '@/utils/handleMap.utils'
 
-export { getLocalStorage, setLocalStorage, mapRunStatus }
+export { getLocalStorage, setLocalStorage, mapRunStatus, mapListProjects }
