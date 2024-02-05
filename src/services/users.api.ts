@@ -1,5 +1,5 @@
 import request from '@/services/require.ts'
-import type { IUserLoginForm, IForgetLoginForm } from './index.d'
+import type { IUserLoginForm, IForgetLoginForm } from './interfaces'
 
 const baseUrl = '/users'
 // 登录接口

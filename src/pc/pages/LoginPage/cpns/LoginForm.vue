@@ -77,15 +77,15 @@ import {
   type FormRules
 } from 'element-plus'
 import { type Ref, ref, onBeforeMount } from 'vue'
-import { type IUserLoginForm } from '@/services'
+import { type IUserLoginForm } from '@/services/interfaces/users'
 import {
   postUserLogin,
   postUserRegistry
-} from '@/services/user.api.ts'
+} from '@/services/users.api.ts'
 import {
   getEmailValidaCode,
   getValidaCode
-} from '@/services/captcha.api.ts'
+} from '@/services/captchas.api.ts'
 import { getLocalStorage, setLocalStorage } from '@/utils'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -140,7 +140,7 @@ const formRules = ref<FormRules<IUserLoginForm>>({
 const flashValidaCode = async () => {
   if (isLoginPage.value) {
     const res = await getValidaCode()
-    imgSrc.value = res as any
+    imgSrc.value = res
   }
 }
 
@@ -168,10 +168,10 @@ const userLoginOrRegistry = (formEl: FormInstance | undefined) => {
       let token = ''
       if (isLoginPage.value) {
         // 登录
-        token = (await postUserLogin(form.value)) as any
+        token = (await postUserLogin(form.value))
       } else {
         //   注册
-        token = (await postUserRegistry(form.value)) as any
+        token = (await postUserRegistry(form.value))
       }
       if (token) {
         userStore.setToken(token)
@@ -307,3 +307,5 @@ onBeforeMount(async () => {
   }
 }
 </style>
+@/services/captchas.api@/services/users.api
+@/services/interfaces

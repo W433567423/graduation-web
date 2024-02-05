@@ -13,12 +13,29 @@
 <script lang="ts" setup>
 import ProgramItem from '@pc/components/ProgramItem/index.vue'
 import { onBeforeMount, ref, type Ref } from 'vue'
-import { type IProgramItem } from '@pc/pages/type.ts'
-import { test } from '@/services/user.api.ts'
+import { type IProjectListItem } from '@/services/interfaces/projects'
+import { getProjectList } from '@/services/projects.api'
 
-const list: Ref<IProgramItem[] | undefined> = ref()
-onBeforeMount(() => {
-  // void test()
+const list: Ref<IProjectListItem[] > = ref([{
+  id: 0,
+  projectName: '示例项目1',
+  lastStatus: 0,
+  createTime: '创建时间',
+  updateTime: '上次运行时间'
+}, {
+  id: 1,
+  projectName: '示例项目2',
+  lastStatus: 0,
+  createTime: '创建时间',
+  updateTime: '上次运行时间'
+}]) // 项目列表
+
+const total = ref(0) // 项目总数
+
+onBeforeMount(async () => {
+  const res = await getProjectList()
+  list.value = res.list
+  total.value = res.total
 })
 </script>
 

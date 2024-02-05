@@ -7,78 +7,64 @@
 <template>
   <section class="program-list">
     <!--  head-->
-    <el-row>
-      <el-col :span="2">
-        状态
-      </el-col>
-      <el-col :span="4">
-        名称
-      </el-col>
-      <el-col :span="5">
-        上次成功
-      </el-col>
-      <el-col :span="5">
-        上次失败
-      </el-col>
-      <el-col :span="4">
-        上次持续时间
-      </el-col>
-      <el-col :span="4">
-        操作
-      </el-col>
+    <el-row align="middle">
+      <el-col :span="2">状态</el-col>
+      <el-col :span="4">名称</el-col>
+      <el-col :span="5">创建时间</el-col>
+      <el-col :span="5">上次运行时间</el-col>
+      <el-col :span="3">上次运行状态</el-col>
+      <el-col :span="5">操作</el-col>
     </el-row>
     <!--  body-->
-    <el-row v-for="(e) in list" :key="e.id" class="program-item">
-      <el-col :span="2">
-
-      </el-col>
+    <el-row align="middle" v-for="e in list" :key="e.id" class="program-item">
+      <el-col :span="2">1(写死)</el-col>
       <el-col :span="4">
-        {{ e.name }}
+        {{ e.projectName }}
       </el-col>
       <el-col :span="5">
-        {{ e.lastSuccessTime }}
+        {{ dayjs(e.createTime).format("YYYY-MM-DD hh:mm:ss") }}
       </el-col>
       <el-col :span="5">
-        {{ e.lastFileTime }}
+        {{ dayjs(e.updateTime).format("YYYY-MM-DD hh:mm:ss") }}
       </el-col>
-      <el-col :span="4">
-        {{ e.lastRunTime }}
+      <el-col :span="3">
+        {{ mapRunStatus(e.lastStatus) }}
       </el-col>
-      <el-col :span="4">
-        操作
+      <el-col  :span="5" class="justify-content">
+      <el-button :icon="Edit"  circle/>
+      <el-button :icon="Delete" class="ml-0!"  circle/>
+        <el-dropdown>
+         <el-button :icon="Operation"  circle/>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>重命名</el-dropdown-item>
+              <el-dropdown-item>标记</el-dropdown-item>
+              <el-dropdown-item>Action 3</el-dropdown-item>
+              <el-dropdown-item disabled>Action 4</el-dropdown-item>
+              <el-dropdown-item divided>Action 5</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </el-col>
     </el-row>
   </section>
 </template>
 
 <script lang="ts" setup>
-import { type IProgramItem } from '@pc/pages/type'
+import dayjs from 'dayjs'
+import {
+  Delete,
+  Edit,
+  Operation
+} from '@element-plus/icons-vue'
+import { mapRunStatus } from '@/utils/'
+import type { IProjectListItem } from '@/services/interfaces/projects'
 
 interface IProps {
-  list: IProgramItem[]
+  list: IProjectListItem[]
 }
 
-const { list } = withDefaults(defineProps<IProps>(), {
-  list () {
-    return [{
-      id: 0,
-      name: 'string1',
-      statusCode: 0,
-      lastSuccessTime: 'string23',
-      lastFileTime: 'string12',
-      lastRunTime: 'string3453'
-    }, {
-      id: 0,
-      name: 'string1',
-      statusCode: 0,
-      lastSuccessTime: 'string23',
-      lastFileTime: 'string12',
-      lastRunTime: 'string3453'
-    }]
-  }
-}
-)
-
+const { list } = defineProps<IProps>()
 </script>
 
 <style lang="less" scoped>

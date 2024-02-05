@@ -5,13 +5,4 @@ interface IMenuItem {
   icon: string
 }
 
-interface IProgramItem {
-  id: number
-  name: string
-  statusCode: number
-  lastSuccessTime: string
-  lastFileTime: string
-  lastRunTime: string
-}
-
-export type { IProgramItem, IMenuItem }
+export type { IMenuItem }

@@ -1,11 +1,9 @@
 import axios, {
   type AxiosResponse,
   type AxiosInstance,
-  type AxiosError,
-  type InternalAxiosRequestConfig,
-  type AxiosRequestConfig
+  type AxiosError
 } from 'axios'
-import type { ResultData, IAxiosRequestConfig, IRequestConfig, IResponseData } from './index'
+import type { IAxiosRequestConfig, IRequestConfig, IResponseData } from './interfaces/index'
 
 import { ElMessage, ElLoading } from 'element-plus'
 import { getLocalStorage } from '@/utils'
@@ -125,19 +123,19 @@ class HttpRequest {
   }
 
   // 常用方法封装
-  async get<T=any>(url: string, config?: IRequestConfig): Promise<ResultData<T>> {
+  async get<T=any>(url: string, config?: IRequestConfig): Promise<T> {
     return await this.service.request({ url, method: 'GET', ...config })
   }
 
-  async post<T=any>(url: string, config?: IRequestConfig): Promise<ResultData<T>> {
+  async post<T=any>(url: string, config?: IRequestConfig): Promise<T> {
     return await this.service.request({ url, method: 'POST', ...config })
   }
 
-  async put<T=any>(url: string, config?: IRequestConfig): Promise<ResultData<T>> {
+  async put<T=any>(url: string, config?: IRequestConfig): Promise<T> {
     return await this.service.request({ url, method: 'PUT', ...config })
   }
 
-  async delete<T=any>(url: string, config?: IRequestConfig): Promise<ResultData<T>> {
+  async delete<T=any>(url: string, config?: IRequestConfig): Promise<T> {
     return await this.service.request({ url, method: 'DELETE', ...config })
   }
 }

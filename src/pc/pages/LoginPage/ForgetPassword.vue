@@ -128,11 +128,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, type Ref, defineEmits } from 'vue'
-import { type IForgetLoginForm } from '@/services'
+import { ref, type Ref } from 'vue'
+import type { IForgetLoginForm } from '@/services/interfaces/users'
 import { Key, Phone, Message, Lock } from '@element-plus/icons-vue'
-import { postUserForgetPassword } from '@/services/user.api'
-import { getEmailValidaCode } from '@/services/captcha.api'
+import { postUserForgetPassword } from '@/services/users.api'
+import { getEmailValidaCode } from '@/services/captchas.api'
 import { type FormRules, type FormInstance, ElNotification } from 'element-plus'
 import { useRouter } from 'vue-router'
 
@@ -293,3 +293,5 @@ const gotoDash = async () => {
   }
 }
 </style>
+@/services/captchas.api@/services/users.api
+@/services/interfaces
