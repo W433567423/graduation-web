@@ -8,7 +8,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
-    project: ["./tsconfig.json", "./commitlint.config.js", "./.prettierrc.js"],
+    project: ["./tsconfig.json", "./commitlint.config.js", "./.prettierrc.cjs"],
     parser: "@typescript-eslint/parser",
     extraFileExtensions: [".vue"], // 新增
   },
@@ -22,5 +22,7 @@ module.exports = {
     //     关闭没有使用的变量校验
     "@typescript-eslint/no-unused-vars": 0,
     "no-useless-escape": 0,
+
+    "@typescript-eslint/no-non-null-assertion": 0,
   },
 };

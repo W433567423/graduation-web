@@ -1,33 +1,31 @@
-import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import AutoImport from "unplugin-auto-import/vite";
-import Components from "unplugin-vue-components/vite";
-import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 import path from "path";
 import UnoCSS from "unocss/vite";
-
-import eslint from "vite-plugin-eslint";
-// https://vitejs.dev/config/
+import AutoImport from "unplugin-auto-import/vite";
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
+import Components from "unplugin-vue-components/vite";
+import { defineConfig } from "vite";
+// import eslint from "vite-plugin-eslint";
 export default defineConfig({
-  plugins: [
-    vue(),
-    // eslint(),
-    AutoImport({
-      resolvers: [ElementPlusResolver()],
-    }),
-    Components({
-      resolvers: [ElementPlusResolver()],
-    }),
-    UnoCSS(),
-  ],
-  resolve: {
-    alias: {
-      "@": path.join(__dirname, "./src"),
-      "@pc": path.join(__dirname, "./src/pc"),
-      "@m": path.join(__dirname, "./src/mobile"),
+    plugins: [
+        vue(), 
+        AutoImport({
+            resolvers: [ElementPlusResolver()],
+        }),
+        Components({
+            resolvers: [ElementPlusResolver()],
+        }),
+        // eslint(),
+        UnoCSS(),
+    ],
+    resolve: {
+        alias: {
+            "@": path.join(__dirname, "./src"),
+            "@pc": path.join(__dirname, "./src/pc"),
+            "@m": path.join(__dirname, "./src/mobile"),
+        },
     },
-  },
-  server: {
-    open: true,
-  },
+    server: {
+        open: true,
+    },
 });

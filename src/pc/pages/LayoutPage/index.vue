@@ -14,13 +14,11 @@
 
   <el-container>
     <el-aside width="240px">
-      <el-menu class="el-menu-vertical-demo"
-               default-active="1"
-               router>
+      <el-menu class="el-menu-vertical-demo" default-active="1" router>
         <template v-for="e in menuList" :key="e.id">
           <el-menu-item :index="e.link">
             <el-icon>
-              <component :is="e.icon"/>
+              <component :is="e.icon" />
             </el-icon>
             <template #title>{{ e.title }}</template>
           </el-menu-item>
@@ -29,21 +27,21 @@
     </el-aside>
 
     <el-main class="p0!">
-      <bread-nav/>
-      <div class="p20px">
-        <router-view/>
-      </div>
+      <bread-nav />
+      <main class="main-contain-wrap">
+        <router-view />
+      </main>
     </el-main>
   </el-container>
 </template>
 
 <script lang="ts" setup>
+import router from '@/router'
+import useUserStore from '@/stores/user.ts'
+import breadNav from '@pc/components/BreadNav/index.vue'
+import { ElMessage } from 'element-plus'
 import { ref, type Ref } from 'vue'
 import { type IMenuItem } from './type.ts'
-import breadNav from '@pc/components/BreadNav/index.vue'
-import useUserStore from '@/stores/user.ts'
-import router from '@/router'
-import { ElMessage } from 'element-plus'
 
 const userStore = useUserStore()
 
@@ -73,7 +71,6 @@ const handleLogout = async () => {
 </script>
 
 <style lang="less" scoped>
-
 .index-header {
   height: 64px;
   background-color: #000;
@@ -99,5 +96,12 @@ const handleLogout = async () => {
 
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   height: calc(100vh - 64px);
+}
+
+.main-contain-wrap {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  height: calc(100vh - 112px);
 }
 </style>

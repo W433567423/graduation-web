@@ -5,17 +5,15 @@
 * @time: 2024/1/13 16:20
 -->
 <template>
-  <div class="new-project">
-    <h2>New Project 组件</h2>
-  </div>
+  <CodeEditor />
 </template>
 
 <script lang="ts" setup>
-
+import CodeEditor from '@/components/CodeEditor/index.vue'
 </script>
 
 <style lang="less" scoped>
 .new-project {
-
+  height: 100%;
 }
 </style>
