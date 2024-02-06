@@ -2,7 +2,7 @@ interface IMenuItem {
   id: number
   title: string
   link: string
-  icon: string
+  icon: any
 }
 
 export type { IMenuItem }

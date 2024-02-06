@@ -7,13 +7,13 @@
 <template>
   <div class="bread-nav">
 
-    <el-breadcrumb :separator-icon="ArrowRight">
-      <el-breadcrumb-item :to="routerMapString().url" class="nav-item">/{{
+    <a-breadcrumb :separator-icon="ArrowRight">
+      <a-breadcrumb-item :to="routerMapString().url" class="nav-item">/{{
           routerMapString().title
         }}
-      </el-breadcrumb-item>
+      </a-breadcrumb-item>
 
-    </el-breadcrumb>
+    </a-breadcrumb>
   </div>
 </template>
 

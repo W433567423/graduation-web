@@ -2,11 +2,8 @@
   <a-layout>
     <a-layout-header class="index-header">
       <a-dropdown>
-        <img
-          alt=""
-          class="header-avatar-img"
-          src="@/assets/images/avatar.jpg"
-        />
+        <a-avatar>
+          <img alt="avatar" class="header-avatar-img" src="@/assets/images/avatar.jpg" /></a-avatar>
         <a-doption>个人资料</a-doption>
         <a-doption>其他功能</a-doption>
         <a-doption divided @click="handleLogout">退出登录</a-doption>
@@ -14,16 +11,13 @@
     </a-layout-header>
 
     <a-layout>
-      <a-layout-sider width="240px">
-        <a-menu class="a-menu-vertical-demo" default-active="1" router>
-          <template v-for="e in menuList" :key="e.id">
-            <a-menu-item :index="e.link">
-              <a-icon>
-                <component :is="e.icon" />
-              </a-icon>
-              <template #title>{{ e.title }}</template>
+      <a-layout-sider :width="240">
+        <a-menu mode="pop" showCollapseButton class="a-menu-vertical-demo" :default-selected-keys="[1]" >
+            <a-menu-item  v-for="e in menuList" :key="e.id" @click="changeMune(e.link)">
+                        <template #icon>
+                          <!-- <component :is="h(compile(`<${e.icon}/>`)as any)" /> -->
+                        </template> {{ e.title }}
             </a-menu-item>
-          </template>
         </a-menu>
       </a-layout-sider>
 
@@ -38,41 +32,47 @@
 </template>
 
 <script lang="ts" setup>
-import router from '@/router'
 import useUserStore from '@/stores/user.ts'
 import { Message } from '@arco-design/web-vue'
+import { IconApps, IconBug, IconPlus } from '@arco-design/web-vue/es/icon'
 import breadNav from '@pc/components/BreadNav/index.vue'
 import { ref, type Ref } from 'vue'
-import { type IMenuItem } from './type.ts'
+import { useRouter } from 'vue-router'
+import { type IMenuItem } from './type'
 
 const userStore = useUserStore()
+const router = useRouter()
 
 const menuList: Ref<IMenuItem[]> = ref([
   {
-    id: 0,
+    id: 1,
     title: '面板',
     link: 'dash',
-    icon: 'menu'
-  },
-  {
-    id: 1,
-    title: '新建项目',
-    link: 'new',
-    icon: 'plus'
+    icon: 'icon-apps'
   },
   {
     id: 2,
+    title: '新建项目',
+    link: 'new',
+    icon: 'icon-plus'
+  },
+  {
+    id: 3,
     title: '设置',
     link: 'set',
-    icon: 'setting'
+    icon: 'icon-bug'
   }
 ])
+const changeMune = async (url: string) => {
+  await router.replace({ path: `/pc/${url}` })
+}
 
 // 退出登录
 const handleLogout = async () => {
   userStore.clearToken()
   await router.replace('/pc-login')
   Message.success({ content: '退出登录成功' })
+  console.log(IconApps, IconBug, IconPlus)
 }
 </script>
 

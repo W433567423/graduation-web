@@ -6,11 +6,11 @@
 -->
 <template>
   <div class="forget-password-wrap">
-    <el-steps :active="active" class="w-full" finish-status="success">
-      <el-step title="选择验证方式" />
-      <el-step title="重置密码" />
-      <el-step title="完成" />
-    </el-steps>
+    <a-steps :active="active" class="w-full" finish-status="success">
+      <a-step title="选择验证方式" />
+      <a-step title="重置密码" />
+      <a-step title="完成" />
+    </a-steps>
     <div  class="forget-password-step-wrap">
 
     <template v-if="active === 0">
@@ -23,9 +23,9 @@
               whichMethon = 0;
             "
           >
-            <el-icon size="108px" color="#79bbff"><Iphone /></el-icon>
+          <icon-phone  size="108px" style="color: #79bbff;" />
           </div>
-          <el-text class="forget-icon-text">手机号找回</el-text>
+          <text class="forget-icon-text">手机号找回</text>
         </div>
         <div class="flex flex-col flex-items-center">
           <div
@@ -34,93 +34,95 @@
               active++;
               whichMethon = 1;
             "
-          >
-            <el-icon size="108px" color="#95d475">
-              <Message />
-            </el-icon>
+          ><icon-email  size="108px" style="color: #95d475;" />
           </div>
-          <el-text class="forget-icon-text">邮箱找回</el-text>
+          <text class="forget-icon-text">邮箱找回</text>
         </div>
       </section>
-      <el-button
-        type="warning"
+      <a-button
+         type="primary" status="success"
         class="w-80px"
         size="large"
         @click="emits('changeStatus')"
       >
         上一步
-      </el-button>
+      </a-button>
     </template>
     <template v-if="active === 1">
-      <el-form
-        label-position="right"
+      <a-form
+        laba-position="right"
         ref="ruleFormRef"
         class="forget-form-wrap"
         :rules="formRules"
         size="large"
         :model="form"
-        label-width="96px"
+        laba-width="96px"
       >
-        <el-form-item
+        <a-form-item
           label="手机号"
-          prop="phoneNum"
+          filed="phoneNum"
           required
           v-if="whichMethon === 0"
         >
-          <el-input
+          <a-input
             v-model="form.emailNum"
-            :prefix-icon="Phone"
             clearable
             placeholder="请输入手机号"
-          />
-        </el-form-item>
-        <el-form-item
+          >
+          <template #prefix><icon-phone/></template>
+        </a-input>
+        </a-form-item>
+        <a-form-item
           label="邮箱"
-          prop="emailNum"
+          filed="emailNum"
           required
           v-if="whichMethon === 1"
         >
-          <el-input
+          <a-input
             v-model="form.emailNum"
-            :prefix-icon="Message"
             clearable
             placeholder="请输入邮箱"
-          />
-        </el-form-item>
+          >
+          <template #prefix><icon-email /></template>
+        </a-input>
+        </a-form-item>
 
-      <el-form-item label="新密码" prop="newPassword" required>
-        <el-input v-model="form.newPassword" :prefix-icon="Lock" clearable placeholder="请输入新密码" show-password
-          type="password" />
-      </el-form-item>
-        <el-form-item :label="whichMethon === 0?'手机验证码':'邮箱验证码'" required prop="emailValida">
+      <a-form-item label="新密码" filed="newPassword" required>
+        <a-input v-model="form.newPassword" clearable placeholder="请输入新密码" show-password
+          type="password" >
+          <template #prefix><icon-lock/></template>
+        </a-input>
+      </a-form-item>
+        <a-form-item :label="whichMethon === 0?'手机验证码':'邮箱验证码'" required filed="emailValida">
         <div class="form-valida-wrap mb-16px">
-          <el-input v-model="form.emailValida" :prefix-icon="Key" clearable  placeholder="请输入验证码"/>
-          <el-button :loading="isValidaLoading" class="ml-12px" @click="flashEmailValidaCode">
+          <a-input v-model="form.emailValida" clearable  placeholder="请输入验证码">
+          <template #prefix><icon-message/> </template>
+          </a-input>
+          <a-button :loading="isValidaLoading" class="ml-12px" @click="flashEmailValidaCode">
             发送
-          </el-button>
+          </a-button>
         </div>
-      </el-form-item>
-      </el-form>
+      </a-form-item>
+      </a-form>
 
-      <div class="">
-        <el-button type="warning" size="large" @click="handleLastStep(true)">
+      <div>
+        <a-button type="primary" status="success" size="large" @click="handleLastStep(true)">
           上一步
-        </el-button>
-        <el-button
+        </a-button>
+        <a-button
           type="primary"
           class="ml-32px"
           size="large"
           @click="handleResetPassword(ruleFormRef)"
         >
           重设密码
-        </el-button>
+        </a-button>
       </div>
     </template>
     <template v-if="active === 2">
-      <div class="guide-dash-wrap">
-      <el-icon class="check-icon"><Check /></el-icon>
+      <div class="guide-dash-wrap"><icon-check class="check-icon" />
         <text class="mt-40px">密码已重新设置,{{ countDownTime }}秒后自动跳转到面板页面</text>
-        <text class="mt-24px">如果未自动跳转,请手动 <el-button link @click="gotoDash" type="primary">点击跳转</el-button></text>
+        <text class="mt-24px">如果未自动跳转,请手动 <a-button link @click="gotoDash" type="primary">点击跳转</a-button></text>
       </div>
     </template>
     </div>
@@ -132,7 +134,8 @@ import { getEmailValidaCode } from '@/services/captchas.api'
 import type { IForgetLoginForm } from '@/services/interfaces/users'
 import { postUserForgetPassword } from '@/services/users.api'
 import { Notification, type FormInstance } from '@arco-design/web-vue'
-import { Key, Lock, Message, Phone } from '@element-plus/icons-vue'
+import { IconCheck, IconEmail, IconLock, IconMessage, IconPhone } from '@arco-design/web-vue/es/icon'
+// import { Key, Lock, Message, Phone } from '@element-plus/icons-vue'
 import { ref, type Ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -145,7 +148,7 @@ const whichMethon = ref(0) // 使用什么找回密码(0:手机号找回，1:邮
 const emailRex = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/ // 邮箱正则校验
 const isValidaLoading = ref(false) // 获取验证码loading状态
 const countDownTime = ref(3) // 倒计时
-let timer = 0 // 定时器
+let timer: NodeJS.Timer // 定时器
 const form: Ref<IForgetLoginForm> = ref({
   emailValida: '',
   emailNum: '',
@@ -181,10 +184,10 @@ const handleResetPassword = async (formEl: FormInstance | undefined) => {
       Notification.success({ content: '修改密码成功' })
       active.value++
       timer = setInterval(() => { countDownTime.value-- }, 1000)
-      setTimeout(async () => {
-        clearInterval(timer)
+      setTimeout(() => {
+        clearInterval(timer as NodeJS.Timeout)
         console.log(countDownTime.value)
-        await gotoDash()
+        void gotoDash()
       }, 3000)
     }).catch((e) => {
       console.log('error', e)
