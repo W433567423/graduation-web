@@ -2,7 +2,7 @@ import request from '@/services/require.ts'
 
 const baseUrl = '/captcha'
 // 获取 图形验证码
-export const getValidaCode = async (width = 108, height = 40) => {
+export const getValidaCode = async (width = 81, height = 30) => {
   return await request.get(baseUrl + '', {
     params: { width, height },
     loading: false

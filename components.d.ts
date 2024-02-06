@@ -7,6 +7,15 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AAside: typeof import('@arco-design/web-vue')['Aside']
+    AContainer: typeof import('@arco-design/web-vue')['Container']
+    ADialog: typeof import('@arco-design/web-vue')['Dialog']
+    ADropdownItem: typeof import('@arco-design/web-vue')['DropdownItem']
+    ADropdownMenu: typeof import('@arco-design/web-vue')['DropdownMenu']
+    AHeader: typeof import('@arco-design/web-vue')['Header']
+    AMain: typeof import('@arco-design/web-vue')['Main']
+    AOptions: typeof import('@arco-design/web-vue')['Options']
+    AText: typeof import('@arco-design/web-vue')['Text']
     CodeEditor: typeof import('./src/components/CodeEditor/index.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']

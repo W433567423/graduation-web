@@ -128,12 +128,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, type Ref } from 'vue'
-import type { IForgetLoginForm } from '@/services/interfaces/users'
-import { Key, Phone, Message, Lock } from '@element-plus/icons-vue'
-import { postUserForgetPassword } from '@/services/users.api'
 import { getEmailValidaCode } from '@/services/captchas.api'
-import { type FormRules, type FormInstance, ElNotification } from 'element-plus'
+import type { IForgetLoginForm } from '@/services/interfaces/users'
+import { postUserForgetPassword } from '@/services/users.api'
+import { Notification, type FormInstance } from '@arco-design/web-vue'
+import { Key, Lock, Message, Phone } from '@element-plus/icons-vue'
+import { ref, type Ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const emits = defineEmits(['changeStatus'])
@@ -153,7 +153,8 @@ const form: Ref<IForgetLoginForm> = ref({
 }) // 表单
 
 // 校验规则
-const formRules = ref<FormRules<IForgetLoginForm>>({
+// <IForgetLoginForm>>
+const formRules = ref({
   emailNum: [
     { required: true, message: '邮箱必填', trigger: 'blur' },
     {
@@ -177,7 +178,7 @@ const handleResetPassword = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl?.validate(() => {
     postUserForgetPassword(form.value).then(() => {
-      ElNotification.success({ message: '修改密码成功' })
+      Notification.success({ content: '修改密码成功' })
       active.value++
       timer = setInterval(() => { countDownTime.value-- }, 1000)
       setTimeout(async () => {
@@ -196,11 +197,11 @@ const flashEmailValidaCode = () => {
   if (emailRex.test(form.value.emailNum)) {
     isValidaLoading.value = !isValidaLoading.value
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    getEmailValidaCode(form.value.emailNum).then(() => ElNotification.success({ message: '发送验证码成功' })).finally(() => {
+    getEmailValidaCode(form.value.emailNum).then(() => Notification.success({ content: '发送验证码成功' })).finally(() => {
       isValidaLoading.value = !isValidaLoading.value
     })
   } else {
-    ElNotification.error({ message: '邮箱不正确' })
+    Notification.error({ content: '邮箱不正确' })
   }
 }
 

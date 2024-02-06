@@ -6,7 +6,7 @@
 -->
 <template>
   <div class="dash-board">
-    <program-item :list="list" @update:list="flashList" />
+    <!-- <program-item :list="list" @update:list="flashList" /> -->
   </div>
 </template>
 
@@ -14,8 +14,6 @@
 import type { IProjectListItem } from '@/services/interfaces/projects'
 import { getProjectList } from '@/services/projects.api'
 import { mapListProjects } from '@/utils'
-import ProgramItem from '@pc/components/ProgramItem/index.vue'
-import { ElLoading } from 'element-plus'
 import { onBeforeMount, ref, type Ref } from 'vue'
 
 const defaultList = [{
@@ -38,9 +36,7 @@ const total = ref(0) // 项目总数
 
 // 刷新列表数据
 const flashList = async () => {
-  const loadingInstance = ElLoading.service({ fullscreen: true })
   const res = await getProjectList(0, 20)
-  loadingInstance.close()
   list.value = res.list.length
     ? mapListProjects(res.list)
     : defaultList
@@ -48,8 +44,8 @@ const flashList = async () => {
 }
 
 onBeforeMount(async () => {
-  // ElLoading.service()
-  await flashList()
+  // Spin.service()
+  // await flashList()
 })
 </script>
 

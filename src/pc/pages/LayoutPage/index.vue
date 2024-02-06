@@ -1,72 +1,78 @@
 <template>
-  <el-header class="index-header">
-    <el-dropdown>
-      <img alt="" class="header-avatar-img" src="@/assets/images/avatar.jpg">
-      <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item>个人资料</el-dropdown-item>
-          <el-dropdown-item>其他功能</el-dropdown-item>
-          <el-dropdown-item divided @click="handleLogout">退出登录</el-dropdown-item>
-        </el-dropdown-menu>
-      </template>
-    </el-dropdown>
-  </el-header>
+  <a-layout>
+    <a-layout-header class="index-header">
+      <a-dropdown>
+        <img
+          alt=""
+          class="header-avatar-img"
+          src="@/assets/images/avatar.jpg"
+        />
+        <a-doption>个人资料</a-doption>
+        <a-doption>其他功能</a-doption>
+        <a-doption divided @click="handleLogout">退出登录</a-doption>
+      </a-dropdown>
+    </a-layout-header>
 
-  <el-container>
-    <el-aside width="240px">
-      <el-menu class="el-menu-vertical-demo" default-active="1" router>
-        <template v-for="e in menuList" :key="e.id">
-          <el-menu-item :index="e.link">
-            <el-icon>
-              <component :is="e.icon" />
-            </el-icon>
-            <template #title>{{ e.title }}</template>
-          </el-menu-item>
-        </template>
-      </el-menu>
-    </el-aside>
+    <a-layout>
+      <a-layout-sider width="240px">
+        <a-menu class="a-menu-vertical-demo" default-active="1" router>
+          <template v-for="e in menuList" :key="e.id">
+            <a-menu-item :index="e.link">
+              <a-icon>
+                <component :is="e.icon" />
+              </a-icon>
+              <template #title>{{ e.title }}</template>
+            </a-menu-item>
+          </template>
+        </a-menu>
+      </a-layout-sider>
 
-    <el-main class="p0!">
-      <bread-nav />
-      <main class="main-contain-wrap">
-        <router-view />
-      </main>
-    </el-main>
-  </el-container>
+      <a-layout-content class="p0!">
+        <bread-nav />
+        <main class="main-contain-wrap">
+          <router-view />
+        </main>
+      </a-layout-content>
+    </a-layout>
+  </a-layout>
 </template>
 
 <script lang="ts" setup>
 import router from '@/router'
 import useUserStore from '@/stores/user.ts'
+import { Message } from '@arco-design/web-vue'
 import breadNav from '@pc/components/BreadNav/index.vue'
-import { ElMessage } from 'element-plus'
 import { ref, type Ref } from 'vue'
 import { type IMenuItem } from './type.ts'
 
 const userStore = useUserStore()
 
-const menuList: Ref<IMenuItem[]> = ref([{
-  id: 0,
-  title: '面板',
-  link: 'dash',
-  icon: 'menu'
-}, {
-  id: 1,
-  title: '新建项目',
-  link: 'new',
-  icon: 'plus'
-}, {
-  id: 2,
-  title: '设置',
-  link: 'set',
-  icon: 'setting'
-}])
+const menuList: Ref<IMenuItem[]> = ref([
+  {
+    id: 0,
+    title: '面板',
+    link: 'dash',
+    icon: 'menu'
+  },
+  {
+    id: 1,
+    title: '新建项目',
+    link: 'new',
+    icon: 'plus'
+  },
+  {
+    id: 2,
+    title: '设置',
+    link: 'set',
+    icon: 'setting'
+  }
+])
 
 // 退出登录
 const handleLogout = async () => {
   userStore.clearToken()
   await router.replace('/pc-login')
-  ElMessage.success({ message: '退出登录成功' })
+  Message.success({ content: '退出登录成功' })
 }
 </script>
 
@@ -85,7 +91,7 @@ const handleLogout = async () => {
     width: 42px;
     height: 42px;
     border-radius: 28px;
-    transition: .5s;
+    transition: 0.5s;
     cursor: pointer;
   }
 
@@ -94,7 +100,7 @@ const handleLogout = async () => {
   }
 }
 
-.el-menu-vertical-demo:not(.el-menu--collapse) {
+.a-menu-vertical-demo:not(.a-menu--collapse) {
   height: calc(100vh - 64px);
 }
 

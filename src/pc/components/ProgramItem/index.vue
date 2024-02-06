@@ -5,85 +5,79 @@
 * @time: 2024/1/13 17:37
 -->
 <template>
-  <el-table :data="list" style="width: 100%" stripe height="100%">
-    <el-table-column prop="date" label="状态" width="80" />
-    <el-table-column prop="projectName" sortable label="名称" width="210" />
-    <el-table-column prop="createTime" sortable label="创建时间" width="210" />
-    <el-table-column prop="updateTime" sortable label="上次运行时间" width="210" />
-    <el-table-column prop="lastStatus" label="上次运行状态" :filters="[
+  <a-table :data="list" style="width: 100%" stripe height="100%">
+    <a-table-column prop="date" label="状态" width=80 />
+    <a-table-column prop="projectName" sortable label="名称" width=210 />
+    <a-table-column prop="createTime" sortable label="创建时间" width=210 />
+    <a-table-column prop="updateTime" sortable label="上次运行时间" width=210 />
+    <a-table-column prop="lastStatus" label="上次运行状态" :filters="[
       { text: '未运行', value: '0' }, { text: '运行失败', value: '-1' }, { text: '运行成功', value: '1' },]"
       :filter-method="filterRunStatusHandler" align="center" width="180">
       <template #default="scope">
         {{ mapRunStatus(scope.row.lastStatus) }}
       </template>
-    </el-table-column>
-    <el-table-column prop="action" label="操作" fixed="right">
+    </a-table-column>
+    <a-table-column prop="action" label="操作" fixed="right">
       <template #default="scope">
-        <el-dropdown>
-          <el-button :icon="More" circle />
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item @click="openRenameDialog(scope.row.id)">
-                <el-icon>
+        <a-dropdown>
+          <a-button circle ><template #icon>
+        <icon-more />
+      </template></a-button>
+              <a-doption @click="openRenameDialog(scope.row.id)">
+                <a-icon>
                   <EditPen />
-                </el-icon>
+                </a-icon>
                 重命名
-              </el-dropdown-item>
+              </a-doption>
 
-              <el-dropdown-item @click="openDeleteDialog(scope.row.id)">
-                <el-icon>
+              <a-doption @click="openDeleteDialog(scope.row.id)">
+                <a-icon>
                   <Delete />
-                </el-icon>
+                </a-icon>
                 删除项目
-              </el-dropdown-item>
+              </a-doption>
 
-              <el-dropdown-item>
-                <el-icon>
+              <a-doption>
+                <a-icon>
                   <EditPen />
-                </el-icon>
+                </a-icon>
                 禁用
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
+              </a-doption>
+        </a-dropdown>
       </template>
-    </el-table-column>
-  </el-table>
+    </a-table-column>
+  </a-table>
 
-  <el-dialog v-model="renameDialogFormVisible" title="重命名项目" width="500">
+  <a-modal v-model="renameDialogFormVisible" title="重命名项目" width="500">
 
-    <el-form-item label="新名称"> <el-input v-model="newName" maxlength="12" autocomplete="off" /></el-form-item>
+    <a-form-item label="新名称"> <a-input v-model="newName" maxlength="12" autocomplete="off" /></a-form-item>
     <template #footer>
-      <el-button @click="renameDialogFormVisible = false">取消</el-button>
-      <el-button type="primary" @click="renameProject">
+      <a-button @click="renameDialogFormVisible = false">取消</a-button>
+      <a-button type="primary" @click="renameProject">
         确认修改
-      </el-button>
+      </a-button>
     </template>
-  </el-dialog>
-  <el-dialog v-model="deleteDialogFormVisible" title="删除项目" width="500">
+  </a-modal>
+  <a-modal v-model="deleteDialogFormVisible" title="删除项目" width="500">
     是否要删除该项目，此操作一旦成功将无法撤回
     <template #footer>
-      <el-button @click="deleteDialogFormVisible = false">取消</el-button>
-      <el-button type="primary" @click="deleteProject">
+      <a-button @click="deleteDialogFormVisible = false">取消</a-button>
+      <a-button type="primary" @click="deleteProject">
         确认修改
-      </el-button>
+      </a-button>
     </template>
-  </el-dialog>
+  </a-modal>
 </template>
 
 <script lang="ts" setup>
 import { mapRunStatus } from '@/utils/'
-import {
-  Delete,
-  EditPen,
-  More
-} from '@element-plus/icons-vue'
 import { ref } from 'vue'
 
 import { deleteProjectById, putReNameProject } from '@/services/projects.api'
+import { IconMore } from '@arco-design/web-vue/es/icon'
 
 import type { IProjectListItem } from '@/services/interfaces/projects'
-import { ElNotification } from 'element-plus'
+import { Notification } from '@arco-design/web-vue'
 
 interface IProps {
   list: IProjectListItem[]
@@ -121,14 +115,14 @@ const openDeleteDialog = (id: number) => {
 const renameProject = async () => {
   await putReNameProject(localProjectId.value, newName.value)
   renameDialogFormVisible.value = false
-  ElNotification.success({ message: '重命名成功' })
+  Notification.success({ content: '重命名成功' })
   emits('update:list')
 }
 // 删除项目
 const deleteProject = async () => {
   await deleteProjectById(localProjectId.value)
   deleteDialogFormVisible.value = false
-  ElNotification.success({ message: '删除项目成功' })
+  Notification.success({ content: '删除项目成功' })
   emits('update:list')
 }
 </script>
@@ -139,7 +133,7 @@ const deleteProject = async () => {
   background-color: #f4f4f8;
   padding: 4px;
 
-  &>.el-row {
+  &>.a-row {
     //background-color: red;
     padding: 4px 0 8px;
     text-align: center;

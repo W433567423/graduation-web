@@ -6,87 +6,88 @@
 -->
 <template>
   <div class="login-form-wrap">
+    <!-- logo -->
     <div class="login-text">{{ isLoginPage ? "Login" : "Registry" }}</div>
-    <el-form ref="ruleFormRef" :model="form" :rules="formRules" class="form-wrap" label-position="left" label-width="96px"
-      size="large">
-      <el-form-item label="账户名" prop="username" required>
-        <el-input v-model="form.username" :prefix-icon="User" clearable placeholder="请输入账号名" />
-      </el-form-item>
+    <!-- 表单 -->
+    <a-form ref="ruleFormRef" :model="form" :rules="formRules" class="form-wrap" layout="vertical"
+      @submit="userLoginOrRegistry">
+      <a-form-item validate-trigger="blur" label="账户名" field="username" required>
+        <a-input v-model="form.username" clearable placeholder="请输入账号名">
+          <template #prefix><icon-user /></template>
+        </a-input>
+      </a-form-item>
 
-      <el-form-item label="密码" prop="password" required>
-        <el-input v-model="form.password" :prefix-icon="Lock" clearable placeholder="请输入密码" show-password
-          type="password" />
-      </el-form-item>
+      <a-form-item validate-trigger="blur" label="密码" field="password" required>
+        <a-input v-model="form.password" clearable placeholder="请输入密码" show-password type="password">
+          <template #prefix><icon-Lock /></template>
+        </a-input>
+      </a-form-item>
 
-      <el-form-item v-if="!isLoginPage" label="邮箱" prop="emailNum" required>
-        <el-input v-model="form.emailNum" :prefix-icon="Message" clearable placeholder="请输入邮箱" />
-      </el-form-item>
+      <a-form-item validate-trigger="blur" v-if="!isLoginPage" label="邮箱" field="emailNum" required>
+        <a-input v-model="form.emailNum" :prefix-icon="Message" clearable placeholder="请输入邮箱">
+            <template #prefix><icon-email /></template>
+        </a-input>
+      </a-form-item>
 
-      <el-form-item v-if="isLoginPage" label="验证码" prop="valida" required>
+      <a-form-item validate-trigger="blur" v-if="isLoginPage" label="验证码" field="valida" required>
         <div class="form-valida-wrap">
-          <el-input v-model="form.valida" :prefix-icon="Key" clearable placeholder="请输入验证码" />
+          <a-input v-model="form.valida" clearable placeholder="请输入验证码">
+            <template #prefix><icon-message /></template>
+          </a-input>
           <div class="valida-wrap" @click="flashValidaCode" v-html="imgSrc" v-if="imgSrc" />
           <div class="valida-wrap" v-else>
-            <el-image class="w-108px h-40px" />
+            <a-image class="w-108px h-40px" />
           </div>
         </div>
-      </el-form-item>
+      </a-form-item>
 
-      <el-form-item v-else label="邮箱验证码" required prop="emailValida">
+      <a-form-item validate-trigger="blur" v-else label="邮箱验证码" required field="emailValida">
         <div class="form-valida-wrap mb-16px">
-          <el-input v-model="form.emailValida" :prefix-icon="Key" clearable  placeholder="请输入验证码"/>
-          <el-button :loading="isValidaLoading" class="ml-12px" @click="flashEmailValidaCode">
+          <a-input v-model="form.emailValida" clearable placeholder="请输入验证码" >
+            <template #prefix><icon-message /></template>
+          </a-input>
+          <a-button :loading="isValidaLoading"  class="ml-16px" @click="flashEmailValidaCode">
             发送
-          </el-button>
+          </a-button>
         </div>
-      </el-form-item>
+      </a-form-item>
 
       <div v-if="isLoginPage" class="form-extra-wrap">
         <div class="remember-wrap">
-          <el-checkbox v-model="isRemember" @change="handleChangeRemember">
+          <a-checkbox v-model="isRemember" @change="handleChangeRemember">
             记住我
-          </el-checkbox>
+          </a-checkbox>
         </div>
-        <el-text @click="emits('changePage')">忘记密码</el-text>
+        <a-link :hoverable="false" @click="emits('changePage')">
+          忘记密码
+        </a-link>
       </div>
-
-      <div class="form-submit-wrap">
-        <el-button class="login-button" round type="success"
-        @click="userLoginOrRegistry(ruleFormRef)">
-          {{ isLoginPage ? "登录" : "注册" }}
-        </el-button>
+      <!-- 登录按钮 -->
+      <a-button long html-type="submit" shape="round" type="primary">
+        {{ isLoginPage ? "登录" : "注册" }}
+      </a-button>
+    </a-form>
+    <div>
+      <!-- 切换登录/注册状态 -->
+      <div class="registry-wrap">
+        {{ isLoginPage ? "没有账号？" : "已有账号" }}
+        <a-link :hoverable="false" type="info" @click="changeStatus">
+          {{ isLoginPage ? "去注册" : "去登录" }}
+        </a-link>
       </div>
-    </el-form>
-
-    <div class="registry-wrap">
-      {{ isLoginPage ? "没有账号？" : "已有账号" }}
-      <el-text type="info" @click="changeStatus">
-        {{ isLoginPage ? "去注册" : "去登录" }}
-      </el-text>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { Key, Lock, User, Message } from '@element-plus/icons-vue'
-import useUserStore from '@/stores/user.ts'
-import {
-  ElMessage,
-  ElNotification,
-  type FormInstance,
-  type FormRules
-} from 'element-plus'
-import { type Ref, ref, onBeforeMount } from 'vue'
+import { getEmailValidaCode, getValidaCode } from '@/services/captchas.api.ts'
 import { type IUserLoginForm } from '@/services/interfaces/users'
-import {
-  postUserLogin,
-  postUserRegistry
-} from '@/services/users.api.ts'
-import {
-  getEmailValidaCode,
-  getValidaCode
-} from '@/services/captchas.api.ts'
+import { postUserLogin, postUserRegistry } from '@/services/users.api.ts'
+import useUserStore from '@/stores/user.ts'
 import { getLocalStorage, setLocalStorage } from '@/utils'
+import { Message, Notification, type FieldRule, type FormInstance, type ValidatedError } from '@arco-design/web-vue'
+import { IconEmail, IconLock, IconMessage, IconUser } from '@arco-design/web-vue/es/icon'
+import { onBeforeMount, ref, type Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const userStore = useUserStore()
@@ -109,29 +110,28 @@ const isLoginPage = ref(true) // 是否登录页面（true:登录,false:注册�
 const isValidaLoading = ref(false) // 获取验证码loading状态
 const emailRex = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
 
-const formRules = ref<FormRules<IUserLoginForm>>({
+const formRules = ref<Record<string, FieldRule<any> | Array<FieldRule<any>>> | undefined>({
   username: [
-    { required: true, message: '用户名必填', trigger: 'blur' },
-    { min: 3, max: 10, message: '用户名长度未3-10', trigger: 'blur' }
+    { required: true, message: '用户名必填' },
+    { minLength: 3, maxLength: 10, message: '用户名长度为3-10' }
   ],
   password: [
-    { required: true, message: '密码必填', trigger: 'blur' },
-    { min: 3, max: 10, message: '密码长度未3-10', trigger: 'blur' }
+    { required: true, message: '密码必填' },
+    { minLength: 3, maxLength: 10, message: '密码长度为3-10' }
   ],
   valida: [
-    { required: true, message: '验证码必填', trigger: 'blur' },
-    { len: 4, message: '验证码错误', trigger: 'blur' }
+    { required: true, message: '验证码必填' },
+    { length: 4, message: '验证码错误' }
   ],
   emailValida: [
-    { required: true, message: '邮箱验证码必填', trigger: 'blur' },
-    { len: 6, message: '邮箱验证码错误', trigger: 'blur' }
+    { required: true, message: '邮箱验证码必填' },
+    { length: 6, message: '邮箱验证码错误' }
   ],
   emailNum: [
-    { required: true, message: '邮箱必填', trigger: 'blur' },
+    { required: true, message: '邮箱必填' },
     {
-      pattern: emailRex,
-      message: '邮箱不正确',
-      trigger: 'blur'
+      match: emailRex,
+      message: '邮箱不正确'
     }
   ]
 }) // 校验规则
@@ -148,44 +148,43 @@ const flashValidaCode = async () => {
 const flashEmailValidaCode = () => {
   if (emailRex.test(form.value.emailNum)) {
     isValidaLoading.value = !isValidaLoading.value
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    getEmailValidaCode(form.value.emailNum).then(() => ElNotification.success({ message: '发送验证码成功' })).finally(() => {
-      isValidaLoading.value = !isValidaLoading.value
-    })
+    void getEmailValidaCode(form.value.emailNum)
+      .then(() => Notification.success({ content: '发送验证码成功' }))
+      .finally(() => {
+        isValidaLoading.value = !isValidaLoading.value
+      })
   } else {
-    ElNotification.error({ message: '邮箱不正确' })
+    Notification.error({ content: '邮箱不正确' })
   }
 }
 
 // 登录功能
-const userLoginOrRegistry = (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  void formEl.validate(async (valid) => {
-    if (valid) {
-      const { username, password } = form.value
-      let token = ''
-      if (isLoginPage.value) {
-        // 登录
-        token = (await postUserLogin(form.value))
-      } else {
-        //   注册
-        token = (await postUserRegistry(form.value))
-      }
-      if (token) {
-        userStore.setToken(token)
-        ElMessage.success({
-          message: (isLoginPage.value ? '登录' : '注册') + '成功'
-        })
-        setLocalStorage('user', { username, password })
-        // 登录/注册成功后跳转
-        if (typeof route.query.redirect === 'string') {
-          await router.replace(route.query.redirect)
-        } else await router.replace('/pc/dash')
-      } else await flashValidaCode()
+const userLoginOrRegistry = async ({ errors }: {
+  values: Record<string, any>
+  errors: Record<string, ValidatedError> | undefined
+}) => {
+  if (!errors) {
+    const { username, password } = form.value
+    let token = ''
+    if (isLoginPage.value) {
+      // 登录
+      token = await postUserLogin(form.value)
+    } else {
+      //   注册
+      token = await postUserRegistry(form.value)
     }
-  })
+    if (token) {
+      userStore.setToken(token)
+      Message.success({
+        content: (isLoginPage.value ? '登录' : '注册') + '成功'
+      })
+      setLocalStorage('user', { username, password })
+      // 登录/注册成功后跳转
+      if (typeof route.query.redirect === 'string') {
+        await router.replace(route.query.redirect)
+      } else await router.replace('/pc/dash')
+    } else await flashValidaCode()
+  }
 }
 
 // 缓存记住我
@@ -230,22 +229,21 @@ onBeforeMount(async () => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-around;
   box-sizing: border-box;
   height: 100%;
-  padding: 24px 12px;
+  padding: 24px 32px;
   background-color: #fff;
   user-select: none;
 
   //登录文案
   .login-text {
-    padding: 36px 0;
     font-weight: bold;
     font-size: 36px;
     color: #6c6c6c;
   }
 
   .form-wrap {
-    width: 94%;
 
     // 验证码
     .form-valida-wrap {
@@ -266,11 +264,11 @@ onBeforeMount(async () => {
 
     //记住用户/忘记密码
     .form-extra-wrap {
-      margin-top: 32px;
+      margin-top: 8px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 40px;
+      height: 30px;
 
       span {
         font-size: 14px;
@@ -281,23 +279,10 @@ onBeforeMount(async () => {
         }
       }
     }
-
-    //登录按钮
-    .form-submit-wrap {
-      margin-top: 21px;
-      display: flex;
-      justify-content: center;
-
-      .login-button {
-        width: 120px;
-        font-size: 18px;
-      }
-    }
   }
 
   // 注册区域
   .registry-wrap {
-    margin-top: 32px;
     font-size: 14px;
 
     span:hover {
@@ -307,5 +292,3 @@ onBeforeMount(async () => {
   }
 }
 </style>
-@/services/captchas.api@/services/users.api
-@/services/interfaces

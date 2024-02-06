@@ -7,25 +7,25 @@
 <template>
   <div class="login-page">
     <!--登录注册-->
-    <el-card body-class="login-dialog" shadow="hover">
-      <template v-if="!forgetPage">
+    <Card shadow="hover" :bordered='false'>
+       <template v-if="!forgetPage">
         <div class="login-dialog-left">
           <LoginForm @change-page="forgetPage = !forgetPage" />
         </div>
 
         <div class="login-dialog-right"></div>
       </template>
-      <!--    忘记密码-->
+
       <ForgetPassword v-else @change-status="forgetPage = !forgetPage" />
-    </el-card>
+    </Card>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { ElCard } from 'element-plus'
-import LoginForm from './cpns/LoginForm.vue'
+import { Card } from '@arco-design/web-vue'
 import ForgetPassword from '@pc/pages/LoginPage/ForgetPassword.vue'
+import { ref } from 'vue'
+import LoginForm from './cpns/LoginForm.vue'
 
 const forgetPage = ref(false) // 是否是忘记密码页面
 </script>
@@ -41,11 +41,7 @@ const forgetPage = ref(false) // 是否是忘记密码页面
   background-size: cover;
   overflow: hidden;
 
-  :deep(.el-card) {
-    border: none;
-    border-radius: 8px;
-
-    .login-dialog {
+    :deep(.arco-card-body) {
       width: 810px;
       aspect-ratio: 3/2;
       display: flex;
@@ -68,5 +64,4 @@ const forgetPage = ref(false) // 是否是忘记密码页面
   :deep(.is-hover-shadow:hover) {
     box-shadow: 0 0 32px rgba(0, 0, 0, 0.32);
   }
-}
 </style>

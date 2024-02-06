@@ -1,4 +1,3 @@
-import type { InternalAxiosRequestConfig, AxiosRequestConfig } from 'axios'
 /** ************** axios ******************/
 // 返回
 interface IResponseData<T = any> {
@@ -7,16 +6,8 @@ interface IResponseData<T = any> {
   data?: T
 }
 
-interface IAxiosRequestConfig extends InternalAxiosRequestConfig {
-  loading?: boolean
-}
-interface IRequestConfig extends AxiosRequestConfig {
-  loading?: boolean
-}
 /** ************** end ******************/
 
 export type {
-  IAxiosRequestConfig,
-  IResponseData,
-  IRequestConfig
+  IResponseData
 }
