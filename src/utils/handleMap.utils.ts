@@ -16,10 +16,11 @@ const mapRunStatus = (status: IEmunRunStatus) => {
 
 const mapListProjects = (list: IProjectListItem[]) => {
 	return list.map((e) => {
-		e.createTime = dayjs(e.createTime).format('YYYY-MM-DD hh:mm:ss');
-		e.updateTime = dayjs(e.updateTime).format('YYYY-MM-DD hh:mm:ss');
+		e.createTime = dayjs(e.createTime).format('YYYY-MM-DD HH:mm:ss');
+		e.updateTime = dayjs(e.updateTime).format('YYYY-MM-DD HH:mm:ss');
 		return e;
 	});
 };
 
 export { mapListProjects, mapRunStatus };
+

@@ -40,7 +40,7 @@ const total = ref(0); // 项目总数
 
 // 刷新列表数据
 const flashList = async () => {
-	const res = await getProjectList(0, 20);
+	const res = await getProjectList(0, 50);
 	list.value = res.list.length ? mapListProjects(res.list) : defaultList;
 	total.value = res.total;
 };
