@@ -9,27 +9,26 @@
     <!-- logo -->
     <div class="login-text">{{ isLoginPage ? "Login" : "Registry" }}</div>
     <!-- 表单 -->
-    <a-form ref="ruleFormRef" :model="form" :rules="formRules" class="form-wrap" layout="vertical"
-      @submit="userLoginOrRegistry">
-      <a-form-item validate-trigger="blur"  label="账户名" field="username" required>
+    <a-form :model="form" :rules="formRules" class="form-wrap" layout="vertical" @submit="userLoginOrRegistry">
+      <a-form-item validate-trigger="blur" label="账户名" field="username" required>
         <a-input name="username" v-model="form.username" clearable placeholder="请输入账号名">
           <template #prefix><icon-user /></template>
         </a-input>
       </a-form-item>
 
-      <a-form-item validate-trigger="blur"  label="密码" field="password" required>
+      <a-form-item validate-trigger="blur" label="密码" field="password" required>
         <a-input name="password" v-model="form.password" clearable placeholder="请输入密码" show-password type="password">
           <template #prefix><icon-Lock /></template>
         </a-input>
       </a-form-item>
 
-      <a-form-item validate-trigger="blur" v-if="!isLoginPage"  label="邮箱" field="emailNum" required>
+      <a-form-item validate-trigger="blur" v-if="!isLoginPage" label="邮箱" field="emailNum" required>
         <a-input name="emailNum" v-model="form.emailNum" :prefix-icon="Message" clearable placeholder="请输入邮箱">
-            <template #prefix><icon-email /></template>
+          <template #prefix><icon-email /></template>
         </a-input>
       </a-form-item>
 
-      <a-form-item validate-trigger="blur" v-if="isLoginPage"  label="验证码" field="valida" required>
+      <a-form-item validate-trigger="blur" v-if="isLoginPage" label="验证码" field="valida" required>
         <div class="form-valida-wrap">
           <a-input name="valida" v-model="form.valida" clearable placeholder="请输入验证码">
             <template #prefix><icon-message /></template>
@@ -41,12 +40,12 @@
         </div>
       </a-form-item>
 
-      <a-form-item validate-trigger="blur" v-else  label="邮箱验证码" required field="emailValida">
+      <a-form-item validate-trigger="blur" v-else label="邮箱验证码" required field="emailValida">
         <div class="form-valida-wrap mb-16px">
-          <a-input name="emailValida" v-model="form.emailValida" clearable placeholder="请输入验证码" >
+          <a-input name="emailValida" v-model="form.emailValida" clearable placeholder="请输入验证码">
             <template #prefix><icon-message /></template>
           </a-input>
-          <a-button :loading="isValidaLoading"  class="ml-16px" @click="flashEmailValidaCode">
+          <a-button :loading="isValidaLoading" class="ml-16px" @click="flashEmailValidaCode">
             发送
           </a-button>
         </div>
@@ -85,7 +84,7 @@ import { type IUserLoginForm } from '@/services/interfaces/users'
 import { postUserLogin, postUserRegistry } from '@/services/users.api.ts'
 import useUserStore from '@/stores/user.ts'
 import { getLocalStorage, setLocalStorage } from '@/utils'
-import { Message, Notification, type FieldRule, type FormInstance, type ValidatedError } from '@arco-design/web-vue'
+import { Message, Notification, type FieldRule, type ValidatedError } from '@arco-design/web-vue'
 import { onBeforeMount, ref, type Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -93,7 +92,6 @@ const userStore = useUserStore()
 const route = useRoute()
 const router = useRouter()
 
-const ruleFormRef = ref<FormInstance>()
 const emits = defineEmits(['changePage'])
 
 const form: Ref<IUserLoginForm> = ref({

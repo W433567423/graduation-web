@@ -1,0 +1,13 @@
+{
+	"htmlWhitespaceSensitivity": "ignore",
+	"tabWidth": 2,
+	"useTabs": true,
+	"printWidth": 108,
+	"endOfLine": "auto",
+	"trailingComma": "none",
+	"arrowParens": "always",
+	"singleQuote": true,
+	"bracketSameLine": true,
+	"jsxSingleQuote": true,
+	"semi": true
+}

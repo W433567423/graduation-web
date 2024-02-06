@@ -6,7 +6,7 @@
 -->
 <template>
   <div class="dash-board">
-    <!-- <program-item :list="list" @update:list="flashList" /> -->
+    <program-item :list="list" @update:list="flashList" />
   </div>
 </template>
 
@@ -14,6 +14,7 @@
 import type { IProjectListItem } from '@/services/interfaces/projects'
 import { getProjectList } from '@/services/projects.api'
 import { mapListProjects } from '@/utils'
+import ProgramItem from '@pc/components/ProgramItem/index.vue'
 import { onBeforeMount, ref, type Ref } from 'vue'
 
 const defaultList = [{
@@ -45,7 +46,7 @@ const flashList = async () => {
 
 onBeforeMount(async () => {
   // Spin.service()
-  // await flashList()
+  await flashList()
 })
 </script>
 
@@ -53,6 +54,5 @@ onBeforeMount(async () => {
 .dash-board {
   width: 100%;
   height: calc(100vh - 152px);
-  background-color: red;
 }
 </style>

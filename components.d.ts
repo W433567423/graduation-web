@@ -14,6 +14,7 @@ declare module 'vue' {
     ADropdownMenu: typeof import('@arco-design/web-vue')['DropdownMenu']
     AHeader: typeof import('@arco-design/web-vue')['Header']
     AMain: typeof import('@arco-design/web-vue')['Main']
+    AModel: typeof import('@arco-design/web-vue')['Model']
     AOptions: typeof import('@arco-design/web-vue')['Options']
     AText: typeof import('@arco-design/web-vue')['Text']
     CodeEditor: typeof import('./src/components/CodeEditor/index.vue')['default']
