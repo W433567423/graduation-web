@@ -27,6 +27,7 @@ export default defineConfig({
             "@": path.join(__dirname, "./src"),
             "@pc": path.join(__dirname, "./src/pc"),
             "@m": path.join(__dirname, "./src/mobile"),
+            'vue': 'vue/dist/vue.esm-bundler.js'
         },
     },
     server: {

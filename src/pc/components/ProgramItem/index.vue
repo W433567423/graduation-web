@@ -74,7 +74,6 @@ import { mapRunStatus } from '@/utils/'
 import { ref } from 'vue'
 
 import { deleteProjectById, putReNameProject } from '@/services/projects.api'
-import { IconMore } from '@arco-design/web-vue/es/icon'
 
 import type { IProjectListItem } from '@/services/interfaces/projects'
 import { Notification } from '@arco-design/web-vue'

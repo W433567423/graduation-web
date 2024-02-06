@@ -86,7 +86,6 @@ import { postUserLogin, postUserRegistry } from '@/services/users.api.ts'
 import useUserStore from '@/stores/user.ts'
 import { getLocalStorage, setLocalStorage } from '@/utils'
 import { Message, Notification, type FieldRule, type FormInstance, type ValidatedError } from '@arco-design/web-vue'
-import { IconEmail, IconLock, IconMessage, IconUser } from '@arco-design/web-vue/es/icon'
 import { onBeforeMount, ref, type Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 

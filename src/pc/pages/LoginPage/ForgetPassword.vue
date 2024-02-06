@@ -134,8 +134,6 @@ import { getEmailValidaCode } from '@/services/captchas.api'
 import type { IForgetLoginForm } from '@/services/interfaces/users'
 import { postUserForgetPassword } from '@/services/users.api'
 import { Notification, type FormInstance } from '@arco-design/web-vue'
-import { IconCheck, IconEmail, IconLock, IconMessage, IconPhone } from '@arco-design/web-vue/es/icon'
-// import { Key, Lock, Message, Phone } from '@element-plus/icons-vue'
 import { ref, type Ref } from 'vue'
 import { useRouter } from 'vue-router'
 
