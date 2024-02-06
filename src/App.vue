@@ -1,13 +1,12 @@
 <script lang="ts" setup>
-import useUserStore from '@/stores/user.ts'
+import useUserStore from '@/stores/user.ts';
 
-const userStore = useUserStore()
-userStore.init()
+const userStore = useUserStore();
+userStore.init();
 </script>
 
 <template>
-  <router-view/>
+	<router-view />
 </template>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

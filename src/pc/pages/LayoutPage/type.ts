@@ -1,10 +1,10 @@
-import { type RendererElement, type RendererNode, type VNode } from 'vue'
+import { type RendererElement, type RendererNode, type VNode } from 'vue';
 
 interface IMenuItem {
-  id: number
-  title: string
-  link: string
-  icon: VNode<RendererNode, RendererElement, Record<string, any>>
+	id: number;
+	title: string;
+	link: string;
+	icon: VNode<RendererNode, RendererElement, Record<string, any>>;
 }
 
-export type { IMenuItem }
+export type { IMenuItem };
