@@ -23,4 +23,3 @@ const mapListProjects = (list: IProjectListItem[]) => {
 };
 
 export { mapListProjects, mapRunStatus };
-
