@@ -205,6 +205,7 @@ const disableProject = async (id: number, disable: boolean) => {
 
 <style lang="less" scoped>
 .program-table-wrap {
+	height: 100%;
 	position: relative;
 	.optional-mune {
 		position: absolute;
