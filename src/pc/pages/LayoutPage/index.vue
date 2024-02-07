@@ -77,14 +77,7 @@ const changeMune = async (url: string) => {
 	await router.replace({ path: `/pc/${url}` });
 };
 const collapsed = ref(false);
-const onCollapse: (...args: any[]) => any = (val, type) => {
-	const content = type === 'responsive' ? '触发响应式收缩' : '点击触发收缩';
-	Message.info({
-		content,
-		duration: 2000
-	});
-	collapsed.value = val;
-};
+const onCollapse = (val: boolean) => (collapsed.value = val);
 // 退出登录
 const handleLogout = async () => {
 	userStore.clearToken();
@@ -96,7 +89,7 @@ const handleLogout = async () => {
 <style lang="less" scoped>
 .index-header {
 	height: 64px;
-	background-color: #000;
+	background-color: #474747;
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;

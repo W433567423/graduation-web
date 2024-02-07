@@ -1,27 +1,30 @@
-import request from '@/services/require.ts';
 import type { IProjectList } from '@/services/interfaces/projects';
+import request from '@/services/require.ts';
 
 const baseUrl = '/projects';
 // 获取 项目列表
 export const getProjectList = async (page = 0, size = 15) => {
 	return await request.get<IProjectList>(baseUrl + '/list', {
-		params: { page, size },
-		loading: false
+		params: { page, size }
 	});
 };
 
 // 重命名 项目
 export const putReNameProject = async (projectId: number, newName: string) => {
 	return await request.patch(baseUrl + '/rename', {
-		data: { projectId, newName },
-		loading: false
+		data: { projectId, newName }
 	});
 };
 
+// 禁用 项目
+export const disableProjectById = async (projectId: number, disable: boolean) => {
+	return await request.patch(baseUrl + '/disable', {
+		data: { projectId, disable }
+	});
+};
 // 删除 项目
-export const deleteProjectById = async (projectId: number) => {
+export const deleteProjectByIds = async (projectIds: number[]) => {
 	return await request.delete(baseUrl + '/delete', {
-		data: { projectId },
-		loading: false
+		data: { projectIds }
 	});
 };

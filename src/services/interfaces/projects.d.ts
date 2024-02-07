@@ -9,6 +9,7 @@ interface IProjectListItem {
 	lastStatus: IEmunRunStatus;
 	createTime: string;
 	updateTime: string;
+	disable: boolean;
 }
 
 interface IProjectList {
@@ -16,4 +17,4 @@ interface IProjectList {
 	total: number;
 }
 
-export type { IProjectListItem, IProjectList };
+export type { IProjectList, IProjectListItem };
