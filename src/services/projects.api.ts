@@ -10,7 +10,7 @@ export const getProjectList = async (page = 0, size = 15) => {
 };
 // 获取 项目代码
 export const getProjectCode = async (projectId: number) => {
-	return await request.get<IProjectList>(baseUrl + '/code', {
+	return await request.get<string>(baseUrl + '/code', {
 		params: { projectId }
 	});
 };

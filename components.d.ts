@@ -13,6 +13,7 @@ declare module 'vue' {
     ADropdownItem: typeof import('@arco-design/web-vue')['DropdownItem']
     ADropdownMenu: typeof import('@arco-design/web-vue')['DropdownMenu']
     AHeader: typeof import('@arco-design/web-vue')['Header']
+    ALin: typeof import('@arco-design/web-vue')['Lin']
     AMain: typeof import('@arco-design/web-vue')['Main']
     AModel: typeof import('@arco-design/web-vue')['Model']
     AOptions: typeof import('@arco-design/web-vue')['Options']

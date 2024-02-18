@@ -7,14 +7,14 @@
 <template>
 	<program-table :list="list" @update:list="flashList" @edit:project="editCode" />
 
-	<a-modal
-		width="80vw"
-		v-model:visible="codeVisible"
-		@ok="saveCode"
-		@cancel="codeVisible = false"
-		ok-text="保存代码">
+	<a-modal width="80vw" simple v-model:visible="codeVisible" title-align="start">
 		<template #title>{{ projectVal?.projectName }}</template>
-		<CodeEditor />
+		<CodeEditor ref="codeEditorRef" />
+		<template #footer>
+			<a-button @click="codeVisible = false">取消(不保存)</a-button>
+			<a-button status="success">运行</a-button>
+			<a-button type="primary" @click="saveCode">保存</a-button>
+		</template>
 	</a-modal>
 </template>
 
@@ -31,6 +31,7 @@ const list: Ref<IProjectListItem[]> = ref([]); // 项目列表
 const total = ref(0); // 项目总数
 const codeVisible = ref(false); // 项目总数
 const projectVal = ref<IProjectListItem>();
+const codeEditorRef = ref();
 
 // 刷新列表数据
 const flashList = async () => {
@@ -42,17 +43,14 @@ const flashList = async () => {
 // 打开编辑代码的弹框
 const editCode = async (project: IProjectListItem) => {
 	projectVal.value = project;
-	const res = await getProjectCode(project.id);
-	console.log(res);
-
 	codeVisible.value = true;
+	codeEditorRef.value.changeCode(await getProjectCode(project.id));
 };
 
 // 保存代码
 const saveCode = () => {};
 
 onBeforeMount(async () => {
-	// Spin.service()
 	await flashList();
 });
 </script>

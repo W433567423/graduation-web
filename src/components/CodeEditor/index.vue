@@ -9,11 +9,19 @@ import { javascript } from '@codemirror/lang-javascript';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { ref } from 'vue';
 import CodeMirror from 'vue-codemirror6';
+
 const codeVal = ref('');
 // javascript
 const lang = javascript();
 // 扩展
 const extensions = [oneDark];
+
+// 改变代码（暴露出去使用）
+const changeCode = (code: string) => {
+	codeVal.value = code;
+};
+
+defineExpose({ codeVal, changeCode });
 </script>
 <style scoped lang="less">
 .code-editor {
