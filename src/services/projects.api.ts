@@ -8,6 +8,12 @@ export const getProjectList = async (page = 0, size = 15) => {
 		params: { page, size }
 	});
 };
+// 获取 项目代码
+export const getProjectCode = async (projectId: number) => {
+	return await request.get<IProjectList>(baseUrl + '/code', {
+		params: { projectId }
+	});
+};
 
 // 重命名 项目
 export const putReNameProject = async (projectId: number, newName: string) => {
@@ -17,9 +23,9 @@ export const putReNameProject = async (projectId: number, newName: string) => {
 };
 
 // 禁用 项目
-export const disableProjectById = async (projectId: number, disable: boolean) => {
+export const disableProjectById = async (projectIds: number[], disable: boolean) => {
 	return await request.patch(baseUrl + '/disable', {
-		data: { projectId, disable }
+		data: { projectIds, disable }
 	});
 };
 // 删除 项目

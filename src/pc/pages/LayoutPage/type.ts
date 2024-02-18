@@ -1,7 +1,7 @@
 import { type RendererElement, type RendererNode, type VNode } from 'vue';
 
 interface IMenuItem {
-	id: number;
+	id: string;
 	title: string;
 	link: string;
 	icon: VNode<RendererNode, RendererElement, Record<string, any>>;

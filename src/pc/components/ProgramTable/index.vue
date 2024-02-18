@@ -6,11 +6,13 @@
 -->
 <template>
 	<div class="program-table-wrap">
-		<div v-if="!selectedKeys.length" class="optional-mune">
-			<a-button type="primary" @click="openDeleteDialog(selectedKeys)">禁用所选</a-button>
+		<!-- 批量操作 -->
+		<div v-if="selectedKeys.length" class="optional-mune">
+			<a-button type="primary" @click="disableProject(selectedKeys, true)">禁用所选</a-button>
 			<a-button type="primary" @click="openDeleteDialog(selectedKeys)">删除所选</a-button>
 		</div>
 
+		<!-- 表格部分 -->
 		<a-table
 			row-key="id"
 			:columns="columns"
@@ -25,6 +27,7 @@
 			:row-selection="rowSelection">
 			<!-- 列内容 -->
 			<template #num="{ i }">{{ i }}</template>
+
 			<template #status="{ record }: { record: IProjectListItem }">
 				<template v-if="record.disable">
 					<a-tooltip content="已被禁用">
@@ -36,6 +39,7 @@
 					<icon-play-arrow class="cursor-pointer" />
 				</template>
 			</template>
+
 			<template #action="{ record }: { record: IProjectListItem }">
 				<a-dropdown trigger="hover">
 					<a-button circle>
@@ -44,6 +48,10 @@
 						</template>
 					</a-button>
 					<template #content>
+						<a-doption @click="emits('edit:project', record)">
+							<icon-code />
+							编辑代码
+						</a-doption>
 						<a-doption @click="openRenameDialog(record)">
 							<icon-edit />
 							重命名
@@ -52,13 +60,14 @@
 							<icon-delete />
 							删除项目
 						</a-doption>
-						<a-doption @click="disableProject(record.id, !record.disable)">
+						<a-doption @click="disableProject([record.id], !record.disable)">
 							<icon-stop />
 							{{ record.disable ? '启用' : '禁用' }}
 						</a-doption>
 					</template>
 				</a-dropdown>
 			</template>
+
 			<template #lastStatus="{ record }: { record: IProjectListItem }">
 				{{ mapRunStatus(record.lastStatus) }}
 			</template>
@@ -66,7 +75,8 @@
 			<template #empty>sss</template>
 		</a-table>
 
-		<Modal
+		<!-- 弹框部分 -->
+		<a-modal
 			v-model:visible="renameDialogFormVisible"
 			:on-before-ok="renameProject"
 			title="重命名项目"
@@ -76,7 +86,7 @@
 					<a-input v-model="form.newName" autocomplete="off" clearable placeholder="请输入新项目名" />
 				</a-form-item>
 			</a-form>
-		</Modal>
+		</a-modal>
 	</div>
 </template>
 
@@ -90,7 +100,8 @@ import {
 	type FieldRule,
 	type FormInstance,
 	type TableColumnData,
-	type TableData
+	type TableData,
+	type TableRowSelection
 } from '@arco-design/web-vue';
 import { ref, type Ref } from 'vue';
 
@@ -99,9 +110,9 @@ interface IProps {
 }
 
 const formRef = ref<FormInstance>();
-const emits = defineEmits(['update:list']);
+const emits = defineEmits(['update:list', 'edit:project']);
 const selectedKeys = ref<number[]>([]);
-const rowSelection = ref({
+const rowSelection: Ref<TableRowSelection> = ref({
 	type: 'checkbox',
 	showCheckedAll: true,
 	onlyCurrent: false
@@ -114,12 +125,12 @@ const { list } = defineProps<IProps>();
 const form = ref({
 	newName: ''
 }); // 项目的新名字
-const formRules: Ref<Record<string, FieldRule<any> | Array<FieldRule<any>> | undefined>> = ref({
+const formRules: Record<string, FieldRule<any> | Array<FieldRule<any>>> = {
 	newName: [
 		{ required: true, message: '名称不能为空' },
 		{ maxLength: 12, message: '名称最长为12个字符' }
 	]
-}); // 项目的新名字
+}; // 项目的新名字
 
 const columns: TableColumnData[] = [
 	{ title: '序号', align: 'center', render: ({ rowIndex }) => rowIndex + 1, width: 60 },
@@ -196,8 +207,8 @@ const openDeleteDialog = (ids: number[]) => {
 };
 
 // 禁用项目功能
-const disableProject = async (id: number, disable: boolean) => {
-	await disableProjectById(id, disable);
+const disableProject = async (ids: number[], disable: boolean) => {
+	await disableProjectById(ids, disable);
 	Notification.success({ content: `${disable ? '禁用' : '启用'}项目成功` });
 	emits('update:list');
 };

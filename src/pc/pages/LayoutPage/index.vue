@@ -1,5 +1,6 @@
 <template>
 	<a-layout>
+		<!-- 头部 -->
 		<a-layout-header class="index-header">
 			<a-dropdown trigger="hover">
 				<a-avatar>
@@ -14,6 +15,7 @@
 		</a-layout-header>
 
 		<a-layout>
+			<!-- 侧边栏 -->
 			<a-layout-sider
 				breakpoint="lg"
 				class="a-sider-vertical-demo"
@@ -22,16 +24,17 @@
 				@collapse="onCollapse"
 				:width="220">
 				<a-menu mode="pop" :default-selected-keys="[1]">
-					<a-menu-item v-for="e in menuList" :key="e.id" @click="changeMune(e.link)">
-						<template #icon>
-							<component :is="e.icon" />
-							<!-- {{ e.icon }} -->
-						</template>
-						{{ e.title }}
-					</a-menu-item>
+					<template v-for="e in menuList" :key="e.id">
+						<a-menu-item @click="changeMune(e.link)">
+							<template #icon>
+								<component :is="e.icon" />
+							</template>
+							{{ e.title }}
+						</a-menu-item>
+					</template>
 				</a-menu>
 			</a-layout-sider>
-
+			<!-- 主要内容 -->
 			<a-layout-content class="p0!">
 				<bread-nav />
 				<main class="main-contain-wrap">
@@ -55,19 +58,19 @@ const router = useRouter();
 
 const menuList: IMenuItem[] = [
 	{
-		id: 1,
+		id: '1',
 		title: '面板',
 		link: 'dash',
 		icon: h(compile('<IconApps />'))
 	},
 	{
-		id: 2,
+		id: '2',
 		title: '新建项目',
 		link: 'new',
 		icon: h(compile('<IconPlus />'))
 	},
 	{
-		id: 3,
+		id: '3',
 		title: '设置',
 		link: 'set',
 		icon: h(compile('<IconBug />'))
@@ -89,7 +92,7 @@ const handleLogout = async () => {
 <style lang="less" scoped>
 .index-header {
 	height: 64px;
-	background-color: #474747;
+	background-color: #2d2d2d;
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
