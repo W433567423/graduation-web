@@ -1,18 +1,32 @@
-# Vue 3 + TypeScript + Vite
+## 简介
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+一整套中型系统, 在开发时追求的代码的可读性、规范性和可拓展性，该系统预计实现登录系统、用户权限系统、文件管理系统、web 代码编辑系统、脚本管理系统和可
+视化系统等。
 
-## Recommended IDE Setup
+本项目是该系统的前端部分
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## 技术栈
 
-## Type Support For `.vue` Imports in TS
+### 基础
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+- **语言** Web+TypeScript
+- **包管理工具** npm/cnpm/yarn
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+- **基础框架** vue v^3.3.11
+- **UI组件库** arco-design v^2.54.4
+- **脚手架** vite v^5.0.8
+- **请求库** axios v^1.6.7
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+### 开发
+
+- **原子化CSS** unocss v^0.58.4
+- **CSS预编译器** less v^4.2.0
+- **日期处理** dayjs ^1.11.10
+- **代码编辑库** codemirror6 v^6.0.1
+
+## 规范
+
+- **eslint** ^8.0.1
+- **husky** v^8.0.3
+- **commitlint** v^18.4.4
+- **prettier** v^3.2.1
