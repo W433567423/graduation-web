@@ -7,12 +7,14 @@
 <template>
 	<program-table :list="list" @update:list="flashList" @edit:project="editCode" />
 
-	<a-modal width="80vw" simple v-model:visible="codeVisible" title-align="start">
+	<a-modal width="80vw" v-model:visible="codeVisible" title-align="start">
 		<template #title>{{ projectVal?.projectName }}</template>
-		<CodeEditor ref="codeEditorRef" />
+		<a-scrollbar style="max-height: 72vh; overflow: auto">
+			<CodeEditor ref="codeEditorRef" />
+		</a-scrollbar>
 		<template #footer>
 			<a-button @click="codeVisible = false">取消(不保存)</a-button>
-			<a-button status="success">运行</a-button>
+			<a-button status="success" @click="runCode">运行</a-button>
 			<a-button type="primary" @click="saveCode">保存</a-button>
 		</template>
 	</a-modal>
@@ -21,8 +23,9 @@
 <script lang="ts" setup>
 import CodeEditor from '@/components/CodeEditor/index.vue';
 import type { IProjectListItem } from '@/services/interfaces/projects';
-import { getProjectCode, getProjectList } from '@/services/projects.api';
+import { getProjectCode, getProjectList, patchProjectCode, postProjectCode } from '@/services/projects.api';
 import { mapListProjects } from '@/utils';
+import { Notification } from '@arco-design/web-vue';
 import ProgramTable from '@pc/components/ProgramTable/index.vue';
 import { onBeforeMount, ref, type Ref } from 'vue';
 
@@ -47,12 +50,19 @@ const editCode = async (project: IProjectListItem) => {
 	codeEditorRef.value.changeCode(await getProjectCode(project.id));
 };
 
+// 运行代码
+const runCode = async () => {
+	await postProjectCode(codeEditorRef.value.codeVal);
+};
+
 // 保存代码
-const saveCode = () => {};
+const saveCode = async () => {
+	await patchProjectCode(projectVal.value?.id!, codeEditorRef.value.codeVal);
+	Notification.success({ content: '修改代码成功' });
+	codeVisible.value = false;
+};
 
 onBeforeMount(async () => {
 	await flashList();
 });
 </script>
-
-<style lang="less" scoped></style>

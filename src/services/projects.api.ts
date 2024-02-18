@@ -8,10 +8,26 @@ export const getProjectList = async (page = 0, size = 15) => {
 		params: { page, size }
 	});
 };
+
 // 获取 项目代码
 export const getProjectCode = async (projectId: number) => {
 	return await request.get<string>(baseUrl + '/code', {
 		params: { projectId }
+	});
+};
+
+// 修改 项目代码
+export const patchProjectCode = async (projectId: number, code: string) => {
+	return await request.patch<string>(baseUrl + '/code', {
+		params: { projectId },
+		data: { code }
+	});
+};
+
+// 运行 项目代码
+export const postProjectCode = async (code: string) => {
+	return await request.post<string>(baseUrl + '/code', {
+		data: { code }
 	});
 };
 
