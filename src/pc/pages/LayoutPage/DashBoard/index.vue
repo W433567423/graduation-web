@@ -52,7 +52,7 @@ const editCode = async (project: IProjectListItem) => {
 
 // 运行代码
 const runCode = async () => {
-	await postProjectCode(codeEditorRef.value.codeVal);
+	await postProjectCode(codeEditorRef.value.codeVal, 'JavaScript');
 };
 
 // 保存代码

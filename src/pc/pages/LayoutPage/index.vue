@@ -24,14 +24,12 @@
 				@collapse="onCollapse"
 				:width="220">
 				<a-menu mode="pop" :default-selected-keys="[1]">
-					<template v-for="e in menuList" :key="e.id">
-						<a-menu-item @click="changeMune(e.link)">
-							<template #icon>
-								<component :is="e.icon" />
-							</template>
-							{{ e.title }}
-						</a-menu-item>
-					</template>
+					<a-menu-item v-for="e in menuList" @click="changeMune(e.link)" :key="e.id">
+						<template #icon>
+							<component :is="e.icon" />
+						</template>
+						{{ e.title }}
+					</a-menu-item>
 				</a-menu>
 			</a-layout-sider>
 			<!-- 主要内容 -->

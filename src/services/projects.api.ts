@@ -25,9 +25,9 @@ export const patchProjectCode = async (projectId: number, code: string) => {
 };
 
 // 运行 项目代码
-export const postProjectCode = async (code: string) => {
+export const postProjectCode = async (code: string, codeType: string) => {
 	return await request.post<string>(baseUrl + '/code', {
-		data: { code }
+		data: { code, codeType }
 	});
 };
 
