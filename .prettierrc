@@ -3,7 +3,7 @@
 	"tabWidth": 2,
 	"useTabs": true,
 	"printWidth": 108,
-	"endOfLine": "auto",
+	"endOfLine": "lf",
 	"trailingComma": "none",
 	"arrowParens": "always",
 	"singleQuote": true,

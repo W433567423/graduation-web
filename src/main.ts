@@ -7,8 +7,8 @@ import App from './App.vue';
 import router from './router';
 import './style.css';
 
-const app = createApp(App as Component)
-app.use(pinia)
-app.use(router) 
-app.use(ArcoVueIcon as any) 
-app.mount('#app')
+const app = createApp(App as Component);
+app.use(pinia);
+app.use(router);
+app.use(ArcoVueIcon as any);
+app.mount('#app');
