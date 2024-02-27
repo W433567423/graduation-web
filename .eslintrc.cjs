@@ -13,7 +13,7 @@ module.exports = {
 	parserOptions: {
 		ecmaVersion: 'latest',
 		sourceType: 'module',
-		project: ['./tsconfig.json', './commitlint.config.js', './.prettierrc'],
+		project: ['./tsconfig.json', './commitlint.config.js', './.prettierrc', './uno.config.ts'],
 		parser: '@typescript-eslint/parser',
 		extraFileExtensions: ['.vue'] // 新增
 	},

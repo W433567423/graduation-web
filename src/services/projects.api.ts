@@ -1,4 +1,4 @@
-import type { IProjectList } from '@/services/interfaces/projects';
+import type { IProjectList, IRunProjectResult } from '@/services/interfaces/projects';
 import request from '@/services/require.ts';
 
 const baseUrl = '/projects';
@@ -26,7 +26,7 @@ export const patchProjectCode = async (projectId: number, code: string) => {
 
 // 运行 项目代码
 export const postProjectCode = async (code: string, codeType: string) => {
-	return await request.post<string>(baseUrl + '/code', {
+	return await request.post<IRunProjectResult>(baseUrl + '/code', {
 		data: { code, codeType }
 	});
 };

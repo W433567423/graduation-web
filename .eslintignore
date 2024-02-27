@@ -1,6 +1,7 @@
 ./commitlint.config.cjs
 .*
 vite.config.ts
+uno.config.ts
 
 src/main.ts
 src/vite-env.d.ts

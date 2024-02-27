@@ -16,5 +16,14 @@ interface IProjectList {
 	list: IProjectListItem[];
 	total: number;
 }
+interface IRunProjectResultError {
+	message: string;
+	name: string;
+}
+interface IRunProjectResult {
+	codeStatus: boolean;
+	codeResult: IRunProjectResultError | string[];
+	codeRunDate: string;
+}
 
-export type { IProjectList, IProjectListItem };
+export type { IProjectList, IProjectListItem, IRunProjectResult, IRunProjectResultError };

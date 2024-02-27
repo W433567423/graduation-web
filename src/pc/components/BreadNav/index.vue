@@ -6,16 +6,18 @@
 -->
 <template>
 	<div class="bread-nav">
-		<a-breadcrumb :separator-icon="ArrowRight">
+		<a-breadcrumb>
 			<a-breadcrumb-item :to="routerMapString().url" class="nav-item">
-				/{{ routerMapString().title }}
+				<template #separator>
+					<icon-right />
+				</template>
+				{{ routerMapString().title }}
 			</a-breadcrumb-item>
 		</a-breadcrumb>
 	</div>
 </template>
 
 <script lang="ts" setup>
-import { ArrowRight } from '@element-plus/icons-vue';
 import { useRoute } from 'vue-router';
 
 const routerMapString = () => {

@@ -1,11 +1,10 @@
 import axios, {
 	type AxiosError,
 	type AxiosInstance,
-	type AxiosRequestConfig,
 	type AxiosResponse,
 	type InternalAxiosRequestConfig
 } from 'axios';
-import type { IResponseData } from './interfaces/index';
+import type { IRequestConfig, IResponseConfig, IResponseData } from './interfaces/index';
 
 import { createAxiosConfig } from '@/config/axios.config';
 import router from '@/router';
@@ -64,7 +63,9 @@ class HttpRequest {
 					return Promise.reject(new Error('Response Error! 没有code!'));
 				}
 
-				return data.data;
+				// originData参数用来获取原始响应
+				if ((res.config as IResponseConfig).originData) return data;
+				else return data.data;
 			},
 			async (error: AxiosError) => {
 				let { message }: { message: string } = error;
@@ -100,23 +101,23 @@ class HttpRequest {
 	}
 
 	// 常用方法封装
-	async get<T = any>(url: string, config?: AxiosRequestConfig): Promise<T> {
+	async get<T = any>(url: string, config?: IRequestConfig): Promise<T> {
 		return await this.service.request({ url, method: 'GET', ...config });
 	}
 
-	async post<T = any>(url: string, config?: AxiosRequestConfig): Promise<T> {
+	async post<T = any>(url: string, config?: IRequestConfig): Promise<T> {
 		return await this.service.request({ url, method: 'POST', ...config });
 	}
 
-	async put<T = any>(url: string, config?: AxiosRequestConfig): Promise<T> {
+	async put<T = any>(url: string, config?: IRequestConfig): Promise<T> {
 		return await this.service.request({ url, method: 'PUT', ...config });
 	}
 
-	async patch<T = any>(url: string, config?: AxiosRequestConfig): Promise<T> {
+	async patch<T = any>(url: string, config?: IRequestConfig): Promise<T> {
 		return await this.service.request({ url, method: 'PATCH', ...config });
 	}
 
-	async delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<T> {
+	async delete<T = any>(url: string, config?: IRequestConfig): Promise<T> {
 		return await this.service.request({ url, method: 'DELETE', ...config });
 	}
 }
