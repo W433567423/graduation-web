@@ -1,15 +1,18 @@
 {
 	"name": "web",
 	"private": true,
-	"version": "1.0.0",
+	"version": "0.0.1",
 	"type": "module",
+  "description": "系统前端部分",
+  "author": "tutu",
+  "license": "UNLICENSED",
 	"scripts": {
 		"dev": "vite",
 		"build": "vue-tsc && vite build",
 		"preview": "vite preview",
 		"lint": "eslint --ext .js,.ts,.vue src",
 		"fix": "eslint --ext .js,.ts,.vue --fix src",
-		"prepare": "husky install",
+		"prepare": "npx prettier --write --end-of-line lf src && husky install",
 		"commitlint": "commitlint -e -V",
 		"test": "npm run lint"
 	},
