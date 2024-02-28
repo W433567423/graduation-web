@@ -25,8 +25,9 @@ export const patchProjectCode = async (projectId: number, code: string) => {
 };
 
 // 运行 项目代码
-export const postProjectCode = async (code: string, codeType: string) => {
+export const postProjectCode = async (projectId: number, code: string, codeType: string) => {
 	return await request.post<IRunProjectResult>(baseUrl + '/code', {
+		params: { projectId },
 		data: { code, codeType }
 	});
 };

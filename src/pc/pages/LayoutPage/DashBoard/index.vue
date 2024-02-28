@@ -6,8 +6,7 @@
 -->
 <template>
 	<program-table :list="list" @update:list="flashList" @edit:project="editCode" />
-
-	<a-modal v-loading="isLoading" width="80vw" v-model:visible="codeVisible" title-align="start">
+	<a-modal width="80vw" v-model:visible="codeVisible" title-align="start" :onClose="handleClearModal">
 		<template #title>
 			<text class="font-600">项目名称:</text>
 			{{ projectVal?.projectName }}
@@ -17,28 +16,31 @@
 		</a-scrollbar>
 		<template #footer>
 			<div class="modal-footer-wrap">
-				<div class="code-result-wrap">
-					<a-scrollbar style="max-height: 100px; overflow: auto" ref="resultScrollRef">
-						<div
-							v-for="(e, i) in codeResultList"
-							:key="i"
-							:class="e.status ? 'success-result' : 'err-result'">
-							<div class="w20px">{{ e.status ? '[+]' : '[!]' }}</div>
-							<div class="mr-8px">{{ e.date }}</div>
-							<div v-if="typeof e.message === 'string'">{{ e.message }}</div>
-							<div v-else-if="typeof e.message === 'object'">
-								<div v-for="(item, index) in e.message" :key="index">{{ item }}</div>
+				<a-spin :loading="isLoading">
+					<div class="code-result-wrap">
+						<a-scrollbar style="max-height: 100px; overflow: auto" ref="resultScrollRef">
+							<div
+								v-for="(e, i) in codeResultList"
+								:key="i"
+								:class="e.status ? 'success-result' : 'err-result'">
+								<div class="w20px">{{ e.status ? '[+]' : '[!]' }}</div>
+								<div class="mr-8px">{{ e.date }}</div>
+								<div v-if="typeof e.message === 'string'">{{ e.message }}</div>
+								<div v-else-if="typeof e.message === 'object'">
+									<div v-for="(item, index) in e.message" :key="index">{{ item }}</div>
+								</div>
 							</div>
-						</div>
-					</a-scrollbar>
-				</div>
+						</a-scrollbar>
+					</div>
+				</a-spin>
+
 				<div>
 					<a-button @click="codeResultList = []" v-if="codeResultList.length">
 						<icon-delete />
 						清空运行结果
 					</a-button>
 					<a-button @click="codeVisible = false">取消(不保存)</a-button>
-					<a-button status="success" @click="runCode">运行</a-button>
+					<a-button status="success" @click="runCode(projectVal!.id)" :loading="isLoading">运行</a-button>
 					<a-button type="primary" @click="saveCode">保存</a-button>
 				</div>
 			</div>
@@ -77,14 +79,16 @@ const flashList = async () => {
 const editCode = async (project: IProjectListItem) => {
 	projectVal.value = project;
 	codeVisible.value = true;
-	codeEditorRef.value.changeCode(await getProjectCode(project.id));
+	const code = await getProjectCode(project.id);
+	codeEditorRef.value.changeCode(code);
 };
 
 // 运行代码
-const runCode = async () => {
+const runCode = async (projectId: number) => {
+	if (isLoading.value) return;
+
 	isLoading.value = true;
-	const res = await postProjectCode(codeEditorRef.value.codeVal, 'JavaScript');
-	console.log('🚀 ~ runCode ~ res:', res);
+	const res = await postProjectCode(projectId, codeEditorRef.value.codeVal, 'JavaScript');
 	const resultData: IRunProjectResultMessage = {
 		status: res.codeStatus,
 		message: '',
@@ -92,11 +96,11 @@ const runCode = async () => {
 	};
 	if (res.codeStatus) {
 		resultData.message = res.codeResult as string[];
+		Notification.success({ content: '代码保存成功' });
 	} else {
 		resultData.message = `${(res.codeResult as IRunProjectResultError).name}:${(res.codeResult as IRunProjectResultError).message}`;
 	}
 	codeResultList.value.push(resultData);
-	console.log('🚀 ~ runCode ~ resultScrollRef.value:', resultScrollRef.value);
 	// 滚动到最底部
 	// resultScrollRef.value.scrollTo(9999);
 	isLoading.value = false;
@@ -104,9 +108,14 @@ const runCode = async () => {
 
 // 保存代码
 const saveCode = async () => {
-	await patchProjectCode(projectVal.value?.id!, codeEditorRef.value.codeVal);
+	await patchProjectCode(projectVal.value!.id, codeEditorRef.value.codeVal);
 	Notification.success({ content: '修改代码成功' });
 	codeVisible.value = false;
+};
+// 清空运行结果
+const handleClearModal = () => {
+	codeResultList.value = [];
+	projectVal.value = undefined;
 };
 
 onBeforeMount(async () => {
@@ -124,12 +133,16 @@ onBeforeMount(async () => {
 		.err-result,
 		.success-result {
 			display: flex;
-			width: 400px;
+			max-width: 400px;
+			color: red;
 			& > div {
 				text-align: justify;
 				text-align-last: justify;
 				text-wrap: nowrap;
 				margin-right: 8px;
+			}
+			&:not(:last-child) {
+				border-bottom: 1px dashed #e8e8e8;
 			}
 		}
 		.success-result {
