@@ -9,7 +9,7 @@
 	<main class="main-contain-wrap">
 		<program-table :list="list" @update:list="flashList" @edit:project="editCode" />
 	</main>
-	<a-modal width="80vw" v-model:visible="codeVisible" title-align="start" :onClose="handleClearModal">
+	<!-- <a-modal width="80vw" v-model:visible="codeVisible" title-align="start" :onClose="handleClearModal">
 		<template #title>
 			<text class="font-600">项目名称:</text>
 			{{ projectVal?.projectName }}
@@ -48,20 +48,17 @@
 				</div>
 			</div>
 		</template>
-	</a-modal>
+	</a-modal> -->
 </template>
 
 <script lang="ts" setup>
-import CodeEditor from '@/components/CodeEditor/index.vue';
-import type { IProjectListItem, IRunProjectResultError } from '@/services/interfaces/projects';
-import { getProjectList, patchProjectCode, postProjectCode } from '@/services/projects.api';
+import type { IProjectListItem } from '@/services/interfaces/projects';
+import { getProjectList } from '@/services/projects.api';
 import { mapListProjects } from '@/utils';
-import { Notification } from '@arco-design/web-vue';
 import breadNav from '@pc/components/BreadNav/index.vue';
 import ProgramTable from '@pc/components/ProgramTable/index.vue';
 import { onBeforeMount, ref, type Ref } from 'vue';
 import { useRouter } from 'vue-router';
-import type { IRunProjectResultMessage } from './index';
 
 const router = useRouter();
 const emit = defineEmits(['update:wrap']);
@@ -69,12 +66,6 @@ const emit = defineEmits(['update:wrap']);
 const list: Ref<IProjectListItem[]> = ref([]); // 项目列表
 
 const total = ref(0); // 项目总数
-const codeVisible = ref(false); // 项目总数
-const projectVal = ref<IProjectListItem>();
-const codeResultList: Ref<IRunProjectResultMessage[]> = ref([]); // 运行结果
-const isLoading = ref(false);
-const resultScrollRef = ref();
-
 // 刷新列表数据
 const flashList = async () => {
 	const res = await getProjectList(0, 50);
@@ -92,41 +83,6 @@ const editCode = async (project: IProjectListItem) => {
 	// codeEditorRef.value.changeCode(code);
 };
 
-// 运行代码
-const runCode = async (projectId: number) => {
-	if (isLoading.value) return;
-
-	isLoading.value = true;
-	const res = await postProjectCode(projectId, codeEditorRef.value.codeVal, 'JavaScript');
-	const resultData: IRunProjectResultMessage = {
-		status: res.codeStatus,
-		message: '',
-		date: res.codeRunDate
-	};
-	if (res.codeStatus) {
-		resultData.message = res.codeResult as string[];
-		Notification.success({ content: '代码保存成功' });
-	} else {
-		resultData.message = `${(res.codeResult as IRunProjectResultError).name}:${(res.codeResult as IRunProjectResultError).message}`;
-	}
-	codeResultList.value.push(resultData);
-	// 滚动到最底部
-	// resultScrollRef.value.scrollTo(9999);
-	isLoading.value = false;
-};
-
-// 保存代码
-const saveCode = async () => {
-	await patchProjectCode(projectVal.value!.id, codeEditorRef.value.codeVal);
-	Notification.success({ content: '修改代码成功' });
-	codeVisible.value = false;
-};
-// 清空运行结果
-const handleClearModal = () => {
-	codeResultList.value = [];
-	projectVal.value = undefined;
-};
-
 onBeforeMount(async () => {
 	await flashList();
 });
@@ -142,28 +98,7 @@ onBeforeMount(async () => {
 	display: flex;
 	justify-content: space-between;
 	align-items: end;
-	// 左侧打印运行结果区域
-	.code-result-wrap {
-		text-align: left;
-		.err-result,
-		.success-result {
-			display: flex;
-			max-width: 400px;
-			color: red;
-			& > div {
-				text-align: justify;
-				text-align-last: justify;
-				text-wrap: nowrap;
-				margin-right: 8px;
-			}
-			&:not(:last-child) {
-				border-bottom: 1px dashed #e8e8e8;
-			}
-		}
-		.success-result {
-			color: green;
-		}
-	}
+
 	// 右侧操作按钮区域
 	button {
 		margin-left: 8px;

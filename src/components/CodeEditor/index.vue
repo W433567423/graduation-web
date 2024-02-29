@@ -1,6 +1,11 @@
 <template>
 	<div class="code-editor">
-		<code-mirror basic :lang="lang" v-model="codeVal" style="height: 100%" :extensions="extensions" />
+		<code-mirror
+			basic
+			:lang="lang"
+			v-model="codeVal"
+			:style="props.isFullHeight ? 'height: 100%' : ''"
+			:extensions="extensions" />
 	</div>
 </template>
 
@@ -9,6 +14,13 @@ import { javascript } from '@codemirror/lang-javascript';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { ref } from 'vue';
 import CodeMirror from 'vue-codemirror6';
+
+const props = defineProps({
+	isFullHeight: {
+		type: Boolean,
+		default: true
+	}
+});
 
 const codeVal = ref('');
 // javascript

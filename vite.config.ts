@@ -6,7 +6,6 @@ import AutoImport from 'unplugin-auto-import/vite';
 import { ArcoResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
 import { defineConfig } from 'vite';
-// import eslint from "vite-plugin-eslint";
 export default defineConfig({
 	plugins: [
 		vue(),
