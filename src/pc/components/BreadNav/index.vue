@@ -14,6 +14,7 @@
 				{{ routerMapString().title }}
 			</a-breadcrumb-item>
 		</a-breadcrumb>
+		<slot></slot>
 	</div>
 </template>
 

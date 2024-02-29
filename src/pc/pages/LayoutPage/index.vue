@@ -24,7 +24,7 @@
 				@collapse="onCollapse"
 				:width="220">
 				<a-menu mode="pop" :default-selected-keys="[1]">
-					<a-menu-item v-for="e in menuList" @click="changeMune(e.link)" :key="e.id">
+					<a-menu-item v-for="e in menuList" @click="changeMenu(e.link)" :key="e.id">
 						<template #icon>
 							<component :is="e.icon" />
 						</template>
@@ -34,10 +34,7 @@
 			</a-layout-sider>
 			<!-- 主要内容 -->
 			<a-layout-content class="p0!">
-				<bread-nav />
-				<main class="main-contain-wrap">
-					<router-view />
-				</main>
+				<router-view />
 			</a-layout-content>
 		</a-layout>
 	</a-layout>
@@ -46,13 +43,13 @@
 <script lang="ts" setup>
 import useUserStore from '@/stores/user.ts';
 import { Message } from '@arco-design/web-vue';
-import breadNav from '@pc/components/BreadNav/index.vue';
-import { compile, h, ref } from 'vue';
+import { compile, h, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { type IMenuItem } from './type';
 
 const userStore = useUserStore();
 const router = useRouter();
+const customBreadNav = ref(false);
 
 const menuList: IMenuItem[] = [
 	{
@@ -74,7 +71,7 @@ const menuList: IMenuItem[] = [
 		icon: h(compile('<IconBug />'))
 	}
 ];
-const changeMune = async (url: string) => {
+const changeMenu = async (url: string) => {
 	await router.replace({ path: `/pc/${url}` });
 };
 const collapsed = ref(false);
@@ -85,6 +82,12 @@ const handleLogout = async () => {
 	await router.replace('/pc-login');
 	Message.success({ content: '退出登录成功' });
 };
+
+onMounted(() => {
+	if (router.currentRoute.value.path === '/pc/code') {
+		customBreadNav.value = true;
+	}
+});
 </script>
 
 <style lang="less" scoped>
@@ -113,12 +116,5 @@ const handleLogout = async () => {
 
 .a-menu-vertical-demo:not(.a-menu--collapse) {
 	height: calc(100vh - 64px);
-}
-
-.main-contain-wrap {
-	width: 100%;
-	box-sizing: border-box;
-	padding: 20px;
-	height: calc(100vh - 112px);
 }
 </style>

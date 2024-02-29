@@ -5,7 +5,10 @@
 * @time: 2024/1/13 16:20
 -->
 <template>
-	<program-table :list="list" @update:list="flashList" @edit:project="editCode" />
+	<bread-nav />
+	<main class="main-contain-wrap">
+		<program-table :list="list" @update:list="flashList" @edit:project="editCode" />
+	</main>
 	<a-modal width="80vw" v-model:visible="codeVisible" title-align="start" :onClose="handleClearModal">
 		<template #title>
 			<text class="font-600">项目名称:</text>
@@ -51,12 +54,17 @@
 <script lang="ts" setup>
 import CodeEditor from '@/components/CodeEditor/index.vue';
 import type { IProjectListItem, IRunProjectResultError } from '@/services/interfaces/projects';
-import { getProjectCode, getProjectList, patchProjectCode, postProjectCode } from '@/services/projects.api';
+import { getProjectList, patchProjectCode, postProjectCode } from '@/services/projects.api';
 import { mapListProjects } from '@/utils';
 import { Notification } from '@arco-design/web-vue';
+import breadNav from '@pc/components/BreadNav/index.vue';
 import ProgramTable from '@pc/components/ProgramTable/index.vue';
 import { onBeforeMount, ref, type Ref } from 'vue';
+import { useRouter } from 'vue-router';
 import type { IRunProjectResultMessage } from './index';
+
+const router = useRouter();
+const emit = defineEmits(['update:wrap']);
 
 const list: Ref<IProjectListItem[]> = ref([]); // 项目列表
 
@@ -65,7 +73,6 @@ const codeVisible = ref(false); // 项目总数
 const projectVal = ref<IProjectListItem>();
 const codeResultList: Ref<IRunProjectResultMessage[]> = ref([]); // 运行结果
 const isLoading = ref(false);
-const codeEditorRef = ref();
 const resultScrollRef = ref();
 
 // 刷新列表数据
@@ -77,10 +84,12 @@ const flashList = async () => {
 
 // 打开编辑代码的弹框
 const editCode = async (project: IProjectListItem) => {
-	projectVal.value = project;
-	codeVisible.value = true;
-	const code = await getProjectCode(project.id);
-	codeEditorRef.value.changeCode(code);
+	await router.push({ path: `/pc/code`, query: { id: project.id } });
+	emit('update:wrap');
+	// projectVal.value = project;
+	// codeVisible.value = true;
+	// const code = await getProjectCode(project.id);
+	// codeEditorRef.value.changeCode(code);
 };
 
 // 运行代码
@@ -123,6 +132,12 @@ onBeforeMount(async () => {
 });
 </script>
 <style lang="less" scoped>
+.main-contain-wrap {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 20px;
+	height: calc(100vh - 112px);
+}
 .modal-footer-wrap {
 	display: flex;
 	justify-content: space-between;

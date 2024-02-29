@@ -5,14 +5,21 @@
 * @time: 2024/1/13 16:20
 -->
 <template>
-	<div class="set-config">
+	<bread-nav />
+	<main class="main-contain-wrap">
 		<h2>SetConfig 组件</h2>
-	</div>
+	</main>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import breadNav from '@pc/components/BreadNav/index.vue';
+</script>
 
 <style lang="less" scoped>
-.set-config {
+.main-contain-wrap {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 20px;
+	height: calc(100vh - 112px);
 }
 </style>

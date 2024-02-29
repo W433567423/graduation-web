@@ -5,15 +5,25 @@
 * @time: 2024/1/13 16:20
 -->
 <template>
-	<CodeEditor />
+	<bread-nav />
+	<main class="main-contain-wrap">
+		<CodeEditor />
+	</main>
 </template>
 
 <script lang="ts" setup>
 import CodeEditor from '@/components/CodeEditor/index.vue';
+import breadNav from '@pc/components/BreadNav/index.vue';
 </script>
 
 <style lang="less" scoped>
-.new-project {
-	height: 100%;
+.main-contain-wrap {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 20px;
+	height: calc(100vh - 112px);
+	.new-project {
+		height: 100%;
+	}
 }
 </style>
