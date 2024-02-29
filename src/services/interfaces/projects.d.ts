@@ -25,5 +25,9 @@ interface IRunProjectResult {
 	codeResult: IRunProjectResultError | string[];
 	codeRunDate: string;
 }
+interface IGetProjectCode {
+	projectName: string;
+	code: string;
+}
 
-export type { IProjectList, IProjectListItem, IRunProjectResult, IRunProjectResultError };
+export type { IGetProjectCode, IProjectList, IProjectListItem, IRunProjectResult, IRunProjectResultError };

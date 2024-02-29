@@ -1,14 +1,17 @@
 <template>
 	<div class="bread-nav">
-		<a-button type="dashed" @click="handleClearModal" v-if="codeResultList.length">
-			<icon-delete />
-			清空运行结果({{ codeResultList.length }})
-		</a-button>
-		<a-button type="dashed" @click="router.back">取消(不保存)</a-button>
-		<a-button status="success" @click="runCode(projectIdC)" :loading="isLoading">
-			运行(成功自动保存)
-		</a-button>
-		<a-button type="primary" @click="saveCode">保存(并退出)</a-button>
+		<text class="font-600">项目名称:{{ projectName }}</text>
+		<div class="flex gap-8px">
+			<a-button type="dashed" @click="handleClearModal" v-if="codeResultList.length">
+				<icon-delete />
+				清空运行结果({{ codeResultList.length }})
+			</a-button>
+			<a-button type="dashed" @click="router.back">取消(不保存)</a-button>
+			<a-button status="success" @click="runCode(projectIdC)" :loading="isLoading">
+				运行(成功自动保存)
+			</a-button>
+			<a-button type="primary" @click="saveCode">保存(并退出)</a-button>
+		</div>
 	</div>
 	<main class="main-contain-wrap">
 		<a-split
@@ -70,6 +73,8 @@ const codeEditorRef = ref();
 const splitSize = ref('0.99');
 const splitSizeMeme = ref('0.8');
 
+const projectName = ref('');
+
 const projectIdC = computed(() => {
 	return Number(route.query.id as string);
 });
@@ -110,7 +115,14 @@ const runCode = async (projectId: number) => {
 // 保存代码
 const saveCode = async () => {
 	await patchProjectCode(projectIdC.value, codeEditorRef.value.codeVal);
-	Notification.success({ content: '修改代码成功', position: 'bottomRight' });
+	Notification.success({
+		content: '修改代码成功,3s后返回项目列表',
+		position: 'bottomRight',
+		duration: 3000,
+		onClose: () => {
+			router.back();
+		}
+	});
 };
 // 清空运行结果
 const handleClearModal = () => {
@@ -120,7 +132,8 @@ const handleClearModal = () => {
 };
 
 onMounted(async () => {
-	const code = await getProjectCode(projectIdC.value);
+	const { code, projectName: name } = await getProjectCode(projectIdC.value);
+	projectName.value = name;
 	console.log('🚀 ~ onBeforeMount ~ code:', code);
 	codeEditorRef.value.changeCode(code);
 });
@@ -133,9 +146,8 @@ onMounted(async () => {
 	display: flex;
 	align-items: center;
 	background-color: #f6f6f9;
-	justify-content: end;
-	padding-right: 20px;
-	gap: 8px;
+	justify-content: space-between;
+	padding: 0 20px;
 }
 .main-contain-wrap {
 	width: calc(100% - 40px);

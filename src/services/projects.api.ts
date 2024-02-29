@@ -1,4 +1,4 @@
-import type { IProjectList, IRunProjectResult } from '@/services/interfaces/projects';
+import type { IGetProjectCode, IProjectList, IRunProjectResult } from '@/services/interfaces/projects';
 import request from '@/services/require.ts';
 
 const baseUrl = '/projects';
@@ -11,7 +11,7 @@ export const getProjectList = async (page = 0, size = 15) => {
 
 // 获取 项目代码
 export const getProjectCode = async (projectId: number) => {
-	return await request.get<string>(baseUrl + '/code', {
+	return await request.get<IGetProjectCode>(baseUrl + '/code', {
 		params: { projectId }
 	});
 };

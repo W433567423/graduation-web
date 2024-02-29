@@ -77,10 +77,6 @@ const flashList = async () => {
 const editCode = async (project: IProjectListItem) => {
 	await router.push({ path: `/pc/code`, query: { id: project.id } });
 	emit('update:wrap');
-	// projectVal.value = project;
-	// codeVisible.value = true;
-	// const code = await getProjectCode(project.id);
-	// codeEditorRef.value.changeCode(code);
 };
 
 onBeforeMount(async () => {
