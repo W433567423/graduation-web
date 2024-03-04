@@ -44,24 +44,24 @@
 				</a-input>
 			</a-form-item>
 
-			<a-form-item validate-trigger="blur" v-if="isLoginPage" label="验证码" field="valida" required>
-				<div class="form-valida-wrap">
-					<a-input name="valida" v-model="form.valida" clearable placeholder="请输入验证码">
+			<a-form-item validate-trigger="blur" v-if="isLoginPage" label="验证码" field="valid" required>
+				<div class="form-valid-wrap">
+					<a-input name="valid" v-model="form.valid" clearable placeholder="请输入验证码">
 						<template #prefix><icon-message /></template>
 					</a-input>
-					<div class="valida-wrap" @click="flashValidaCode" v-html="imgSrc" v-if="imgSrc" />
-					<div class="valida-wrap" v-else>
+					<div class="valid-wrap" @click="flashValidCode" v-html="imgSrc" v-if="imgSrc" />
+					<div class="valid-wrap" v-else>
 						<a-image class="w-108px h-40px" />
 					</div>
 				</div>
 			</a-form-item>
 
-			<a-form-item validate-trigger="blur" v-else label="邮箱验证码" required field="emailValida">
-				<div class="form-valida-wrap mb-16px">
-					<a-input name="emailValida" v-model="form.emailValida" clearable placeholder="请输入验证码">
+			<a-form-item validate-trigger="blur" v-else label="邮箱验证码" required field="emailValid">
+				<div class="form-valid-wrap mb-16px">
+					<a-input name="emailValid" v-model="form.emailValid" clearable placeholder="请输入验证码">
 						<template #prefix><icon-message /></template>
 					</a-input>
-					<a-button :loading="isValidaLoading" class="ml-16px" @click="flashEmailValidaCode">发送</a-button>
+					<a-button :loading="isValidLoading" class="ml-16px" @click="flashEmailValidCode">发送</a-button>
 				</div>
 			</a-form-item>
 
@@ -72,7 +72,7 @@
 				<a-link :hoverable="false" @click="emits('changePage')">忘记密码</a-link>
 			</div>
 			<!-- 登录按钮 -->
-			<a-button long html-type="submit" shape="round" type="primary">
+			<a-button long html-type="submit" shape="round" type="primary" class="mt-8px">
 				{{ isLoginPage ? '登录' : '注册' }}
 			</a-button>
 		</a-form>
@@ -89,7 +89,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getEmailValidaCode, getValidaCode } from '@/services/captchas.api.ts';
+import { getEmailValidCode, getValidCode } from '@/services/captchas.api.ts';
 import { type IUserLoginForm } from '@/services/interfaces/users';
 import { postUserLogin, postUserRegistry } from '@/services/users.api.ts';
 import useUserStore from '@/stores/user.ts';
@@ -107,14 +107,14 @@ const emits = defineEmits(['changePage']);
 const form: Ref<IUserLoginForm> = ref({
 	username: '',
 	password: '',
-	valida: '',
-	emailValida: '',
+	valid: '',
+	emailValid: '',
 	emailNum: ''
 }); // 表单
 const isRemember = ref(false); // 记住用户
 const imgSrc = ref(''); // 验证码
 const isLoginPage = ref(true); // 是否登录页面（true:登录,false:注册）
-const isValidaLoading = ref(false); // 获取验证码loading状态
+const isValidLoading = ref(false); // 获取验证码loading状态
 const emailRex = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
 
 const formRules = ref<Record<string, FieldRule<any> | Array<FieldRule<any>>> | undefined>({
@@ -126,11 +126,11 @@ const formRules = ref<Record<string, FieldRule<any> | Array<FieldRule<any>>> | u
 		{ required: true, message: '密码必填' },
 		{ minLength: 3, maxLength: 10, message: '密码长度为3-10' }
 	],
-	valida: [
+	valid: [
 		{ required: true, message: '验证码必填' },
 		{ length: 4, message: '验证码错误' }
 	],
-	emailValida: [
+	emailValid: [
 		{ required: true, message: '邮箱验证码必填' },
 		{ length: 6, message: '邮箱验证码错误' }
 	],
@@ -144,21 +144,21 @@ const formRules = ref<Record<string, FieldRule<any> | Array<FieldRule<any>>> | u
 }); // 校验规则
 
 // 刷新验证码
-const flashValidaCode = async () => {
+const flashValidCode = async () => {
 	if (isLoginPage.value) {
-		const res = await getValidaCode();
+		const res = await getValidCode();
 		imgSrc.value = res;
 	}
 };
 
 // 获取邮箱验证码
-const flashEmailValidaCode = () => {
+const flashEmailValidCode = () => {
 	if (emailRex.test(form.value.emailNum)) {
-		isValidaLoading.value = !isValidaLoading.value;
-		void getEmailValidaCode(form.value.emailNum)
+		isValidLoading.value = !isValidLoading.value;
+		void getEmailValidCode(form.value.emailNum)
 			.then(() => Notification.success({ content: '发送验证码成功' }))
 			.finally(() => {
-				isValidaLoading.value = !isValidaLoading.value;
+				isValidLoading.value = !isValidLoading.value;
 			});
 	} else {
 		Notification.error({ content: '邮箱不正确' });
@@ -192,7 +192,7 @@ const userLoginOrRegistry = async ({
 			if (typeof route.query.redirect === 'string') {
 				await router.replace(route.query.redirect);
 			} else await router.replace('/pc/dash');
-		} else await flashValidaCode();
+		} else await flashValidCode();
 	}
 };
 
@@ -204,7 +204,7 @@ const handleChangeRemember = (value: string | number | boolean) => {
 // 切换登录/注册
 const changeStatus = () => {
 	isLoginPage.value = !isLoginPage.value;
-	void flashValidaCode();
+	void flashValidCode();
 };
 
 // 初始化
@@ -220,7 +220,7 @@ const init = () => {
 			}
 		}
 	}
-	void flashValidaCode();
+	void flashValidCode();
 };
 
 onBeforeMount(async () => {
@@ -254,13 +254,13 @@ onBeforeMount(async () => {
 
 	.form-wrap {
 		// 验证码
-		.form-valida-wrap {
+		.form-valid-wrap {
 			display: flex;
 			justify-content: space-between;
 			width: 100%;
 			line-height: 0;
 
-			.valida-wrap {
+			.valid-wrap {
 				width: 108px;
 				margin-left: 12px;
 				cursor: pointer;

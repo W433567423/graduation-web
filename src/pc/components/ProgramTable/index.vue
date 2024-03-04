@@ -56,6 +56,10 @@
 							<icon-edit />
 							重命名
 						</a-doption>
+						<a-doption @click="emits('edit:projectType', record)">
+							<icon-edit />
+							修改代码类型
+						</a-doption>
 						<a-doption @click="openDeleteDialog([record.id])">
 							<icon-delete />
 							删除项目
@@ -74,20 +78,19 @@
 			<!-- 空白页 -->
 			<template #empty>sss</template>
 		</a-table>
-
-		<!-- 弹框部分 -->
-		<a-modal
-			v-model:visible="renameDialogFormVisible"
-			:on-before-ok="renameProject"
-			title="重命名项目"
-			@cancel="renameDialogFormVisible = false">
-			<a-form ref="formRef" :model="form" :rules="formRules">
-				<a-form-item field="newName" label="新名称" required validate-trigger="blur">
-					<a-input v-model="form.newName" autocomplete="off" clearable placeholder="请输入新项目名" />
-				</a-form-item>
-			</a-form>
-		</a-modal>
 	</div>
+	<!-- 弹框部分 -->
+	<a-modal
+		v-model:visible="renameDialogFormVisible"
+		:on-before-ok="renameProject"
+		title="重命名项目"
+		@cancel="renameDialogFormVisible = false">
+		<a-form ref="formRef" :model="form" :rules="formRules">
+			<a-form-item field="newName" label="新名称" required validate-trigger="blur">
+				<a-input v-model="form.newName" autocomplete="off" clearable placeholder="请输入新项目名" />
+			</a-form-item>
+		</a-form>
+	</a-modal>
 </template>
 
 <script lang="ts" setup>
@@ -110,7 +113,7 @@ interface IProps {
 }
 
 const formRef = ref<FormInstance>();
-const emits = defineEmits(['update:list', 'edit:project']);
+const emits = defineEmits(['update:list', 'edit:project', 'edit:projectType']);
 const selectedKeys = ref<number[]>([]);
 const rowSelection: Ref<TableRowSelection> = ref({
 	type: 'checkbox',
@@ -134,7 +137,7 @@ const formRules: Record<string, FieldRule<any> | Array<FieldRule<any>>> = {
 
 const columns: TableColumnData[] = [
 	{ title: '序号', align: 'center', render: ({ rowIndex }) => rowIndex + 1, width: 60 },
-	{ title: '状态', align: 'center', slotName: 'status' },
+	{ title: '状态', align: 'center', slotName: 'status', width: 60 },
 	{ title: '项目名称', dataIndex: 'projectName' },
 	{
 		title: '创建时间',

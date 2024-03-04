@@ -19,7 +19,7 @@
 							class="forget-icon-radius-box mb-32px"
 							@click="
 								active++;
-								whichMethon = 0;
+								whichMethod = 0;
 							">
 							<icon-phone size="108px" style="color: #79bbff" />
 						</div>
@@ -30,7 +30,7 @@
 							class="forget-icon-radius-box mb-32px border-#95d475!"
 							@click="
 								active++;
-								whichMethon = 1;
+								whichMethod = 1;
 							">
 							<icon-email size="108px" style="color: #95d475" />
 						</div>
@@ -48,19 +48,19 @@
 			</template>
 			<template v-if="active === 1">
 				<a-form
-					laba-position="right"
+					label-position="right"
 					ref="ruleFormRef"
 					class="forget-form-wrap"
 					:rules="formRules"
 					size="large"
 					:model="form"
-					laba-width="96px">
-					<a-form-item label="手机号" filed="phoneNum" required v-if="whichMethon === 0">
+					label-width="96px">
+					<a-form-item label="手机号" filed="phoneNum" required v-if="whichMethod === 0">
 						<a-input v-model="form.emailNum" clearable placeholder="请输入手机号">
 							<template #prefix><icon-phone /></template>
 						</a-input>
 					</a-form-item>
-					<a-form-item label="邮箱" filed="emailNum" required v-if="whichMethon === 1">
+					<a-form-item label="邮箱" filed="emailNum" required v-if="whichMethod === 1">
 						<a-input v-model="form.emailNum" clearable placeholder="请输入邮箱">
 							<template #prefix><icon-email /></template>
 						</a-input>
@@ -76,15 +76,12 @@
 							<template #prefix><icon-lock /></template>
 						</a-input>
 					</a-form-item>
-					<a-form-item
-						:label="whichMethon === 0 ? '手机验证码' : '邮箱验证码'"
-						required
-						filed="emailValida">
-						<div class="form-valida-wrap mb-16px">
-							<a-input v-model="form.emailValida" clearable placeholder="请输入验证码">
+					<a-form-item :label="whichMethod === 0 ? '手机验证码' : '邮箱验证码'" required filed="emailValid">
+						<div class="form-valid-wrap mb-16px">
+							<a-input v-model="form.emailValid" clearable placeholder="请输入验证码">
 								<template #prefix><icon-message /></template>
 							</a-input>
-							<a-button :loading="isValidaLoading" class="ml-12px" @click="flashEmailValidaCode">
+							<a-button :loading="isValidLoading" class="ml-12px" @click="flashEmailValidCode">
 								发送
 							</a-button>
 						</div>
@@ -115,10 +112,10 @@
 </template>
 
 <script lang="ts" setup>
-import { getEmailValidaCode } from '@/services/captchas.api';
+import { getEmailValidCode } from '@/services/captchas.api';
 import type { IForgetLoginForm } from '@/services/interfaces/users';
 import { postUserForgetPassword } from '@/services/users.api';
-import { Notification, type FormInstance } from '@arco-design/web-vue';
+import { Form as AForm, Notification, type FormInstance } from '@arco-design/web-vue';
 import { ref, type Ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -127,13 +124,13 @@ const router = useRouter();
 
 const ruleFormRef = ref<FormInstance>();
 const active = ref(0); // 步骤条
-const whichMethon = ref(0); // 使用什么找回密码(0:手机号找回，1:邮箱找回)
+const whichMethod = ref(0); // 使用什么找回密码(0:手机号找回，1:邮箱找回)
 const emailRex = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/; // 邮箱正则校验
-const isValidaLoading = ref(false); // 获取验证码loading状态
+const isValidLoading = ref(false); // 获取验证码loading状态
 const countDownTime = ref(3); // 倒计时
 let timer: NodeJS.Timer; // 定时器
 const form: Ref<IForgetLoginForm> = ref({
-	emailValida: '',
+	emailValid: '',
 	emailNum: '',
 	newPassword: ''
 }); // 表单
@@ -149,7 +146,7 @@ const formRules = ref({
 			trigger: 'blur'
 		}
 	],
-	emailValida: [
+	emailValid: [
 		{ required: true, message: '手机验证码必填', trigger: 'blur' },
 		{ len: 6, message: '手机验证码错误', trigger: 'blur' }
 	],
@@ -183,14 +180,14 @@ const handleResetPassword = async (formEl: FormInstance | undefined) => {
 };
 
 // 获取邮箱验证码
-const flashEmailValidaCode = () => {
+const flashEmailValidCode = () => {
 	if (emailRex.test(form.value.emailNum)) {
-		isValidaLoading.value = !isValidaLoading.value;
+		isValidLoading.value = !isValidLoading.value;
 		// eslint-disable-next-line @typescript-eslint/no-floating-promises
-		getEmailValidaCode(form.value.emailNum)
+		getEmailValidCode(form.value.emailNum)
 			.then(() => Notification.success({ content: '发送验证码成功' }))
 			.finally(() => {
-				isValidaLoading.value = !isValidaLoading.value;
+				isValidLoading.value = !isValidLoading.value;
 			});
 	} else {
 		Notification.error({ content: '邮箱不正确' });
@@ -200,7 +197,7 @@ const flashEmailValidaCode = () => {
 // 重置表单
 const clearForm = () => {
 	form.value.emailNum = '';
-	form.value.emailValida = '';
+	form.value.emailValid = '';
 	form.value.newPassword = '';
 };
 
@@ -266,13 +263,13 @@ const gotoDash = async () => {
 		width: 80%;
 		margin: 32px auto;
 		// 验证码
-		.form-valida-wrap {
+		.form-valid-wrap {
 			display: flex;
 			justify-content: space-between;
 			width: 100%;
 			line-height: 0;
 
-			.valida-wrap {
+			.valid-wrap {
 				width: 108px;
 				margin-left: 12px;
 				cursor: pointer;
@@ -284,4 +281,3 @@ const gotoDash = async () => {
 	}
 }
 </style>
-@/services/captchas.api@/services/users.api @/services/interfaces
