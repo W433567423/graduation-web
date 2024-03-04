@@ -115,7 +115,7 @@
 import { getEmailValidCode } from '@/services/captchas.api';
 import type { IForgetLoginForm } from '@/services/interfaces/users';
 import { postUserForgetPassword } from '@/services/users.api';
-import { Form as AForm, Notification, type FormInstance } from '@arco-design/web-vue';
+import { Notification, type FormInstance } from '@arco-design/web-vue';
 import { ref, type Ref } from 'vue';
 import { useRouter } from 'vue-router';
 

@@ -197,7 +197,7 @@ const userLoginOrRegistry = async ({
 };
 
 // 缓存记住我
-const handleChangeRemember = (value: string | number | boolean, _ev: Event) => {
+const handleChangeRemember = (value: boolean | Array<string | number | boolean>) => {
 	setLocalStorage('isRemember', String(value));
 };
 
