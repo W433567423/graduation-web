@@ -4,10 +4,11 @@
 * @author: tutu
 * @time: 2024/1/13 17:37
 -->
+
 <template>
 	<div class="program-table-wrap">
 		<!-- 批量操作 -->
-		<div v-if="selectedKeys.length" class="optional-mune">
+		<div v-if="selectedKeys.length" class="optional-menu">
 			<a-button type="primary" @click="disableProject(selectedKeys, true)">禁用所选</a-button>
 			<a-button type="primary" @click="openDeleteDialog(selectedKeys)">删除所选</a-button>
 		</div>
@@ -34,6 +35,7 @@
 						<icon-stop class="cursor-help text-red!" />
 					</a-tooltip>
 				</template>
+
 				<template v-else>
 					<icon-pause class="cursor-pointer" />
 					<icon-play-arrow class="cursor-pointer" />
@@ -47,6 +49,7 @@
 							<icon-more />
 						</template>
 					</a-button>
+
 					<template #content>
 						<a-doption @click="emits('edit:project', record)">
 							<icon-code />
@@ -75,8 +78,6 @@
 			<template #lastStatus="{ record }: { record: IProjectListItem }">
 				{{ mapRunStatus(record.lastStatus) }}
 			</template>
-			<!-- 空白页 -->
-			<template #empty>sss</template>
 		</a-table>
 	</div>
 	<!-- 弹框部分 -->
@@ -221,7 +222,8 @@ const disableProject = async (ids: number[], disable: boolean) => {
 .program-table-wrap {
 	height: 100%;
 	position: relative;
-	.optional-mune {
+
+	.optional-menu {
 		position: absolute;
 		height: 48px;
 		top: -68px;

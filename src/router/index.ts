@@ -11,6 +11,7 @@ const routes: RouteRecordRaw[] = [
 	{
 		path: '/pc',
 		component: import('@/pc/pages/LayoutPage/index.vue'),
+		redirect: '/pc/dash',
 		children: [
 			{ path: 'dash', component: import('@/pc/pages/LayoutPage/DashBoard/index.vue') },
 			{ path: 'new', component: import('@/pc/pages/LayoutPage/NewProject/index.vue') },

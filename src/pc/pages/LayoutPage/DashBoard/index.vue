@@ -4,6 +4,7 @@
 * @author: tutu
 * @time: 2024/1/13 16:20
 -->
+
 <template>
 	<bread-nav />
 	<main class="main-contain-wrap">
@@ -14,10 +15,11 @@
 			<text class="font-600">项目名称:</text>
 			{{ projectVal?.projectName }}
 		</template>
-		<a-scrollbar style="max-height: 72vh; overflow: auto">
-			<CodeEditor ref="codeEditorRef" />
-		</a-scrollbar>
-		<template #footer>
+<a-scrollbar style="max-height: 72vh; overflow: auto">
+	<CodeEditor ref="codeEditorRef" />
+</a-scrollbar>
+
+<template #footer>
 			<div class="modal-footer-wrap">
 				<a-spin :loading="isLoading">
 					<div class="code-result-wrap">
@@ -48,7 +50,7 @@
 				</div>
 			</div>
 		</template>
-	</a-modal> -->
+</a-modal> -->
 </template>
 
 <script lang="ts" setup>
@@ -83,6 +85,7 @@ onBeforeMount(async () => {
 	await flashList();
 });
 </script>
+
 <style lang="less" scoped>
 .main-contain-wrap {
 	width: 100%;
@@ -90,6 +93,7 @@ onBeforeMount(async () => {
 	padding: 20px;
 	height: calc(100vh - 112px);
 }
+
 .modal-footer-wrap {
 	display: flex;
 	justify-content: space-between;
