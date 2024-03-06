@@ -36,7 +36,3 @@ export interface ICreateProject {
 	projectLanguage: string;
 	projectCode: string;
 }
-
-export interface ICreateProjectResult {
-	projectId: number;
-}

@@ -17,7 +17,7 @@
 				<a-form-item required label="项目类型" tooltip="创建后不可更改">
 					<a-radio-group v-model="form.projectType">
 						<a-radio value="simple">简单项目</a-radio>
-						<a-radio value="multi">复杂项目</a-radio>
+						<a-radio value="complex">复杂项目</a-radio>
 					</a-radio-group>
 				</a-form-item>
 

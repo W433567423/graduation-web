@@ -1,6 +1,5 @@
 import type {
 	ICreateProject,
-	ICreateProjectResult,
 	IGetProjectCode,
 	IProjectList,
 	IRunProjectResult
@@ -16,7 +15,7 @@ export const getProjectList = async (page = 0, size = 15) => {
 };
 // 创建 项目
 export const postCreateProject = async (data: ICreateProject) => {
-	return await request.post<ICreateProjectResult>(baseUrl + '/create', {
+	return await request.post<{ projectId: number }>(baseUrl + '/create', {
 		data
 	});
 };
@@ -37,10 +36,10 @@ export const patchProjectCode = async (projectId: number, code: string) => {
 };
 
 // 运行 项目代码
-export const postProjectCode = async (projectId: number, code: string, codeType: string) => {
+export const postProjectCode = async (projectId: number, code: string, codeLanguage: string) => {
 	return await request.post<IRunProjectResult>(baseUrl + '/code', {
 		params: { projectId },
-		data: { code, codeType }
+		data: { code, codeLanguage }
 	});
 };
 
