@@ -3,7 +3,7 @@ export enum IEmunRunStatus {
 	unknown = 0,
 	success = 1
 }
-interface IProjectListItem {
+export interface IProjectListItem {
 	id: number;
 	projectName: string;
 	lastStatus: IEmunRunStatus;
@@ -12,22 +12,31 @@ interface IProjectListItem {
 	disable: boolean;
 }
 
-interface IProjectList {
+export interface IProjectList {
 	list: IProjectListItem[];
 	total: number;
 }
-interface IRunProjectResultError {
+export interface IRunProjectResultError {
 	message: string;
 	name: string;
 }
-interface IRunProjectResult {
+export interface IRunProjectResult {
 	codeStatus: boolean;
 	codeResult: IRunProjectResultError | string[];
 	codeRunDate: string;
 }
-interface IGetProjectCode {
+export interface IGetProjectCode {
 	projectName: string;
 	code: string;
 }
 
-export type { IGetProjectCode, IProjectList, IProjectListItem, IRunProjectResult, IRunProjectResultError };
+export interface ICreateProject {
+	projectName: string;
+	projectType: string;
+	projectLanguage: string;
+	projectCode: string;
+}
+
+export interface ICreateProjectResult {
+	projectId: number;
+}

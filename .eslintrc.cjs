@@ -33,6 +33,9 @@ module.exports = {
 		'@typescript-eslint/no-non-null-assertion': 0,
 		// 关闭不允许使用不安全的参数
 		'@typescript-eslint/no-unsafe-argument': 0,
-		'@typescript-eslint/no-non-null-asserted-optional-chain': 0
+		'@typescript-eslint/no-non-null-asserted-optional-chain': 0,
+		// 关闭promise必须then catch
+		'@typescript-eslint/no-floating-promises': 0,
+		'@typescript-eslint/no-misused-promises': 0
 	}
 };

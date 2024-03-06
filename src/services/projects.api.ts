@@ -1,4 +1,10 @@
-import type { IGetProjectCode, IProjectList, IRunProjectResult } from '@/services/interfaces/projects';
+import type {
+	ICreateProject,
+	ICreateProjectResult,
+	IGetProjectCode,
+	IProjectList,
+	IRunProjectResult
+} from '@/services/interfaces/projects';
 import request from '@/services/require.ts';
 
 const baseUrl = '/projects';
@@ -6,6 +12,12 @@ const baseUrl = '/projects';
 export const getProjectList = async (page = 0, size = 15) => {
 	return await request.get<IProjectList>(baseUrl + '/list', {
 		params: { page, size }
+	});
+};
+// 创建 项目
+export const postCreateProject = async (data: ICreateProject) => {
+	return await request.post<ICreateProjectResult>(baseUrl + '/create', {
+		data
 	});
 };
 
