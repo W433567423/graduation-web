@@ -1,7 +1,5 @@
-./commitlint.config.cjs
-.*
-vite.config.ts
-uno.config.ts
+!src/**/*.ts
+!src/**/*.js
+!src/**/*.vue
 
-src/main.ts
 src/vite-env.d.ts
