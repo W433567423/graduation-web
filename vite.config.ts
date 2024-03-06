@@ -5,6 +5,8 @@ import AutoImport from 'unplugin-auto-import/vite';
 import { ArcoResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
 import { defineConfig } from 'vite';
+import viteCompression from 'vite-plugin-compression';
+
 export default defineConfig({
 	plugins: [
 		vue(),
@@ -15,7 +17,11 @@ export default defineConfig({
 			resolvers: [ArcoResolver({ sideEffect: true })]
 		}),
 		// eslint(),
-		UnoCSS()
+		UnoCSS(),
+		// 代码压缩(300kb以上的文件进行压缩)
+		viteCompression({
+			threshold: 307200
+		})
 	],
 	resolve: {
 		alias: {
@@ -28,5 +34,8 @@ export default defineConfig({
 	server: {
 		open: true,
 		port: 8003
+	},
+	build: {
+		chunkSizeWarningLimit: 1024
 	}
 });
