@@ -1,6 +1,6 @@
 import { type CreateAxiosDefaults } from 'axios';
 
-const devBaseURL = 'http://localhost:8004';
+const devBaseURL = 'http://localhost:8013';
 const proBaseURL = 'https://ag.wtututu.top';
 export const BASE_URL = import.meta.env.MODE === 'development' ? devBaseURL : proBaseURL;
 

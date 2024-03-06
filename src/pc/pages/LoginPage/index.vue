@@ -4,6 +4,7 @@
 * @author: tutu
 * @time: 2024/1/29 10:12
 -->
+
 <template>
 	<div class="login-page">
 		<!--登录注册-->
@@ -37,7 +38,7 @@ const forgetPage = ref(false); // 是否是忘记密码页面
 	align-items: center;
 	width: 100vw;
 	height: 100vh;
-	background: url('@/assets/images/login-bg.jpg');
+	background: url('//tutu-1313352375.cos.ap-nanjing.myqcloud.com/graduation/images/login-bg.jpg');
 	background-size: cover;
 	overflow: hidden;
 
@@ -55,7 +56,7 @@ const forgetPage = ref(false); // 是否是忘记密码页面
 
 		.login-dialog-right {
 			width: 50%;
-			background: url('@/assets/images/login-column-bg.jpg');
+			background: url('//tutu-1313352375.cos.ap-nanjing.myqcloud.com/graduation/images/login-column-bg.jpg');
 			background-size: cover;
 		}
 	}

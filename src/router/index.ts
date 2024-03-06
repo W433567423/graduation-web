@@ -1,13 +1,7 @@
 import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router';
 
-import mResult from '@/mobile/pages/Result/index.vue';
-import mSetting from '@/mobile/pages/Setting/index.vue';
-import pcHome from '@pc/pages/LayoutPage/index.vue';
+import PcHome from '@pc/pages/LayoutPage/index.vue';
 
-import CodeView from '@pc/pages/LayoutPage/CodeView/index.vue';
-import DashBoard from '@pc/pages/LayoutPage/DashBoard/index.vue';
-import NewProject from '@pc/pages/LayoutPage/NewProject/index.vue';
-import SetConfig from '@pc/pages/LayoutPage/SetConfig/index.vue';
 import Login from '@pc/pages/LoginPage/index.vue';
 
 const routes: RouteRecordRaw[] = [
@@ -18,16 +12,16 @@ const routes: RouteRecordRaw[] = [
 	{ path: '/pc-login', component: Login },
 	{
 		path: '/pc',
-		component: pcHome,
+		component: PcHome,
 		children: [
-			{ path: 'dash', component: DashBoard },
-			{ path: 'new', component: NewProject },
-			{ path: 'set', component: SetConfig },
-			{ path: 'code', component: CodeView }
+			{ path: 'dash', component: import('@/pc/pages/LayoutPage/DashBoard/index.vue') },
+			{ path: 'new', component: import('@/pc/pages/LayoutPage/NewProject/index.vue') },
+			{ path: 'set', component: import('@/pc/pages/LayoutPage/SetConfig/index.vue') },
+			{ path: 'code', component: import('@/pc/pages/LayoutPage/CodeView/index.vue') }
 		]
 	},
-	{ path: '/setting', component: mSetting },
-	{ path: '/result', component: mResult }
+	{ path: '/setting', component: import('@/mobile/pages/Setting/index.vue') },
+	{ path: '/result', component: import('@/mobile/pages/Result/index.vue') }
 ];
 
 const router = createRouter({
