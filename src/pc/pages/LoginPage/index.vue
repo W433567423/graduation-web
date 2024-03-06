@@ -8,7 +8,7 @@
 <template>
 	<div class="login-page">
 		<!--登录注册-->
-		<Card shadow="hover" :bordered="false">
+		<a-card shadow="hover" :bordered="false">
 			<template v-if="!forgetPage">
 				<div class="login-dialog-left">
 					<LoginForm @change-page="forgetPage = !forgetPage" />
@@ -18,7 +18,7 @@
 			</template>
 
 			<ForgetPassword v-else @change-status="forgetPage = !forgetPage" />
-		</Card>
+		</a-card>
 	</div>
 </template>
 

@@ -1,4 +1,3 @@
-import { vitePluginForArco } from '@arco-plugins/vite-vue';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
 import UnoCSS from 'unocss/vite';
@@ -14,9 +13,6 @@ export default defineConfig({
 		}),
 		Components({
 			resolvers: [ArcoResolver({ sideEffect: true })]
-		}),
-		vitePluginForArco({
-			style: 'css'
 		}),
 		// eslint(),
 		UnoCSS()
