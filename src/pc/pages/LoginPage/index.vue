@@ -23,9 +23,8 @@
 </template>
 
 <script lang="ts" setup>
-import { Card } from '@arco-design/web-vue';
-import ForgetPassword from '@pc/pages/LoginPage/ForgetPassword.vue';
 import { ref } from 'vue';
+import ForgetPassword from './cpns/ForgetPassword.vue';
 import LoginForm from './cpns/LoginForm.vue';
 
 const forgetPage = ref(false); // 是否是忘记密码页面
