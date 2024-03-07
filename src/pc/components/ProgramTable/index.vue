@@ -51,9 +51,13 @@
 					</a-button>
 
 					<template #content>
-						<a-doption @click="emits('edit:project', record)">
+						<a-doption @click="emits('edit:project', record)" :disabled="record.projectType === 'complex'">
 							<icon-code />
 							编辑代码
+						</a-doption>
+						<a-doption @click="emits('into:project', record)" v-if="record.projectType === 'complex'">
+							<icon-code />
+							进入工作目录
 						</a-doption>
 						<a-doption @click="openRenameDialog(record)">
 							<icon-edit />
@@ -114,7 +118,7 @@ interface IProps {
 }
 
 const formRef = ref<FormInstance>();
-const emits = defineEmits(['update:list', 'edit:project', 'edit:projectType']);
+const emits = defineEmits(['update:list', 'edit:project', 'edit:projectType', 'into:project']);
 const selectedKeys = ref<number[]>([]);
 const rowSelection: Ref<TableRowSelection> = ref({
 	type: 'checkbox',

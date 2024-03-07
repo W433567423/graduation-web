@@ -10,6 +10,7 @@ export interface IProjectListItem {
 	createTime: string;
 	updateTime: string;
 	disable: boolean;
+	projectType: string;
 }
 
 export interface IProjectList {

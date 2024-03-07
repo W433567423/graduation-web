@@ -7,12 +7,12 @@ const routes: RouteRecordRaw[] = [
 		path: '/',
 		redirect: '/pc/login'
 	},
+	{ path: '/pc-login', component: Login },
 	{
 		path: '/pc',
 		component: import('@/pc/pages/LayoutPage/index.vue'),
-		redirect: '/pc/login',
+		redirect: '/pc/dash',
 		children: [
-			{ path: 'login', component: Login },
 			{ path: 'dash', component: import('@/pc/pages/LayoutPage/DashBoard/index.vue') },
 			{ path: 'new', component: import('@/pc/pages/LayoutPage/NewProject/index.vue') },
 			{ path: 'set', component: import('@/pc/pages/LayoutPage/SetConfig/index.vue') },

@@ -8,7 +8,11 @@
 <template>
 	<bread-nav />
 	<main class="main-contain-wrap">
-		<program-table :list="list" @update:list="flashList" @edit:project="editCode" />
+		<program-table
+			:list="list"
+			@update:list="flashList"
+			@edit:project="editCode"
+			@into:project="intoWorkSpace" />
 	</main>
 	<!-- <a-modal width="80vw" v-model:visible="codeVisible" title-align="start" :onClose="handleClearModal">
 		<template #title>
@@ -79,6 +83,11 @@ const flashList = async () => {
 const editCode = async (project: IProjectListItem) => {
 	await router.push({ path: `/pc/code`, query: { id: project.id } });
 	emit('update:wrap');
+};
+
+//  进入工作台
+const intoWorkSpace = async (project: IProjectListItem) => {
+	await router.push({ path: `/pc-workspace`, query: { id: project.id } });
 };
 
 onBeforeMount(async () => {
