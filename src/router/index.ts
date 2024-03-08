@@ -5,8 +5,9 @@ import Login from '@pc/pages/LoginPage/index.vue';
 const routes: RouteRecordRaw[] = [
 	{
 		path: '/',
-		redirect: '/pc/login'
+		redirect: '/pc-login'
 	},
+	// pc端
 	{ path: '/pc-login', component: Login },
 	{
 		path: '/pc',
@@ -19,6 +20,8 @@ const routes: RouteRecordRaw[] = [
 			{ path: 'code', component: import('@/pc/pages/LayoutPage/CodeView/index.vue') }
 		]
 	},
+	{ path: '/pc-workspace', component: import('@/pc/pages/WorkSpacePage/index.vue') },
+	// 移动端
 	{
 		path: '/mobile',
 		children: [
