@@ -25,58 +25,26 @@
 </template>
 
 <script lang="ts" setup>
+import { getProjectMenu } from '@/services/projects.api';
+import { FormateTree } from '@/utils/handleMap.utils';
+import { type TreeNodeData } from '@arco-design/web-vue';
 import PcHeader from '@pc/components/PcHeader/index.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 
 const collapsed = ref(false);
 const onCollapse = (val: boolean) => (collapsed.value = val);
 
-const treeData = [
-	{
-		title: 'Trunk 0-0',
-		key: '0-0',
-		children: [
-			{
-				title: 'Leaf',
-				key: '0-0-1'
-			},
-			{
-				title: 'Branch 0-0-2',
-				key: '0-0-2',
-				children: [
-					{
-						title: 'Leaf',
-						key: '0-0-2-1'
-					}
-				]
-			}
-		]
-	},
-	{
-		title: 'Trunk 0-1',
-		key: '0-1',
-		children: [
-			{
-				title: 'Branch 0-1-1',
-				key: '0-1-1',
-				children: [
-					{
-						title: 'Leaf',
-						key: '0-1-1-1'
-					},
-					{
-						title: 'Leaf',
-						key: '0-1-1-2'
-					}
-				]
-			},
-			{
-				title: 'Leaf',
-				key: '0-1-2'
-			}
-		]
-	}
-];
+const treeData = ref<TreeNodeData[]>([]);
+
+onMounted(async () => {
+	const projectId = Number(route.query.id);
+	const res = await getProjectMenu(projectId);
+	treeData.value = FormateTree(res);
+	console.log('🚀 ~ onMounted ~ treeData.value :', treeData.value);
+});
 </script>
 
 <style lang="less" scoped>

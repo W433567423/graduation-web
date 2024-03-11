@@ -1,6 +1,7 @@
 import type {
 	ICreateProject,
 	IGetProjectCode,
+	IGetProjectMenu,
 	IProjectList,
 	IRunProjectResult
 } from '@/services/interfaces/projects';
@@ -23,6 +24,13 @@ export const postCreateProject = async (data: ICreateProject) => {
 // 获取 项目代码
 export const getProjectCode = async (projectId: number) => {
 	return await request.get<IGetProjectCode>(baseUrl + '/code', {
+		params: { projectId }
+	});
+};
+
+// 获取 项目目录
+export const getProjectMenu = async (projectId: number) => {
+	return await request.get<IGetProjectMenu[]>(baseUrl + '/workSpace', {
 		params: { projectId }
 	});
 };

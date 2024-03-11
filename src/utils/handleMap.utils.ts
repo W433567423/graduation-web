@@ -1,9 +1,10 @@
 import dayjs from 'dayjs';
 
-import type { IProjectListItem } from '@/services/interfaces/projects';
+import type { IGetProjectMenu, IProjectListItem } from '@/services/interfaces/projects';
 import { IEmunRunStatus } from '@/services/interfaces/projects.d';
+import { type TreeNodeData } from '@arco-design/web-vue';
 
-const mapRunStatus = (status: IEmunRunStatus) => {
+export const mapRunStatus = (status: IEmunRunStatus) => {
 	switch (status) {
 		case IEmunRunStatus.unknown:
 			return '未运行';
@@ -14,7 +15,7 @@ const mapRunStatus = (status: IEmunRunStatus) => {
 	}
 };
 
-const mapListProjects = (list: IProjectListItem[]) => {
+export const mapListProjects = (list: IProjectListItem[]) => {
 	return list.map((e) => {
 		e.createTime = dayjs(e.createTime).format('YYYY-MM-DD HH:mm:ss');
 		e.updateTime = dayjs(e.updateTime).format('YYYY-MM-DD HH:mm:ss');
@@ -22,4 +23,14 @@ const mapListProjects = (list: IProjectListItem[]) => {
 	});
 };
 
-export { mapListProjects, mapRunStatus };
+export const FormateTree = (data: IGetProjectMenu[]): TreeNodeData[] => {
+	return data.map((item: any) => {
+		const temp: TreeNodeData = {};
+		temp.key = item.id;
+		temp.title = item.fileName;
+		temp.isLeaf = !item.isFolder;
+		temp.children = item.isFolder ? [{}] : undefined;
+
+		return temp;
+	});
+};

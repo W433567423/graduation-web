@@ -37,3 +37,11 @@ export interface ICreateProject {
 	projectLanguage: string;
 	projectCode: string;
 }
+
+export interface IGetProjectMenu {
+	fileName: string;
+	id: number;
+	isFolder: boolean;
+	parentFolder: number;
+	updateTime: string;
+}
