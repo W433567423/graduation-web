@@ -15,19 +15,19 @@ const routes: RouteRecordRaw[] = [
 		component: LayoutPage,
 		redirect: '/pc/dash',
 		children: [
-			{ path: 'dash', component: import('@/pc/pages/LayoutPage/DashBoard/index.vue') },
-			{ path: 'new', component: import('@/pc/pages/LayoutPage/NewProject/index.vue') },
-			{ path: 'set', component: import('@/pc/pages/LayoutPage/SetConfig/index.vue') },
-			{ path: 'code', component: import('@/pc/pages/LayoutPage/CodeView/index.vue') }
+			{ path: 'dash', component: async () => await import('@/pc/pages/LayoutPage/DashBoard/index.vue') },
+			{ path: 'new', component: async () => await import('@/pc/pages/LayoutPage/NewProject/index.vue') },
+			{ path: 'set', component: async () => await import('@/pc/pages/LayoutPage/SetConfig/index.vue') },
+			{ path: 'code', component: async () => await import('@/pc/pages/LayoutPage/CodeView/index.vue') }
 		]
 	},
-	{ path: '/pc-workspace', component: import('@/pc/pages/WorkSpacePage/index.vue') },
+	{ path: '/pc-workspace', component: async () => await import('@/pc/pages/WorkSpacePage/index.vue') },
 	// 移动端
 	{
 		path: '/mobile',
 		children: [
-			{ path: '/setting', component: import('@/mobile/pages/Setting/index.vue') },
-			{ path: '/result', component: import('@/mobile/pages/Result/index.vue') }
+			{ path: '/setting', component: async () => await import('@/mobile/pages/Setting/index.vue') },
+			{ path: '/result', component: async () => await import('@/mobile/pages/Result/index.vue') }
 		]
 	}
 ];
