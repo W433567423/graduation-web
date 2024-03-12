@@ -15,7 +15,7 @@ export const getProjectList = async (page = 0, size = 15) => {
 };
 // 创建 项目
 export const postCreateProject = async (data: ICreateProjectReq) => {
-	return await request.post<{ projectId: number }>(baseUrl + '/create', {
+	return await request.post<{ projectId: number; rootWorkId?: number }>(baseUrl + '/create', {
 		data
 	});
 };

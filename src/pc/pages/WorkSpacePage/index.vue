@@ -67,7 +67,7 @@ const loadingStatus = ref(false); // loading
 const newFolderVisible = ref(false); // 新建文件夹弹窗
 const newFileVisible = ref(false); // 新建文件弹窗
 const newFolderName = ref(''); // 新建文件夹名称
-const newFileName = ref(''); // 新建文件名称
+// const newFileName = ref(''); // 新建文件名称
 
 // 刷新列表
 const flashMenu = async (parentId: number) => {

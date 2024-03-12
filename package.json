@@ -29,6 +29,7 @@
     "normalize.css": "^8.0.1",
     "pinia": "^2.1.7",
     "process": "^0.11.10",
+    "rollup-plugin-visualizer": "^5.12.0",
     "vue": "^3.3.11",
     "vue-codemirror6": "^1.2.5",
     "vue-dompurify-html": "^5.0.1",

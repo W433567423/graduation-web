@@ -59,14 +59,17 @@ const form = ref<ICreateProjectReq>({
 
 const handleCreate = async () => {
 	const res = await postCreateProject(form.value);
-	console.log('🚀 ~ handleCreate ~ res:', res);
 	if (res.projectId) {
 		// 创建成功
 		Notification.success({
 			title: '创建成功',
 			content: '项目创建成功,即将自动跳转到代码编辑页',
 			// 跳转到项目详情页
-			onClose: async () => await router.push({ path: `/pc/code`, query: { id: res.projectId } })
+			onClose: async () => {
+				if (form.value.projectType === 'simple')
+					await router.push({ path: `/pc/code`, query: { id: res.projectId } });
+				else await router.push({ path: `/pc-workspace`, query: { rootFolderId: res.rootWorkId! } });
+			}
 		});
 	}
 };
