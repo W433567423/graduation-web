@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router';
 
+import LayoutPage from '@pc/pages/LayoutPage/index.vue';
 import Login from '@pc/pages/LoginPage/index.vue';
 
 const routes: RouteRecordRaw[] = [
@@ -11,7 +12,7 @@ const routes: RouteRecordRaw[] = [
 	{ path: '/pc-login', component: Login },
 	{
 		path: '/pc',
-		component: import('@/pc/pages/LayoutPage/index.vue'),
+		component: LayoutPage,
 		redirect: '/pc/dash',
 		children: [
 			{ path: 'dash', component: import('@/pc/pages/LayoutPage/DashBoard/index.vue') },
