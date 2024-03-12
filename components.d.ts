@@ -33,6 +33,7 @@ declare module 'vue' {
     ARadio: typeof import('@arco-design/web-vue')['Radio']
     ARadioGroup: typeof import('@arco-design/web-vue')['RadioGroup']
     ASelect: typeof import('@arco-design/web-vue')['Select']
+    ASpin: typeof import('@arco-design/web-vue')['Spin']
     ASplit: typeof import('@arco-design/web-vue')['Split']
     AStep: typeof import('@arco-design/web-vue')['Step']
     ASteps: typeof import('@arco-design/web-vue')['Steps']

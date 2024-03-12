@@ -11,6 +11,7 @@ export interface IProjectListItem {
 	updateTime: string;
 	disable: boolean;
 	projectType: string;
+	rootWorkId: string;
 }
 
 export interface IProjectList {

@@ -87,7 +87,10 @@ const editCode = async (project: IProjectListItem) => {
 
 //  进入工作台
 const intoWorkSpace = async (project: IProjectListItem) => {
-	await router.push({ path: `/pc-workspace`, query: { id: project.id } });
+	await router.push({
+		path: `/pc-workspace`,
+		query: { rootFolderId: project.rootWorkId }
+	});
 };
 
 onBeforeMount(async () => {
