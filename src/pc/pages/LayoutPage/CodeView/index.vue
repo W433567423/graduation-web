@@ -59,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IRunProjectResultError } from '@/services/interfaces/projects';
+import type { IRunProjectResultErrorRes } from '@/services/interfaces/projects';
 import { getProjectCode, patchProjectCode, postProjectCode } from '@/services/projects.api';
 import { Scrollbar as AScrollbar, Notification } from '@arco-design/web-vue';
 import { computed, onMounted, ref, type Ref, type VNodeRef } from 'vue';
@@ -97,7 +97,7 @@ const runCode = async (projectId: number) => {
 		resultData.message = res.codeResult as string[];
 		Notification.success({ content: '代码保存成功', position: 'bottomRight' });
 	} else {
-		resultData.message = `${(res.codeResult as IRunProjectResultError).name}:${(res.codeResult as IRunProjectResultError).message}`;
+		resultData.message = `${(res.codeResult as IRunProjectResultErrorRes).name}:${(res.codeResult as IRunProjectResultErrorRes).message}`;
 	}
 	codeResultList.value.unshift(resultData);
 

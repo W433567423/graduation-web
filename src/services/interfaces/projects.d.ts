@@ -3,7 +3,7 @@ export enum IEmunRunStatus {
 	unknown = 0,
 	success = 1
 }
-export interface IProjectListItem {
+export interface IProjectListItemRes {
 	id: number;
 	projectName: string;
 	lastStatus: IEmunRunStatus;
@@ -14,35 +14,27 @@ export interface IProjectListItem {
 	rootWorkId: string;
 }
 
-export interface IProjectList {
-	list: IProjectListItem[];
+export interface IProjectListRes {
+	list: IProjectListItemRes[];
 	total: number;
 }
-export interface IRunProjectResultError {
+export interface IRunProjectResultErrorRes {
 	message: string;
 	name: string;
 }
-export interface IRunProjectResult {
+export interface IRunProjectResultRes {
 	codeStatus: boolean;
-	codeResult: IRunProjectResultError | string[];
+	codeResult: IRunProjectResultErrorRes | string[];
 	codeRunDate: string;
 }
-export interface IGetProjectCode {
+export interface IGetProjectCodeRes {
 	projectName: string;
 	code: string;
 }
 
-export interface ICreateProject {
+export interface ICreateProjectReq {
 	projectName: string;
 	projectType: string;
 	projectLanguage: string;
 	projectCode: string;
-}
-
-export interface IGetProjectMenu {
-	fileName: string;
-	id: number;
-	isFolder: boolean;
-	parentFolder: number;
-	updateTime: string;
 }

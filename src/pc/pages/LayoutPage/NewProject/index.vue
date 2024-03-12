@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { type ICreateProject } from '@/services/interfaces/projects';
+import type { ICreateProjectReq } from '@/services/interfaces/projects';
 import { postCreateProject } from '@/services/projects.api';
 import { Notification } from '@arco-design/web-vue';
 import breadNav from '@pc/components/BreadNav/index.vue';
@@ -50,7 +50,7 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const form = ref<ICreateProject>({
+const form = ref<ICreateProjectReq>({
 	projectName: '',
 	projectType: 'simple',
 	projectCode: '',

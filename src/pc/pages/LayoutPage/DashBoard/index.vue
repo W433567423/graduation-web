@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { IProjectListItem } from '@/services/interfaces/projects';
+import type { IProjectListItemRes } from '@/services/interfaces/projects';
 import { getProjectList } from '@/services/projects.api';
 import { mapListProjects } from '@/utils';
 import breadNav from '@pc/components/BreadNav/index.vue';
@@ -69,7 +69,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const emit = defineEmits(['update:wrap']);
 
-const list: Ref<IProjectListItem[]> = ref([]); // 项目列表
+const list: Ref<IProjectListItemRes[]> = ref([]); // 项目列表
 
 const total = ref(0); // 项目总数
 // 刷新列表数据
@@ -80,13 +80,13 @@ const flashList = async () => {
 };
 
 // 打开编辑代码的弹框
-const editCode = async (project: IProjectListItem) => {
+const editCode = async (project: IProjectListItemRes) => {
 	await router.push({ path: `/pc/code`, query: { id: project.id } });
 	emit('update:wrap');
 };
 
 //  进入工作台
-const intoWorkSpace = async (project: IProjectListItem) => {
+const intoWorkSpace = async (project: IProjectListItemRes) => {
 	await router.push({
 		path: `/pc-workspace`,
 		query: { rootFolderId: project.rootWorkId }

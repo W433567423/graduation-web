@@ -29,7 +29,7 @@
 			<!-- 列内容 -->
 			<template #num="{ i }">{{ i }}</template>
 
-			<template #status="{ record }: { record: IProjectListItem }">
+			<template #status="{ record }: { record: IProjectListItemRes }">
 				<template v-if="record.disable">
 					<a-tooltip content="已被禁用">
 						<icon-stop class="cursor-help text-red!" />
@@ -42,7 +42,7 @@
 				</template>
 			</template>
 
-			<template #action="{ record }: { record: IProjectListItem }">
+			<template #action="{ record }: { record: IProjectListItemRes }">
 				<a-dropdown trigger="hover">
 					<a-button circle>
 						<template #icon>
@@ -79,7 +79,7 @@
 				</a-dropdown>
 			</template>
 
-			<template #lastStatus="{ record }: { record: IProjectListItem }">
+			<template #lastStatus="{ record }: { record: IProjectListItemRes }">
 				{{ mapRunStatus(record.lastStatus) }}
 			</template>
 		</a-table>
@@ -99,7 +99,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { IProjectListItem } from '@/services/interfaces/projects';
+import type { IProjectListItemRes } from '@/services/interfaces/projects';
 import { deleteProjectByIds, disableProjectById, putReNameProject } from '@/services/projects.api';
 import { mapRunStatus } from '@/utils';
 import {
@@ -114,7 +114,7 @@ import {
 import { ref, type Ref } from 'vue';
 
 interface IProps {
-	list: IProjectListItem[];
+	list: IProjectListItemRes[];
 }
 
 const formRef = ref<FormInstance>();
@@ -127,7 +127,7 @@ const rowSelection: Ref<TableRowSelection> = ref({
 });
 const renameDialogFormVisible = ref(false); // 重命名对话框
 
-const localProject: Ref<IProjectListItem | undefined> = ref(); // 当前操作的项目
+const localProject: Ref<IProjectListItemRes | undefined> = ref(); // 当前操作的项目
 const { list } = defineProps<IProps>();
 
 const form = ref({
@@ -179,7 +179,7 @@ const columns: TableColumnData[] = [
 ];
 
 // 打开重命名对话框
-const openRenameDialog = (project: IProjectListItem) => {
+const openRenameDialog = (project: IProjectListItemRes) => {
 	localProject.value = project;
 	renameDialogFormVisible.value = true;
 };

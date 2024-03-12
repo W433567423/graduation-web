@@ -18,7 +18,7 @@
 				:width="220">
 				<div class="action-menu-button-wrap">
 					<a-button type="primary" @click="newFolderVisible = true">新建文件夹</a-button>
-					<a-button type="primary">新建文件</a-button>
+					<a-button type="primary" @click="newFileVisible = true">新建文件</a-button>
 					<a-button type="primary">上传文件</a-button>
 				</div>
 			</a-layout-sider>
@@ -40,27 +40,36 @@
 	<a-modal v-model:visible="newFolderVisible" @ok="handleNewFolder" title="新建文件夹">
 		<a-input v-model="newFolderName" placeholder="请输入文件夹名称" />
 	</a-modal>
+	<!-- 弹窗 新建文件 -->
+	<a-modal v-model:visible="newFileVisible" @ok="handleNewFile" title="新建文件">
+		<NewFileForm />
+	</a-modal>
 </template>
 
 <script lang="ts" setup>
 import { getWorkFileMenu, postNewFolder } from '@/services/files.api';
-import { type IGetProjectMenu } from '@/services/interfaces/projects';
+import type { IGetFileMenuRes } from '@/services/interfaces/files.d';
 import { Notification } from '@arco-design/web-vue';
 import PcHeader from '@pc/components/PcHeader/index.vue';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import NewFileForm from './cpns/NewFileForm.vue';
 
 const route = useRoute();
 
 const collapsed = ref(false);
 const onCollapse = (val: boolean) => (collapsed.value = val);
-const newFolderVisible = ref(false); // 新建文件夹弹窗
-const newFolderName = ref(''); // 新建文件夹名称
-const loadingStatus = ref(false); // 新建文件夹loading
 
-const dataList = ref<IGetProjectMenu[]>([]); // 项目菜单
+const dataList = ref<IGetFileMenuRes[]>([]); // 项目菜单
 const parentId = ref(0); // 父级id
 
+const loadingStatus = ref(false); // loading
+const newFolderVisible = ref(false); // 新建文件夹弹窗
+const newFileVisible = ref(false); // 新建文件弹窗
+const newFolderName = ref(''); // 新建文件夹名称
+const newFileName = ref(''); // 新建文件名称
+
+// 刷新列表
 const flashMenu = async (parentId: number) => {
 	dataList.value = await getWorkFileMenu(parentId);
 };
@@ -76,6 +85,11 @@ const handleNewFolder = async () => {
 			loadingStatus.value = false;
 		}
 	});
+};
+
+// 新建文件
+const handleNewFile = () => {
+	console.log('新建文件');
 };
 
 // 获取项目菜单

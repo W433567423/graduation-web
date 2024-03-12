@@ -1,21 +1,20 @@
 import type {
-	ICreateProject,
-	IGetProjectCode,
-	IGetProjectMenu,
-	IProjectList,
-	IRunProjectResult
+	ICreateProjectReq,
+	IGetProjectCodeRes,
+	IProjectListRes,
+	IRunProjectResultRes
 } from '@/services/interfaces/projects';
 import request from '@/services/require.ts';
 
 const baseUrl = '/projects';
 // 获取 项目列表
 export const getProjectList = async (page = 0, size = 15) => {
-	return await request.get<IProjectList>(baseUrl + '/list', {
+	return await request.get<IProjectListRes>(baseUrl + '/list', {
 		params: { page, size }
 	});
 };
 // 创建 项目
-export const postCreateProject = async (data: ICreateProject) => {
+export const postCreateProject = async (data: ICreateProjectReq) => {
 	return await request.post<{ projectId: number }>(baseUrl + '/create', {
 		data
 	});
@@ -23,14 +22,7 @@ export const postCreateProject = async (data: ICreateProject) => {
 
 // 获取 项目代码
 export const getProjectCode = async (projectId: number) => {
-	return await request.get<IGetProjectCode>(baseUrl + '/code', {
-		params: { projectId }
-	});
-};
-
-// 获取 项目目录
-export const getProjectMenu = async (projectId: number) => {
-	return await request.get<IGetProjectMenu[]>(baseUrl + '/workSpace', {
+	return await request.get<IGetProjectCodeRes>(baseUrl + '/code', {
 		params: { projectId }
 	});
 };
@@ -45,7 +37,7 @@ export const patchProjectCode = async (projectId: number, code: string) => {
 
 // 运行 项目代码
 export const postProjectCode = async (projectId: number, code: string, codeLanguage: string) => {
-	return await request.post<IRunProjectResult>(baseUrl + '/code', {
+	return await request.post<IRunProjectResultRes>(baseUrl + '/code', {
 		params: { projectId },
 		data: { code, codeLanguage }
 	});
