@@ -10,15 +10,15 @@ export const getWorkFileMenu = async (parentId: number) => {
 };
 
 // 新建文件夹
-export const postNewFolder = async (fileName: string, parentId: number) => {
+export const postNewFolder = async (foldName: string, parentId: number) => {
 	return await request.post(baseUrl + '/newFolder', {
-		data: { fileName, parentId },
+		data: { foldName, parentId },
 		originData: true
 	});
 };
 // 新建文件
 export const postNewFile = async (data: IPostNewFileReq) => {
-	return await request.post(baseUrl + '/newFolder', {
+	return await request.post(baseUrl + '/newFile', {
 		data,
 		originData: true
 	});

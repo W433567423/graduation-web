@@ -89,7 +89,7 @@ const editCode = async (project: IProjectListItemRes) => {
 const intoWorkSpace = async (project: IProjectListItemRes) => {
 	await router.push({
 		path: `/pc-workspace`,
-		query: { rootFolderId: project.rootWorkId }
+		query: { rootFolderId: project.rootWorkFoldId }
 	});
 };
 

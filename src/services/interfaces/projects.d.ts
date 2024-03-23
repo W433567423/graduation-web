@@ -11,7 +11,7 @@ export interface IProjectListItemRes {
 	updateTime: string;
 	disable: boolean;
 	projectType: string;
-	rootWorkId: string;
+	rootWorkFoldId: string;
 }
 
 export interface IProjectListRes {

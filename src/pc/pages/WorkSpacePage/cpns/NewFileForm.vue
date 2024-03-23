@@ -9,9 +9,6 @@
 		<a-form-item label="文件名称">
 			<a-input v-model="form.fileName" placeholder="请输入文件名称"></a-input>
 		</a-form-item>
-		<a-form-item label="文件名称">
-			<a-input v-model="form.fileName" placeholder="请输入文件名称"></a-input>
-		</a-form-item>
 	</a-form>
 </template>
 
@@ -20,6 +17,10 @@ import { ref } from 'vue';
 
 const form = ref({
 	fileName: ''
+});
+
+defineExpose({
+	form
 });
 </script>
 

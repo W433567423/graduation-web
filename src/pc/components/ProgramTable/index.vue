@@ -43,7 +43,7 @@
 			</template>
 
 			<template #action="{ record }: { record: IProjectListItemRes }">
-				<a-dropdown trigger="hover">
+				<a-dropdown trigger="hover" :popup-max-height="false">
 					<a-button circle>
 						<template #icon>
 							<icon-more />

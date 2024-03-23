@@ -17,9 +17,18 @@
 				@collapse="onCollapse"
 				:width="220">
 				<div class="action-menu-button-wrap">
-					<a-button type="primary" @click="newFolderVisible = true">新建文件夹</a-button>
-					<a-button type="primary" @click="newFileVisible = true">新建文件</a-button>
-					<a-button type="primary">上传文件</a-button>
+					<a-button type="primary" @click="newFolderVisible = true">
+						<icon-folder-add class="mr-12px" />
+						新建文件夹
+					</a-button>
+					<a-button type="primary" @click="newFileVisible = true">
+						<icon-drive-file class="mr-12px" />
+						新建文件
+					</a-button>
+					<a-button type="primary" @click="handleUploadFile">
+						<icon-upload class="mr-12px" />
+						上传文件
+					</a-button>
 				</div>
 			</a-layout-sider>
 			<!-- 主要内容 -->
@@ -27,7 +36,8 @@
 				<a-layout-content class="content-wrap">
 					<div class="content-inner-wrap">
 						<a-card hoverable class="folder-wrap" v-for="(item, index) in dataList" :key="index">
-							<icon-folder class="folder-icon" />
+							<icon-folder class="folder-icon" v-if="item.isFolder" />
+							<icon-file class="folder-icon" v-else />
 							{{ item.fileName }}
 						</a-card>
 					</div>
@@ -42,20 +52,21 @@
 	</a-modal>
 	<!-- 弹窗 新建文件 -->
 	<a-modal v-model:visible="newFileVisible" @ok="handleNewFile" title="新建文件">
-		<NewFileForm />
+		<a-input v-model="newFileName" placeholder="请输入文件名称" />
 	</a-modal>
 </template>
 
 <script lang="ts" setup>
-import { getWorkFileMenu, postNewFolder } from '@/services/files.api';
+import { getWorkFileMenu, postNewFile, postNewFolder } from '@/services/files.api';
 import type { IGetFileMenuRes } from '@/services/interfaces/files.d';
 import { Notification } from '@arco-design/web-vue';
 import PcHeader from '@pc/components/PcHeader/index.vue';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, type VNodeRef } from 'vue';
 import { useRoute } from 'vue-router';
-import NewFileForm from './cpns/NewFileForm.vue';
 
 const route = useRoute();
+
+const newFileFormRef: VNodeRef | undefined = ref();
 
 const collapsed = ref(false);
 const onCollapse = (val: boolean) => (collapsed.value = val);
@@ -67,32 +78,59 @@ const loadingStatus = ref(false); // loading
 const newFolderVisible = ref(false); // 新建文件夹弹窗
 const newFileVisible = ref(false); // 新建文件弹窗
 const newFolderName = ref(''); // 新建文件夹名称
-// const newFileName = ref(''); // 新建文件名称
+const newFileName = ref(''); // 新建文件名称
 
-// 刷新列表
+/**
+ * DONE
+ * @description 刷新列表
+ * @author tutu
+ * @time 2024-03-23 09:49:03
+ * @param {number} parentId 父级id
+ */
 const flashMenu = async (parentId: number) => {
 	dataList.value = await getWorkFileMenu(parentId);
 };
-// 新建文件夹
+/**
+ * DONE
+ * @description 新建文件夹
+ * @author tutu
+ * @time 2024-03-23 09:49:35
+ */
 const handleNewFolder = async () => {
 	loadingStatus.value = true;
 	const res = await postNewFolder(newFolderName.value, parentId.value);
-	Notification.success({
-		content: res.message,
-		duration: 1000,
-		onClose: async () => {
-			await flashMenu(parentId.value);
-			loadingStatus.value = false;
-		}
-	});
+	if (res.code === 200)
+		Notification.success({
+			content: res.message,
+			duration: 1000,
+			onClose: async () => {
+				await flashMenu(parentId.value);
+				loadingStatus.value = false;
+			}
+		});
 };
 
-// 新建文件
-const handleNewFile = () => {
-	console.log('新建文件');
+/**
+ * DONE
+ * @description 新建文件
+ * @author tutu
+ * @time 2024-03-23 09:50:03
+ */
+const handleNewFile = async () => {
+	await postNewFile({ fileName: newFileName.value, parentId: parentId.value });
+	flashMenu(parentId.value);
 };
 
-// 获取项目菜单
+/**
+ * TODO
+ * @description 上传文件功能
+ * @author tutu
+ * @time 2024-03-23 09:50:11
+ */
+const handleUploadFile = () => {
+	console.log('🚀 ~ handleUploadFile ~ handleUploadFile');
+};
+
 onMounted(async () => {
 	parentId.value = Number(route.query.rootFolderId);
 	flashMenu(parentId.value);
