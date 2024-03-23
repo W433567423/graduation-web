@@ -9,7 +9,7 @@
 	<main class="main-contain-wrap">
 		<a-card hoverable>
 			<header class="header-title-wrap">新建项目</header>
-			<a-form :model="form" layout="vertical" @submit="handleCreate">
+			<a-form :model="form" layout="vertical" @submit="handleCreate" class="pt-20px">
 				<a-form-item required label="项目名称">
 					<a-input v-model="form.projectName" placeholder="请输入项目名称" class="w-400px!"></a-input>
 				</a-form-item>
@@ -56,19 +56,25 @@ const form = ref<ICreateProjectReq>({
 	projectCode: '',
 	projectLanguage: ''
 });
-
+/**
+ * DONE
+ * @description 创建项目
+ * @author tutu
+ * @time 2024-03-23 10:10:52
+ */
 const handleCreate = async () => {
 	const res = await postCreateProject(form.value);
 	if (res.projectId) {
 		// 创建成功
 		Notification.success({
 			title: '创建成功',
-			content: '项目创建成功,即将自动跳转到代码编辑页',
+			content:
+				'项目创建成功,即将自动跳转到' + form.value.projectType === 'simple' ? '代码编辑页' : '工作目录',
 			// 跳转到项目详情页
 			onClose: async () => {
 				if (form.value.projectType === 'simple')
 					await router.push({ path: `/pc/code`, query: { id: res.projectId } });
-				else await router.push({ path: `/pc-workspace`, query: { rootFolderId: res.rootWorkId! } });
+				else await router.push({ path: `/pc-workspace`, query: { parentId: res.rootWorkFoldId! } });
 			}
 		});
 	}

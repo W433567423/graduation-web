@@ -1,10 +1,10 @@
 import request from '@/services/require.ts';
-import { type IPostNewFileReq } from './interfaces/files';
+import { type IGetFileMenuRes, type IPostNewFileReq } from './interfaces/files';
 const baseUrl = '/files';
 
 // 获取 项目列表
 export const getWorkFileMenu = async (parentId: number) => {
-	return await request.get(baseUrl + '/menu', {
+	return await request.get<IGetFileMenuRes[]>(baseUrl + '/menu', {
 		params: { parentId }
 	});
 };

@@ -17,17 +17,17 @@
 				@collapse="onCollapse"
 				:width="220">
 				<div class="action-menu-button-wrap">
-					<a-button type="primary" @click="newFolderVisible = true">
-						<icon-folder-add class="mr-12px" />
-						新建文件夹
+					<a-button class="p-0! gap-12px" type="primary" @click="newFolderVisible = true">
+						<icon-folder-add />
+						{{ collapsed ? '' : '新建文件夹' }}
 					</a-button>
-					<a-button type="primary" @click="newFileVisible = true">
-						<icon-drive-file class="mr-12px" />
-						新建文件
+					<a-button class="p-0! gap-12px" type="primary" @click="newFileVisible = true">
+						<icon-drive-file />
+						{{ collapsed ? '' : '新建文件' }}
 					</a-button>
-					<a-button type="primary" @click="handleUploadFile">
-						<icon-upload class="mr-12px" />
-						上传文件
+					<a-button class="p-0! gap-12px" type="primary" @click="handleUploadFile">
+						<icon-upload />
+						{{ collapsed ? '' : '上传文件' }}
 					</a-button>
 				</div>
 			</a-layout-sider>
@@ -35,7 +35,12 @@
 			<a-spin :loading="loadingStatus">
 				<a-layout-content class="content-wrap">
 					<div class="content-inner-wrap">
-						<a-card hoverable class="folder-wrap" v-for="(item, index) in dataList" :key="index">
+						<a-card
+							hoverable
+							class="folder-wrap"
+							v-for="(item, index) in dataList"
+							:key="index"
+							@click="handleClickItem(item.mimetype)">
 							<icon-folder class="folder-icon" v-if="item.isFolder" />
 							<icon-file class="folder-icon" v-else />
 							{{ item.fileName }}
@@ -58,18 +63,16 @@
 
 <script lang="ts" setup>
 import { getWorkFileMenu, postNewFile, postNewFolder } from '@/services/files.api';
-import type { IGetFileMenuRes } from '@/services/interfaces/files.d';
+import type { IFileType, IGetFileMenuRes } from '@/services/interfaces/files.d';
 import { Notification } from '@arco-design/web-vue';
 import PcHeader from '@pc/components/PcHeader/index.vue';
-import { onMounted, ref, type VNodeRef } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
-const route = useRoute();
+const route = useRoute(); // 路由
 
-const newFileFormRef: VNodeRef | undefined = ref();
-
-const collapsed = ref(false);
-const onCollapse = (val: boolean) => (collapsed.value = val);
+const collapsed = ref(false); // 侧边栏是否折叠
+const onCollapse = (val: boolean) => (collapsed.value = val); // 折叠事件
 
 const dataList = ref<IGetFileMenuRes[]>([]); // 项目菜单
 const parentId = ref(0); // 父级id
@@ -88,7 +91,9 @@ const newFileName = ref(''); // 新建文件名称
  * @param {number} parentId 父级id
  */
 const flashMenu = async (parentId: number) => {
-	dataList.value = await getWorkFileMenu(parentId);
+	const res = await getWorkFileMenu(parentId);
+	// 排序,文件夹在前
+	dataList.value = res.sort((a, b) => Number(b.isFolder) - Number(a.isFolder));
 };
 /**
  * DONE
@@ -102,10 +107,11 @@ const handleNewFolder = async () => {
 	if (res.code === 200)
 		Notification.success({
 			content: res.message,
-			duration: 1000,
+			duration: 1500,
 			onClose: async () => {
 				await flashMenu(parentId.value);
 				loadingStatus.value = false;
+				newFolderName.value = '';
 			}
 		});
 };
@@ -117,8 +123,27 @@ const handleNewFolder = async () => {
  * @time 2024-03-23 09:50:03
  */
 const handleNewFile = async () => {
-	await postNewFile({ fileName: newFileName.value, parentId: parentId.value });
-	flashMenu(parentId.value);
+	const res = await postNewFile({ fileName: newFileName.value, parentId: parentId.value });
+	if (res.code === 200)
+		Notification.success({
+			content: res.message,
+			duration: 1500,
+			onClose: async () => {
+				await flashMenu(parentId.value);
+				loadingStatus.value = false;
+				newFileName.value = '';
+			}
+		});
+};
+
+/**
+ * DONE
+ * @description 点击文件夹/文件
+ * @author tutu
+ * @time 2024-03-23 17:38:14
+ */
+const handleClickItem = (type: IFileType) => {
+	console.log('🚀 ~ handleClickFold ~', type);
 };
 
 /**
@@ -132,7 +157,7 @@ const handleUploadFile = () => {
 };
 
 onMounted(async () => {
-	parentId.value = Number(route.query.rootFolderId);
+	parentId.value = Number(route.query.parentId);
 	flashMenu(parentId.value);
 });
 </script>
