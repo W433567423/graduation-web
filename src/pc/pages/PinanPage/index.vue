@@ -1,3 +1,9 @@
+<!--
+* DONE
+* @description: 取码列表
+* @author: tutu
+* @time: 2024-03-24 18:25:55
+-->
 <template>
 	<a-layout>
 		<PcHeader />
@@ -39,21 +45,9 @@ const customBreadNav = ref(false);
 const menuList: IMenuItem[] = [
 	{
 		id: '1',
-		title: '面板',
-		link: 'dash',
+		title: '产码列表',
+		link: 'yard',
 		icon: h(compile('<IconApps />'))
-	},
-	{
-		id: '2',
-		title: '新建项目',
-		link: 'new',
-		icon: h(compile('<IconPlus />'))
-	},
-	{
-		id: '3',
-		title: '设置',
-		link: 'set',
-		icon: h(compile('<IconBug />'))
 	}
 ];
 const changeMenu = async (url: string) => {
@@ -69,8 +63,4 @@ onMounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-.a-menu-vertical-demo:not(.a-menu--collapse) {
-	height: calc(100vh - 64px);
-}
-</style>
+<style lang="less" scoped></style>
