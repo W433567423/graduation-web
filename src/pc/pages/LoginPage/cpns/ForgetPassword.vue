@@ -184,7 +184,7 @@ const flashEmailValidCode = () => {
 	if (emailRex.test(form.value.emailNum)) {
 		isValidLoading.value = !isValidLoading.value;
 		// eslint-disable-next-line @typescript-eslint/no-floating-promises
-		getEmailValidCode(form.value.emailNum)
+		void getEmailValidCode(form.value.emailNum)
 			.then(() => Notification.success({ content: '发送验证码成功' }))
 			.finally(() => {
 				isValidLoading.value = !isValidLoading.value;

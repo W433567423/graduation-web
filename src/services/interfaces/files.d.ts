@@ -5,6 +5,7 @@ export enum IFileType {
 	'image/png' = 'image/png',
 	'application/x-gzip' = 'application/x-gzip',
 	'application/x-tar' = 'application/x-tar',
+	'video/mp4' = 'video/mp4',
 	'' = ''
 }
 

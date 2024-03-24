@@ -41,9 +41,16 @@
 							v-for="(item, index) in dataList"
 							:key="index"
 							@click="handleClickItem(item.mimetype)">
-							<icon-folder class="folder-icon" v-if="item.isFolder" />
-							<icon-file class="folder-icon" v-else />
-							{{ item.fileName }}
+							<icon-folder class="file-icon color-yellow!" v-if="item.isFolder" />
+							<template v-else>
+								<icon-file-image class="file-icon" v-if="item.mimetype === ''" />
+								<icon-file-image
+									class="file-icon color-pink!!"
+									v-else-if="item.mimetype === 'image/jpeg'" />
+								<icon-file-image class="file-icon color-green!" v-else-if="item.mimetype === 'video/mp4'" />
+								<icon-file class="file-icon" v-else />
+							</template>
+							<div class="file-name">{{ item.fileName }}</div>
 						</a-card>
 					</div>
 				</a-layout-content>
@@ -190,10 +197,18 @@ onMounted(async () => {
 				display: flex;
 				align-items: center;
 			}
-			.folder-icon {
+			.file-icon {
 				width: 32px;
 				height: 32px;
 				margin-right: 12px;
+				flex-shrink: 0;
+			}
+			.file-name {
+				text-overflow: ellipsis;
+				overflow: hidden;
+				word-break: break-all;
+				white-space: nowrap;
+				width: 100%;
 			}
 		}
 	}
