@@ -187,6 +187,9 @@ const userLoginOrRegistry = async ({
 			Message.success({
 				content: (isLoginPage.value ? '登录' : '注册') + '成功'
 			});
+			if (username === 'tutu') {
+				setLocalStorage('pinan', 'allow');
+			}
 			setLocalStorage('user', { username, password });
 			// 登录/注册成功后跳转
 			if (typeof route.query.redirect === 'string') {

@@ -1,7 +1,6 @@
-import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router';
-
 import { getLocalStorage } from '@/utils';
 import Login from '@pc/pages/LoginPage/index.vue';
+import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
 	{
