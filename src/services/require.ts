@@ -58,7 +58,7 @@ class HttpRequest {
 
 				// code处理
 				if (data.code) {
-					this.handleCode(data.code, data.msg);
+					this.handleCode(data.code, data.msg, (res.config as IResponseConfig).passLogin);
 				} else {
 					return Promise.reject(new Error('Response Error! 没有code!'));
 				}
@@ -84,8 +84,8 @@ class HttpRequest {
 		);
 	}
 
-	handleCode(code: number, msg: any): void {
-		if (code === 401) {
+	handleCode(code: number, msg: any, passLogin = false): void {
+		if (!passLogin && code === 401) {
 			// 登录状态已过期.处理路由重定向
 			console.log('登录状态已过期');
 			useUserStore().clearToken();

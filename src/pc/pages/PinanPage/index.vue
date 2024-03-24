@@ -35,10 +35,12 @@
 
 <script lang="ts" setup>
 import PcHeader from '@pc/components/PcHeader/index.vue';
-import { compile, h, ref } from 'vue';
+import { compile, h, onBeforeMount, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { type IMenuItem } from '../type';
 
+import usePinanStore from '@/stores/pinan';
+const pinanStore = usePinanStore();
 const router = useRouter();
 
 const menuList: IMenuItem[] = [
@@ -54,6 +56,10 @@ const changeMenu = async (url: string) => {
 };
 const collapsed = ref(false);
 const onCollapse = (val: boolean) => (collapsed.value = val);
+
+onBeforeMount(() => {
+	pinanStore.init();
+});
 </script>
 
 <style lang="less" scoped></style>

@@ -9,12 +9,13 @@ const routes: RouteRecordRaw[] = [
 		redirect: '/pc-login'
 	},
 	// 平安平台
+	{ path: '/pinan-login', component: async () => await import('@/pc/pages/PinanPage/Login/index.vue') },
 	{
 		path: '/pinan',
 		component: async () => await import('@/pc/pages/PinanPage/index.vue'),
 		redirect: '/pinan/yard',
 		children: [
-			{ path: 'yard', component: async () => await import('@/pc/pages/PinanPage/getYard/index.vue') }
+			{ path: 'yard', component: async () => await import('@/pc/pages/PinanPage/GetYard/index.vue') }
 		]
 	},
 	// pc端

@@ -14,47 +14,7 @@
 import { getProducedYard } from '@/services/pinan.api';
 import { type TableColumnData, type TableData } from '@arco-design/web-vue';
 import { h, onBeforeUnmount, onMounted, ref } from 'vue';
-const list = ref([
-	{
-		account: '227384408',
-		code: null,
-		id: '5191638463266484806',
-		land_id: 826171,
-		userid: 5732,
-		userPid: 4918,
-		syorder: '492BEBD87048687BEDC18E3B27A1839E13181',
-		orderid: null,
-		tdorder: '492BEBD87048687BEDC18E3B27A1839E13181',
-		money: 100,
-		order_url:
-			"top.location.href='mqqapi://forward/url?src_type=web&version=1&url_prefix=aHR0cHM6Ly9wYXkucXEuY29tL20vYWN0aXZlL2ZyaWVuZHBheS5waHA/c2FuZGJveD0mb2ZmZXJJZD0xNDUwMDAyMjU4JmZyaWVuZHNfcGF5X21zZz00OTJCRUJEODcwNDg2ODdCRURDMThFM0IyN0ExODM5RTEzMTgxJnBmPW1kc19zdG9yZW9wZW5fcWItMjE5OV92MV8wXzAuY29tbW9uMV92MS1hbmRyb2lk'",
-		cjTime: '2024-03-24 16:49:47',
-		status: 2,
-		channelid: 54,
-		upTime: '2024-03-24 16:49:47',
-		channel_name: '王者安卓区点券',
-		dm: 'Tx_qwzdjazvq',
-		quTime: '2024-03-24 16:49:47',
-		api_id: 'g638181073',
-		username: 'W433567423',
-		uspidStr: '(0)(1)(4797)(4918)',
-		pay_type: 0,
-		leanerid: false,
-		serverName: '295区',
-		rolename: '矮油,你干嘛?',
-		topid: null,
-		pay_mode: 0,
-		paySelect: 0,
-		testingTime: '2024-03-24 16:49:47',
-		rechargeSun: 0,
-		validTime: 1380,
-		rail_id: null,
-		openkey: null,
-		offerid: null,
-		url_params: null,
-		tgp_id: null
-	}
-]);
+const list = ref([]);
 let timer: NodeJS.Timeout; // 定时器
 const columns: TableColumnData[] = [
 	// {
@@ -150,6 +110,6 @@ onBeforeUnmount(() => {
 	width: 100%;
 	box-sizing: border-box;
 	padding: 20px;
-	height: calc(100vh - 112px);
+	height: calc(100vh - 64px);
 }
 </style>

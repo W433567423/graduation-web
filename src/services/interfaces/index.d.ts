@@ -8,6 +8,7 @@ interface IResponseData<T = any> {
 }
 interface IResponseConfig extends InternalAxiosRequestConfig<any> {
 	originData?: boolean;
+	passLogin?: boolean;
 }
 
 interface IServerConfig {
@@ -16,6 +17,7 @@ interface IServerConfig {
 
 interface IRequestConfig extends AxiosRequestConfig {
 	originData?: boolean;
+	passLogin?: boolean;
 }
 /** ************** end ******************/
 
