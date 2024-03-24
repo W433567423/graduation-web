@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router';
 
+import { getLocalStorage } from '@/utils';
 import Login from '@pc/pages/LoginPage/index.vue';
 
 const routes: RouteRecordRaw[] = [
@@ -43,6 +44,13 @@ const routes: RouteRecordRaw[] = [
 const router = createRouter({
 	history: createWebHashHistory(),
 	routes
+});
+
+router.beforeEach((to, from, next) => {
+	if (to.fullPath.includes('pinan')) {
+		if (getLocalStorage('pinan') === 'allow') next();
+		else next(from.fullPath);
+	} else next();
 });
 
 export default router;

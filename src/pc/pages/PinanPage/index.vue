@@ -16,7 +16,7 @@
 				:collapsed="collapsed"
 				@collapse="onCollapse"
 				:width="220">
-				<a-menu mode="pop" :default-selected-keys="[1]">
+				<a-menu mode="pop" :default-selected-keys="['1']">
 					<a-menu-item v-for="e in menuList" @click="changeMenu(e.link)" :key="e.id">
 						<template #icon>
 							<component :is="e.icon" />
@@ -35,12 +35,11 @@
 
 <script lang="ts" setup>
 import PcHeader from '@pc/components/PcHeader/index.vue';
-import { compile, h, onMounted, ref } from 'vue';
+import { compile, h, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { type IMenuItem } from '../type';
 
 const router = useRouter();
-const customBreadNav = ref(false);
 
 const menuList: IMenuItem[] = [
 	{
@@ -51,16 +50,10 @@ const menuList: IMenuItem[] = [
 	}
 ];
 const changeMenu = async (url: string) => {
-	await router.replace({ path: `/pc/${url}` });
+	await router.replace({ path: `/pinan/${url}` });
 };
 const collapsed = ref(false);
 const onCollapse = (val: boolean) => (collapsed.value = val);
-
-onMounted(() => {
-	if (router.currentRoute.value.path === '/pc/code') {
-		customBreadNav.value = true;
-	}
-});
 </script>
 
 <style lang="less" scoped></style>

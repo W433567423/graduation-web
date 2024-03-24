@@ -10,7 +10,7 @@
 				:collapsed="collapsed"
 				@collapse="onCollapse"
 				:width="220">
-				<a-menu mode="pop" :default-selected-keys="[1]">
+				<a-menu mode="pop" :default-selected-keys="['1']">
 					<a-menu-item v-for="e in menuList" @click="changeMenu(e.link)" :key="e.id">
 						<template #icon>
 							<component :is="e.icon" />
