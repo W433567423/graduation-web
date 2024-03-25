@@ -8,13 +8,13 @@ const routes: RouteRecordRaw[] = [
 		redirect: '/pc-login'
 	},
 	// 平安平台
-	{ path: '/pinan-login', component: async () => await import('@/pc/pages/PinanPage/Login/index.vue') },
+	{ path: '/peace-login', component: async () => await import('@/pc/pages/PeacePage/Login/index.vue') },
 	{
-		path: '/pinan',
-		component: async () => await import('@/pc/pages/PinanPage/index.vue'),
-		redirect: '/pinan/yard',
+		path: '/peace',
+		component: async () => await import('@/pc/pages/PeacePage/index.vue'),
+		redirect: '/peace/yard',
 		children: [
-			{ path: 'yard', component: async () => await import('@/pc/pages/PinanPage/GetYard/index.vue') }
+			{ path: 'yard', component: async () => await import('@/pc/pages/PeacePage/GetYard/index.vue') }
 		]
 	},
 	// pc端
@@ -47,8 +47,8 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-	if (to.fullPath.includes('pinan')) {
-		if (getLocalStorage('pinan') === 'allow') next();
+	if (to.fullPath.includes('peace')) {
+		if (getLocalStorage('peace') === 'allow') next();
 		else next(from.fullPath);
 	} else next();
 });

@@ -1,8 +1,8 @@
 import request from '@/services/require.ts';
 
-const baseUrl = '/pinan';
+const baseUrl = '/peace';
 // 登录接口
-export const pinanLogin = async (data: { username: string; password: string; code: number }) => {
+export const peaceLogin = async (data: { username: string; password: string; code: number }) => {
 	return await request.post(baseUrl + `/login`, { data, passLogin: true });
 };
 

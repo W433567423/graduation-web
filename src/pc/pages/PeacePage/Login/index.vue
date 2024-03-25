@@ -5,7 +5,7 @@
 * @time: 2024-03-24 19:39:19
 -->
 <template>
-	<a-card class="pinan-login-wrap">
+	<a-card class="peace-login-wrap">
 		<a-form :model="form" class="flex-items-center" @submit="handleLogin">
 			<a-form-item
 				label="用户名"
@@ -41,12 +41,12 @@
 </template>
 
 <script lang="ts" setup>
-import { pinanLogin } from '@/services/pinan.api';
-import usePinanStore from '@/stores/pinan';
+import { peaceLogin } from '@/services/peace.api';
+import usePeaceStore from '@/stores/peace';
 import { type ValidatedError } from '@arco-design/web-vue';
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-const pinanStore = usePinanStore();
+const peaceStore = usePeaceStore();
 const router = useRouter();
 const route = useRoute();
 const form = ref<{ username: string; password: string; code: number | undefined }>({
@@ -66,20 +66,20 @@ const handleLogin = async (
 		console.log('🚀 ~ data.errors:', data.errors);
 		return;
 	}
-	const res = await pinanLogin(form.value as { username: string; password: string; code: number });
-	pinanStore.setPinanUser(res);
+	const res = await peaceLogin(form.value as { username: string; password: string; code: number });
+	peaceStore.setPeaceUser(res);
 	console.log('🚀 ~ handleLogin ~ res:', res);
 	e.preventDefault();
 	if (typeof route.query.redirect === 'string') {
 		await router.replace(route.query.redirect);
 	} else {
-		await router.replace('/pinan/yard');
+		await router.replace('/peace/yard');
 	}
 };
 </script>
 
 <style lang="less" scoped>
-.pinan-login-wrap {
+.peace-login-wrap {
 	margin: 20vh auto;
 	width: 400px;
 	height: 300px;

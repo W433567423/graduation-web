@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getProducedYard } from '@/services/pinan.api';
+import { getProducedYard } from '@/services/peace.api';
 import { type TableColumnData, type TableData } from '@arco-design/web-vue';
 import { h, onBeforeUnmount, onMounted, ref } from 'vue';
 const list = ref([]);

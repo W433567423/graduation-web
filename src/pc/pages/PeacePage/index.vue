@@ -39,8 +39,8 @@ import { compile, h, onBeforeMount, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { type IMenuItem } from '../type';
 
-import usePinanStore from '@/stores/pinan';
-const pinanStore = usePinanStore();
+import usePeaceStore from '@/stores/peace';
+const peaceStore = usePeaceStore();
 const router = useRouter();
 
 const menuList: IMenuItem[] = [
@@ -52,13 +52,13 @@ const menuList: IMenuItem[] = [
 	}
 ];
 const changeMenu = async (url: string) => {
-	await router.replace({ path: `/pinan/${url}` });
+	await router.replace({ path: `/peace/${url}` });
 };
 const collapsed = ref(false);
 const onCollapse = (val: boolean) => (collapsed.value = val);
 
 onBeforeMount(() => {
-	pinanStore.init();
+	peaceStore.init();
 });
 </script>
 
