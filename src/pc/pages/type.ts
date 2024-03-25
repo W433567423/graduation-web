@@ -4,7 +4,7 @@ interface IMenuItem {
 	id: string;
 	title: string;
 	link: string;
-	icon: VNode<RendererNode, RendererElement, Record<string, any>>;
+	icon?: VNode<RendererNode, RendererElement, Record<string, any>>;
 	children?: IMenuItem[];
 }
 

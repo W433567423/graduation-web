@@ -15,8 +15,16 @@ const routes: RouteRecordRaw[] = [
 		redirect: '/peace/Order/yu_list',
 		children: [
 			{
+				path: 'getYard',
+				component: async () => await import('@/pc/pages/PeacePage/GetYard/index.vue')
+			},
+			{
 				path: 'Order/yu_list',
 				component: async () => await import('@/pc/pages/PeacePage/GetYard/index.vue')
+			},
+			{
+				path: 'User/Pay_money',
+				component: async () => await import('@/pc/pages/PeacePage/PayRecord/index.vue')
 			}
 		]
 	},

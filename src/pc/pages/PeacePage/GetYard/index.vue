@@ -6,12 +6,12 @@
 -->
 <template>
 	<main class="main-contain-wrap">
-		<a-table :data="yardList" :columns="columns" row-key="id"></a-table>
+		<a-table :data="yardList" :columns="columns" row-key="id" :pagination="false"></a-table>
 	</main>
 </template>
 
 <script lang="ts" setup>
-import { type IYardListItem } from '@/services/interfaces/peace';
+import { type IYardItem } from '@/services/interfaces/peace';
 import { getProducedYard } from '@/services/peace.api';
 import useUserStore from '@/stores/user';
 import { setLocalStorage } from '@/utils';
@@ -21,7 +21,7 @@ import { useRouter } from 'vue-router';
 
 const userStore = useUserStore();
 const router = useRouter();
-const yardList = ref<IYardListItem[]>([]);
+const yardList = ref<IYardItem[]>([]);
 let timer: NodeJS.Timeout; // 定时器
 const columns: TableColumnData[] = [
 	// {
@@ -55,7 +55,7 @@ const columns: TableColumnData[] = [
 		dataIndex: 'channel_name'
 	},
 	{
-		title: '大区名称',
+		title: '大区',
 		dataIndex: 'serverName'
 	},
 	{
@@ -92,6 +92,7 @@ const mapStatus = (status: number) => {
 	return h('div', { class: ['text-center', status === 2 ? 'bg-red' : 'bg-green'] }, text);
 };
 
+//
 const flashList = async () => {
 	const { data } = await getProducedYard();
 	if (data) {

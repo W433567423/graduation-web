@@ -39,7 +39,7 @@ export interface IPeaceUser {
 }
 
 // 接码列表item类型
-export interface IYardListItem {
+export interface IYardItem {
 	account: string;
 	code: string | null;
 	id: string;
@@ -89,4 +89,24 @@ interface IPeaceMenuItem {
 	sort: 0;
 	title: '';
 	type: 0;
+}
+
+// 平安的充值记录
+interface IPayMessageItem {
+	boolAuto: boolean;
+	cjTime: string;
+	hash: null;
+	id: string;
+	money: number;
+	nickname: string;
+	objid: number;
+	objnickname: string;
+	objpid: number;
+	objusername: string;
+	resmoney: number;
+	setmoney: number;
+	type: number;
+	username: string;
+	usid: number;
+	uspid: number;
 }
