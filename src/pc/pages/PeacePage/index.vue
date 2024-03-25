@@ -20,7 +20,7 @@
 					<template v-for="e in menuList" :key="e.id">
 						<!-- 二级菜单 -->
 						<template v-if="e.children?.length">
-							<a-sub-menu @click="changeMenu(e.link)" :title="e.title" :key="e.id">
+							<a-sub-menu :title="e.title" :key="e.id">
 								<!-- 一级菜单 -->
 								<template v-if="e.children?.length">
 									<a-menu-item @click="changeMenu(item.link)" v-for="item in e.children" :key="item.id">

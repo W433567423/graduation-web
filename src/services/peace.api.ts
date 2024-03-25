@@ -2,6 +2,7 @@ import request from '@/services/require.ts';
 import { type IResponseData } from './interfaces';
 import {
 	type IPayMessageItem,
+	type IPeaceChannelItem,
 	type IPeaceMenuItem,
 	type IPeaceUser,
 	type IYardItem
@@ -49,6 +50,16 @@ export const getProducedYard = async () => {
 export const getPayMessage = async () => {
 	return await request.get<IResponseData<IPayMessageItem[] | undefined>>(
 		baseUrl + `/payMessage?page=1&limit=20`,
+		{
+			passLogin: true,
+			originData: true
+		}
+	);
+};
+// 获取通道列表
+export const getChannelList = async () => {
+	return await request.get<IResponseData<IPeaceChannelItem[] | undefined>>(
+		baseUrl + `/channelList?page=1&limit=20`,
 		{
 			passLogin: true,
 			originData: true

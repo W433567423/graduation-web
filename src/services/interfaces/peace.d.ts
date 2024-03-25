@@ -110,3 +110,20 @@ interface IPayMessageItem {
 	usid: number;
 	uspid: number;
 }
+
+// 平安的通道 item 类型
+interface IPeaceChannelItem {
+	channel_set: boolean;
+	dm: string;
+	game_id: null;
+	id: number;
+	img: string;
+	jr_bfb: number;
+	jr_pay: number;
+	landview: string;
+	name: string;
+	status: number;
+	type: number;
+	viewType: number;
+	zr_pay: number;
+}

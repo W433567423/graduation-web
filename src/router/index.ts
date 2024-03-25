@@ -25,6 +25,10 @@ const routes: RouteRecordRaw[] = [
 			{
 				path: 'User/Pay_money',
 				component: async () => await import('@/pc/pages/PeacePage/PayRecord/index.vue')
+			},
+			{
+				path: 'Channel/Index',
+				component: async () => await import('@/pc/pages/PeacePage/Channel/index.vue')
 			}
 		]
 	},
