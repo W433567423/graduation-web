@@ -90,7 +90,7 @@ const handleLogin = async (
 
 onMounted(() => {
 	if (userStore.user.peace) {
-		router.replace('/peace/yard');
+		router.replace('/peace/Order/yu_list');
 	} else {
 		getLocalStorage('peaceLogin') && (form.value = getLocalStorage('peaceLogin'));
 	}

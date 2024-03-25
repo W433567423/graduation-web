@@ -89,9 +89,7 @@ const defaultMenu: IMenuItem[] = [
 const menuList = ref<IMenuItem[]>(defaultMenu);
 // 切换菜单
 const changeMenu = async (key: string) => {
-	console.log('🚀 ~ changeMenu ~ key:', key);
 	const url = linkArr.value.find((e) => e.key === key)?.url;
-	console.log('🚀 ~ changeMenu ~ url:', url);
 	// TODO 未完成的页面
 	if (
 		!url ||
