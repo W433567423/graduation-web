@@ -45,6 +45,12 @@ const router = useRouter();
 
 const menuList: IMenuItem[] = [
 	{
+		id: '0',
+		title: '切换回毕设系统',
+		link: '/pc/dash',
+		icon: h(compile('<IconReply />'))
+	},
+	{
 		id: '1',
 		title: '产码列表',
 		link: 'yard',
@@ -52,7 +58,10 @@ const menuList: IMenuItem[] = [
 	}
 ];
 const changeMenu = async (url: string) => {
-	await router.replace({ path: `/peace/${url}` });
+	if (url.includes('pc')) {
+		console.log('url', url);
+		return await router.replace({ path: `${url}` });
+	} else return await router.replace({ path: `/peace/${url}` });
 };
 const collapsed = ref(false);
 const onCollapse = (val: boolean) => (collapsed.value = val);

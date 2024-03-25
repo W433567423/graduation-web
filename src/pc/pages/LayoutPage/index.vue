@@ -58,13 +58,13 @@ const menuList: IMenuItem[] = [
 	{
 		id: '4',
 		title: '平安平台',
-		link: 'peace-login',
+		link: '/peace-login',
 		icon: h(compile('<IconBug />'))
 	}
 ];
 const changeMenu = async (url: string) => {
 	// 特殊处理
-	if (url === 'peace-login') await router.replace({ path: `/${url}` });
+	if (url === 'peace-login') await router.replace({ path: `${url}` });
 	else await router.replace({ path: `/pc/${url}` });
 };
 const collapsed = ref(false);
