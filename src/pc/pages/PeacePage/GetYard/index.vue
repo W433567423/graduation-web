@@ -6,15 +6,22 @@
 -->
 <template>
 	<main class="main-contain-wrap">
-		<a-table :data="list" :columns="columns" row-key="id"></a-table>
+		<a-table :data="yardList" :columns="columns" row-key="id"></a-table>
 	</main>
 </template>
 
 <script lang="ts" setup>
+import { type IYardListItem } from '@/services/interfaces/peace';
 import { getProducedYard } from '@/services/peace.api';
+import useUserStore from '@/stores/user';
+import { setLocalStorage } from '@/utils';
 import { type TableColumnData, type TableData } from '@arco-design/web-vue';
 import { h, onBeforeUnmount, onMounted, ref } from 'vue';
-const list = ref([]);
+import { useRouter } from 'vue-router';
+
+const userStore = useUserStore();
+const router = useRouter();
+const yardList = ref<IYardListItem[]>([]);
 let timer: NodeJS.Timeout; // 定时器
 const columns: TableColumnData[] = [
 	// {
@@ -86,7 +93,15 @@ const mapStatus = (status: number) => {
 };
 
 const flashList = async () => {
-	list.value = await getProducedYard();
+	const { data } = await getProducedYard();
+	if (data) {
+		yardList.value = data;
+	} else {
+		userStore.user.peace = null;
+		setLocalStorage('user', userStore.user);
+		clearInterval(timer);
+		router.replace('/peace-login');
+	}
 };
 
 onMounted(async () => {

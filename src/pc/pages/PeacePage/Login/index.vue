@@ -5,21 +5,24 @@
 * @time: 2024-03-24 19:39:19
 -->
 <template>
-	<a-card class="peace-login-wrap">
+	<a-card
+		class="peace-login-wrap"
+		:body-style="{ width: '360px', display: 'flex', flexDirection: 'column', alignItems: 'center' }">
+		<h2 class="pb-20px">登录平安系统</h2>
 		<a-form :model="form" class="flex-items-center" @submit="handleLogin">
 			<a-form-item
 				label="用户名"
 				required
 				field="username"
 				:rules="[{ required: true, message: '用户名必填' }]">
-				<a-input v-model="form.username"></a-input>
+				<a-input v-model="form.username" placeholder="请输入用户名"></a-input>
 			</a-form-item>
 			<a-form-item
 				:rules="[{ required: true, message: '密码必填' }]"
 				label="密码"
 				required
 				field="password">
-				<a-input v-model="form.password"></a-input>
+				<a-input v-model="form.password" placeholder="请输入密码" type="password"></a-input>
 			</a-form-item>
 			<a-form-item
 				:rules="[
@@ -33,7 +36,7 @@
 				label="动态码"
 				required
 				field="code">
-				<a-input-number v-model="form.code"></a-input-number>
+				<a-input-number v-model="form.code" placeholder="请输入动态码"></a-input-number>
 			</a-form-item>
 			<a-button type="primary" class="w-100px mt-20px" html-type="submit">登录</a-button>
 		</a-form>
@@ -43,10 +46,13 @@
 <script lang="ts" setup>
 import { peaceLogin } from '@/services/peace.api';
 import usePeaceStore from '@/stores/peace';
+import useUserStore from '@/stores/user';
+import { getLocalStorage, setLocalStorage } from '@/utils';
 import { type ValidatedError } from '@arco-design/web-vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 const peaceStore = usePeaceStore();
+const userStore = useUserStore();
 const router = useRouter();
 const route = useRoute();
 const form = ref<{ username: string; password: string; code: number | undefined }>({
@@ -55,6 +61,7 @@ const form = ref<{ username: string; password: string; code: number | undefined 
 	code: undefined
 });
 
+// 登录 平安系统
 const handleLogin = async (
 	data: {
 		values: Record<string, any>;
@@ -67,8 +74,12 @@ const handleLogin = async (
 		return;
 	}
 	const res = await peaceLogin(form.value as { username: string; password: string; code: number });
-	peaceStore.setPeaceUser(res);
-	console.log('🚀 ~ handleLogin ~ res:', res);
+	console.log('🚀 ~ res:', res);
+	peaceStore.setPeaceUser(res.peaceUser);
+	userStore.user.peace = res.peaceCookie;
+	userStore.setUser(userStore.user);
+
+	setLocalStorage('peaceLogin', { username: form.value.username, password: form.value.password });
 	e.preventDefault();
 	if (typeof route.query.redirect === 'string') {
 		await router.replace(route.query.redirect);
@@ -76,14 +87,24 @@ const handleLogin = async (
 		await router.replace('/peace/yard');
 	}
 };
+
+onMounted(() => {
+	if (userStore.user.peace) {
+		router.replace('/peace/yard');
+	} else {
+		getLocalStorage('peaceLogin') && (form.value = getLocalStorage('peaceLogin'));
+	}
+});
 </script>
 
 <style lang="less" scoped>
 .peace-login-wrap {
 	margin: 20vh auto;
-	width: 400px;
-	height: 300px;
-	padding-top: 32px;
+	width: 420px;
 	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border-radius: 8px;
 }
 </style>

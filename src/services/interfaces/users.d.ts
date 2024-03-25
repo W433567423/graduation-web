@@ -1,4 +1,14 @@
 /** ************** users ******************/
+interface IUser {
+	createTime: string;
+	updateTime: string;
+	id: number;
+	username: string;
+	password: string;
+	phone: string | null | undefined;
+	email: string;
+	peace: string | null | undefined;
+}
 interface IUserForm {
 	username: string;
 	valid: string;
@@ -15,4 +25,4 @@ interface IForgetLoginForm {
 }
 /** ************** end ******************/
 
-export type { IForgetLoginForm, IUserLoginForm };
+export type { IForgetLoginForm, IUser, IUserLoginForm };

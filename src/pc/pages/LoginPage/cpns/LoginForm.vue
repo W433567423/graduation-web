@@ -67,7 +67,7 @@
 
 			<div v-if="isLoginPage" class="form-extra-wrap">
 				<div class="remember-wrap">
-					<a-checkbox v-model="isRemember" @change="handleChangeRemember">记住我</a-checkbox>
+					<a-checkbox v-model="isRemember" @change="handleChangeRemember">记住用户名</a-checkbox>
 				</div>
 				<a-link :hoverable="false" @click="emits('changePage')">忘记密码</a-link>
 			</div>
@@ -90,7 +90,7 @@
 
 <script lang="ts" setup>
 import { getEmailValidCode, getValidCode } from '@/services/captchas.api.ts';
-import { type IUserLoginForm } from '@/services/interfaces/users';
+import { type IUser, type IUserLoginForm } from '@/services/interfaces/users';
 import { postUserLogin, postUserRegistry } from '@/services/users.api.ts';
 import useUserStore from '@/stores/user.ts';
 import { getLocalStorage, setLocalStorage } from '@/utils';
@@ -173,24 +173,28 @@ const userLoginOrRegistry = async ({
 	errors: Record<string, ValidatedError> | undefined;
 }) => {
 	if (!errors) {
-		const { username, password } = form.value;
-		let token = '';
+		let token: string;
+		let user: IUser;
 		if (isLoginPage.value) {
 			// 登录
-			token = await postUserLogin(form.value);
+			const res = await postUserLogin(form.value);
+			token = res.token;
+			user = res.user;
 		} else {
 			//   注册
-			token = await postUserRegistry(form.value);
+			const res = await postUserRegistry(form.value);
+			token = res.token;
+			user = res.user;
 		}
 		if (token) {
 			userStore.setToken(token);
 			Message.success({
 				content: (isLoginPage.value ? '登录' : '注册') + '成功'
 			});
-			if (username === 'tutu') {
+			if (user.username === 'tutu') {
 				setLocalStorage('peace', 'allow');
 			}
-			setLocalStorage('user', { username, password });
+			userStore.setUser(user);
 			// 登录/注册成功后跳转
 			if (typeof route.query.redirect === 'string') {
 				await router.replace(route.query.redirect);
@@ -217,7 +221,7 @@ const init = () => {
 		const userStorage = getLocalStorage('user');
 		if (userStorage instanceof Object) {
 			try {
-				form.value = userStorage;
+				form.value.username = userStorage.username;
 			} catch (e) {
 				console.log(e);
 			}

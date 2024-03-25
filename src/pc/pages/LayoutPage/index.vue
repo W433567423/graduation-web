@@ -54,10 +54,18 @@ const menuList: IMenuItem[] = [
 		title: '设置',
 		link: 'set',
 		icon: h(compile('<IconBug />'))
+	},
+	{
+		id: '4',
+		title: '平安平台',
+		link: 'peace-login',
+		icon: h(compile('<IconBug />'))
 	}
 ];
 const changeMenu = async (url: string) => {
-	await router.replace({ path: `/pc/${url}` });
+	// 特殊处理
+	if (url === 'peace-login') await router.replace({ path: `/${url}` });
+	else await router.replace({ path: `/pc/${url}` });
 };
 const collapsed = ref(false);
 const onCollapse = (val: boolean) => (collapsed.value = val);

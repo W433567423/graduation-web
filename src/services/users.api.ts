@@ -1,15 +1,15 @@
 import request from '@/services/require.ts';
-import type { IForgetLoginForm, IUserLoginForm } from './interfaces/users';
+import type { IForgetLoginForm, IUser, IUserLoginForm } from './interfaces/users';
 
 const baseUrl = '/users';
 // 登录接口
 export const postUserLogin = async (data: IUserLoginForm) => {
-	return await request.post(baseUrl + `/login`, { data });
+	return await request.post<{ token: string; user: IUser }>(baseUrl + `/login`, { data });
 };
 
 // 注册接口
 export const postUserRegistry = async (data: IUserLoginForm) => {
-	return await request.post(baseUrl + `/registry`, { data });
+	return await request.post<{ token: string; user: IUser }>(baseUrl + `/registry`, { data });
 };
 
 // 忘记密码接口
