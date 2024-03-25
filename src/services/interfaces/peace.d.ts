@@ -77,3 +77,16 @@ export interface IYardListItem {
 	url_params: string | null;
 	tgp_id: string | null;
 }
+
+// 平安的菜单 item 类型
+interface IPeaceMenuItem {
+	childMenus: IPeaceMenuItem[];
+	href: '';
+	icon: '';
+	id: 0;
+	pid: 0;
+	roleId: '';
+	sort: 0;
+	title: '';
+	type: 0;
+}

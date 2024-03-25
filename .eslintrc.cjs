@@ -14,7 +14,13 @@ module.exports = {
 		ecmaVersion: 'latest',
 		sourceType: 'module',
 		tsconfigRootDir: __dirname,
-		project: ['./tsconfig.json', './.commitlintrc.cjs', './.prettierrc', './uno.config.ts'],
+		project: [
+			'./tsconfig.json',
+			'./tsconfig.node.json',
+			'./commitlint.config.js',
+			'./.prettierrc',
+			'./uno.config.ts'
+		],
 		parser: '@typescript-eslint/parser',
 		extraFileExtensions: ['.vue'] // 新增
 	},

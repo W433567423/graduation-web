@@ -1,6 +1,6 @@
 import request from '@/services/require.ts';
 import { type IResponseData } from './interfaces';
-import { type IPeaceUser, type IYardListItem } from './interfaces/peace';
+import { type IPeaceMenuItem, type IPeaceUser, type IYardListItem } from './interfaces/peace';
 
 const baseUrl = '/peace';
 // 登录接口
@@ -11,6 +11,12 @@ export const peaceLogin = async (data: { username: string; password: string; cod
 	});
 };
 
+// 获取菜单
+export const getMenu = async () => {
+	return await request.post<IPeaceMenuItem[]>(baseUrl + `/getMenu`, {
+		passLogin: true
+	});
+};
 // 获取产码列表
 export const getProducedYard = async () => {
 	return await request.get<IResponseData<IYardListItem[] | undefined>>(

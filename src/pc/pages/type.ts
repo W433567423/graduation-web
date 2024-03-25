@@ -5,6 +5,7 @@ interface IMenuItem {
 	title: string;
 	link: string;
 	icon: VNode<RendererNode, RendererElement, Record<string, any>>;
+	children?: IMenuItem[];
 }
 
 export type { IMenuItem };

@@ -1,5 +1,5 @@
 import vue from '@vitejs/plugin-vue';
-import path from 'path';
+import { resolve } from 'path';
 import { visualizer } from 'rollup-plugin-visualizer';
 import UnoCSS from 'unocss/vite';
 import AutoImport from 'unplugin-auto-import/vite';
@@ -38,12 +38,24 @@ export default defineConfig({
 		})
 	],
 	resolve: {
-		alias: {
-			'@': path.join(__dirname, './src'),
-			'@pc': path.join(__dirname, './src/pc'),
-			'@m': path.join(__dirname, './src/mobile'),
-			vue: 'vue/dist/vue.esm-bundler.js'
-		}
+		alias: [
+			{
+				find: 'vue',
+				replacement: 'vue/dist/vue.esm-bundler.js'
+			},
+			{
+				find: '@',
+				replacement: resolve(__dirname, './src')
+			},
+			{
+				find: '@pc',
+				replacement: resolve(__dirname, './src/pc')
+			},
+			{
+				find: '@mobile',
+				replacement: resolve(__dirname, './src/mobile')
+			}
+		]
 	},
 	server: {
 		open: false,

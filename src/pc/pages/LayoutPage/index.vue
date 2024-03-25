@@ -40,19 +40,19 @@ const menuList: IMenuItem[] = [
 	{
 		id: '1',
 		title: '面板',
-		link: 'dash',
+		link: '/dash',
 		icon: h(compile('<IconApps />'))
 	},
 	{
 		id: '2',
 		title: '新建项目',
-		link: 'new',
+		link: '/new',
 		icon: h(compile('<IconPlus />'))
 	},
 	{
 		id: '3',
 		title: '设置',
-		link: 'set',
+		link: '/set',
 		icon: h(compile('<IconBug />'))
 	},
 	{
@@ -64,8 +64,8 @@ const menuList: IMenuItem[] = [
 ];
 const changeMenu = async (url: string) => {
 	// 特殊处理
-	if (url === 'peace-login') await router.replace({ path: `${url}` });
-	else await router.replace({ path: `/pc/${url}` });
+	if (url.includes('peace')) await router.replace({ path: `${url}` });
+	else await router.replace({ path: `/pc${url}` });
 };
 const collapsed = ref(false);
 const onCollapse = (val: boolean) => (collapsed.value = val);

@@ -12,9 +12,12 @@ const routes: RouteRecordRaw[] = [
 	{
 		path: '/peace',
 		component: async () => await import('@/pc/pages/PeacePage/index.vue'),
-		redirect: '/peace/yard',
+		redirect: '/peace/Order/yu_list',
 		children: [
-			{ path: 'yard', component: async () => await import('@/pc/pages/PeacePage/GetYard/index.vue') }
+			{
+				path: 'Order/yu_list',
+				component: async () => await import('@/pc/pages/PeacePage/GetYard/index.vue')
+			}
 		]
 	},
 	// pc端
