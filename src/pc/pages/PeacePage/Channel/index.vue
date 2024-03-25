@@ -69,7 +69,6 @@ let timer: NodeJS.Timeout; // 定时器
 // 获取通道列表
 const flashList = async () => {
 	const { data } = await getChannelList();
-	console.log('🚀 ~ flashList ~ data:', data?.[0]);
 	if (data) {
 		channelList.value = data;
 	} else {
@@ -80,7 +79,7 @@ const flashList = async () => {
 	}
 };
 
-// 点击卡片
+// TODO 点击卡片
 const handleClickCard = (type: string, id: number) => {
 	console.log('🚀 ~ handleClickCard ~ type:', type, id);
 };

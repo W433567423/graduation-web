@@ -6,7 +6,9 @@
 -->
 <template>
 	<main class="main-contain-wrap">
-		<a-table :data="yardList" :columns="columns" row-key="id" :pagination="false"></a-table>
+		<a-spin :loading="loading" class="w-100% h-100%">
+			<a-table :data="yardList" :columns="columns" row-key="id" :pagination="false"></a-table>
+		</a-spin>
 	</main>
 </template>
 
@@ -21,8 +23,12 @@ import { useRouter } from 'vue-router';
 
 const userStore = useUserStore();
 const router = useRouter();
-const yardList = ref<IYardItem[]>([]);
+
+const loading = ref(false); // 加载状态
+
+const yardList = ref<IYardItem[]>([]); // 产码列表
 let timer: NodeJS.Timeout; // 定时器
+// 表格列 配置
 const columns: TableColumnData[] = [
 	// {
 	// 	title: 'ID',
@@ -94,7 +100,9 @@ const mapStatus = (status: number) => {
 
 //
 const flashList = async () => {
+	loading.value = true;
 	const { data } = await getProducedYard();
+	loading.value = false;
 	if (data) {
 		yardList.value = data;
 	} else {

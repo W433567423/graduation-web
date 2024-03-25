@@ -6,7 +6,9 @@
 -->
 <template>
 	<main class="main-contain-wrap">
-		<a-table :data="yardList" :columns="columns" row-key="id" :pagination="false"></a-table>
+		<a-spin :loading="loading" class="w-100% h-100%">
+			<a-table :data="payRecordList" :columns="columns" row-key="id" :pagination="false"></a-table>
+		</a-spin>
 	</main>
 </template>
 
@@ -21,8 +23,12 @@ import { useRouter } from 'vue-router';
 
 const userStore = useUserStore();
 const router = useRouter();
-const yardList = ref<IPayMessageItem[]>([]);
+
+const loading = ref(false); // 加载状态
+
+const payRecordList = ref<IPayMessageItem[]>([]); // 充值记录列表
 let timer: NodeJS.Timeout; // 定时器
+// 表格列 配置
 const columns: TableColumnData[] = [
 	{
 		title: '操作人员',
@@ -48,12 +54,14 @@ const columns: TableColumnData[] = [
 		}
 	}
 ];
-//
+
+// 刷新列表
 const flashList = async () => {
+	loading.value = true;
 	const { data } = await getPayMessage();
-	console.log('🚀 ~ flashList ~ data:', data);
+	loading.value = false;
 	if (data) {
-		yardList.value = data;
+		payRecordList.value = data;
 	} else {
 		userStore.user.peace = null;
 		setLocalStorage('user', userStore.user);
@@ -65,9 +73,9 @@ const flashList = async () => {
 onMounted(async () => {
 	flashList();
 	// 创建随机秒数(3-10)
-	// const randomSecond = Math.floor(Math.random() * 7) + 3;
-	// // 随机调用函数f
-	// timer = setInterval(flashList, randomSecond * 1000);
+	const randomSecond = Math.floor(Math.random() * 7) + 3;
+	// 随机调用函数f
+	timer = setInterval(flashList, randomSecond * 1000);
 });
 onBeforeUnmount(() => {
 	console.log('定时器被清除');
