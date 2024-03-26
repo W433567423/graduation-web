@@ -7,7 +7,14 @@
 <template>
 	<main class="main-contain-wrap">
 		<a-spin :loading="loading" class="w-100% h-100%">
-			<a-table :data="yardList" :columns="columns" row-key="id" :pagination="false"></a-table>
+			<a-scrollbar style="height: 100%; overflow: auto" outer-class="h-100%">
+				<a-table
+					:data="yardList"
+					:columns="columns"
+					row-key="id"
+					:pagination="false"
+					class="min-w-960px"></a-table>
+			</a-scrollbar>
 		</a-spin>
 	</main>
 </template>

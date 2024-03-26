@@ -6,50 +6,52 @@
 -->
 <template>
 	<main class="main-contain-wrap">
-		<a-scrollbar style="height: 100%; overflow: auto" outer-class="h-100%">
-			<div class="flex flex-wrap gap-20px">
-				<a-card v-for="(e, i) in channelList" :key="i" class="h-240px w-240px">
-					<div class="w-100% h-152px">
-						<div class="text-20px pt-20px">今日成功率 {{ e.jr_bfb }}%</div>
-						<div class="flex justify-around mt-20px">
-							<div class="flex flex-col">
-								<span class="text-16px text-gray">今日收入</span>
-								<span class="text-24px mt-12px">{{ e.jr_pay }}元</span>
-							</div>
-							<div class="flex flex-col">
-								<span class="text-16px text-gray">昨日收入</span>
-								<span class="text-24px mt-12px">{{ e.zr_pay }}元</span>
+		<a-spin :loading="loading" class="w-100% h-100%">
+			<a-scrollbar style="height: 100%; overflow: auto" outer-class="h-100%">
+				<div class="flex flex-wrap gap-20px min-w-766px">
+					<a-card v-for="(e, i) in channelList" :key="i" class="h-240px w-240px">
+						<div class="w-100% h-152px">
+							<div class="text-20px pt-20px">今日成功率 {{ e.jr_bfb }}%</div>
+							<div class="flex justify-around mt-20px">
+								<div class="flex flex-col">
+									<span class="text-16px text-gray">今日收入</span>
+									<span class="text-24px mt-12px">{{ e.jr_pay }}元</span>
+								</div>
+								<div class="flex flex-col">
+									<span class="text-16px text-gray">昨日收入</span>
+									<span class="text-24px mt-12px">{{ e.zr_pay }}元</span>
+								</div>
 							</div>
 						</div>
-					</div>
 
-					<template #actions>
-						<a-tooltip content="添加账号">
-							<span class="icon-hover" @click="handleClickCard('addAccount', e.id)"><icon-plus /></span>
-						</a-tooltip>
-						<a-tooltip content="账号管理">
-							<span class="icon-hover" @click="handleClickCard('manageAccount', e.id)">
-								<IconShareInternal />
-							</span>
-						</a-tooltip>
+						<template #actions>
+							<a-tooltip content="添加账号">
+								<span class="icon-hover" @click="handleClickCard('addAccount', e.id)"><icon-plus /></span>
+							</a-tooltip>
+							<a-tooltip content="账号管理">
+								<span class="icon-hover" @click="handleClickCard('manageAccount', e.id)">
+									<IconShareInternal />
+								</span>
+							</a-tooltip>
 
-						<a-tooltip content="添加常用">
-							<span class="icon-hover" @click="handleClickCard('addUsual', e.id)"><IconMore /></span>
-						</a-tooltip>
-					</template>
-					<a-card-meta>
-						<template #avatar>
-							<div :style="{ display: 'flex', alignItems: 'center', color: '#1D2129' }">
-								<a-avatar :size="24" :style="{ marginRight: '8px' }" v-if="e.img">
-									<img alt="avatar" :src="`https://g63a2.danimmp.net${e.img}`" />
-								</a-avatar>
-								<a-typography-text :ellipsis="true" class="mb-0!">{{ e.name }}</a-typography-text>
-							</div>
+							<a-tooltip content="添加常用">
+								<span class="icon-hover" @click="handleClickCard('addUsual', e.id)"><IconMore /></span>
+							</a-tooltip>
 						</template>
-					</a-card-meta>
-				</a-card>
-			</div>
-		</a-scrollbar>
+						<a-card-meta>
+							<template #avatar>
+								<div :style="{ display: 'flex', alignItems: 'center', color: '#1D2129' }">
+									<a-avatar :size="24" :style="{ marginRight: '8px' }" v-if="e.img">
+										<img alt="avatar" :src="`https://g63a2.danimmp.net${e.img}`" />
+									</a-avatar>
+									<a-typography-text :ellipsis="true" class="mb-0!">{{ e.name }}</a-typography-text>
+								</div>
+							</template>
+						</a-card-meta>
+					</a-card>
+				</div>
+			</a-scrollbar>
+		</a-spin>
 	</main>
 </template>
 
@@ -63,12 +65,17 @@ import { useRouter } from 'vue-router';
 
 const userStore = useUserStore();
 const router = useRouter();
-const channelList = ref<IPeaceChannelItem[]>([]);
+
+const loading = ref(false); // 加载状态
+
+const channelList = ref<IPeaceChannelItem[]>([]); // 通道列表
 let timer: NodeJS.Timeout; // 定时器
 
 // 获取通道列表
 const flashList = async () => {
+	loading.value = true;
 	const { data } = await getChannelList();
+	loading.value = false;
 	if (data) {
 		channelList.value = data;
 	} else {

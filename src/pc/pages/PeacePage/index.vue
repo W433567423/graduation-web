@@ -75,13 +75,13 @@ const collapsed = ref(false);
 const onCollapse = (val: boolean) => (collapsed.value = val);
 
 const loading = ref(true); // 加载状态
-const linkArr = ref<Array<{ key: string; url: string }>>([]); // 菜单链接
+const linkArr = ref<Array<{ key: string; url: string }>>([{ key: '0', url: '/pc/dash' }]); // 菜单链接
 // 菜单列表(默认)
 const defaultMenu: IMenuItem[] = [
 	{
 		id: '0',
 		title: '切换回毕设系统',
-		link: '/pc/dash',
+		link: '',
 		icon: h(compile('<IconReply />'))
 	}
 ];
@@ -90,6 +90,7 @@ const menuList = ref<IMenuItem[]>(defaultMenu);
 // 切换菜单
 const changeMenu = async (key: string) => {
 	const url = linkArr.value.find((e) => e.key === key)?.url;
+	console.log('🚀 ~ changeMenu ~ url:', url);
 	// TODO 未完成的页面
 	if (
 		!url ||
@@ -145,7 +146,6 @@ const flashMenu = async () => {
 	});
 
 	menuList.value = defaultMenu.concat(mapMenuList);
-	console.log('🚀 ~ flashMenu ~ mapMenuList:', mapMenuList);
 };
 
 onBeforeMount(() => {

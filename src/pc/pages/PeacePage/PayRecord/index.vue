@@ -7,7 +7,14 @@
 <template>
 	<main class="main-contain-wrap">
 		<a-spin :loading="loading" class="w-100% h-100%">
-			<a-table :data="payRecordList" :columns="columns" row-key="id" :pagination="false"></a-table>
+			<a-scrollbar style="height: 100%; overflow: auto" outer-class="h-100%">
+				<a-table
+					:data="payRecordList"
+					:columns="columns"
+					row-key="id"
+					:pagination="false"
+					class="min-w-600px"></a-table>
+			</a-scrollbar>
 		</a-spin>
 	</main>
 </template>
@@ -72,10 +79,6 @@ const flashList = async () => {
 
 onMounted(async () => {
 	flashList();
-	// 创建随机秒数(3-10)
-	const randomSecond = Math.floor(Math.random() * 7) + 3;
-	// 随机调用函数f
-	timer = setInterval(flashList, randomSecond * 1000);
 });
 onBeforeUnmount(() => {
 	console.log('定时器被清除');
