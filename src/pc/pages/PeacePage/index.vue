@@ -20,6 +20,7 @@
 					<a-menu
 						:default-selected-keys="['11_12']"
 						:default-openKeys="['11']"
+						:collapsed-width="54"
 						@menu-item-click="changeMenu">
 						<template v-for="e in menuList" :key="e.id">
 							<!-- 二级菜单 -->

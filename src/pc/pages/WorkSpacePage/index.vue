@@ -43,11 +43,11 @@
 							@click="handleClickItem(item.mimetype)">
 							<icon-folder class="file-icon color-yellow!" v-if="item.isFolder" />
 							<template v-else>
-								<icon-file-image class="file-icon" v-if="item.mimetype === ''" />
+								<icon-file class="file-icon" v-if="item.mimetype === ''" />
 								<icon-file-image
 									class="file-icon color-pink!!"
 									v-else-if="item.mimetype === 'image/jpeg'" />
-								<icon-file-image class="file-icon color-green!" v-else-if="item.mimetype === 'video/mp4'" />
+								<icon-file-video class="file-icon color-green!" v-else-if="item.mimetype === 'video/mp4'" />
 								<icon-file class="file-icon" v-else />
 							</template>
 							<div class="file-name">{{ item.fileName }}</div>

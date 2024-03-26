@@ -41,25 +41,25 @@ const menuList: IMenuItem[] = [
 		id: '1',
 		title: '面板',
 		link: '/dash',
-		icon: h(compile('<IconApps />'))
+		icon: h(compile('<icon-apps />'))
 	},
 	{
 		id: '2',
 		title: '新建项目',
 		link: '/new',
-		icon: h(compile('<IconPlus />'))
+		icon: h(compile('<icon-plus />'))
 	},
 	{
 		id: '3',
 		title: '设置',
 		link: '/set',
-		icon: h(compile('<IconBug />'))
+		icon: h(compile('<icon-bug />'))
 	},
 	{
 		id: '4',
 		title: '平安平台',
 		link: '/peace-login',
-		icon: h(compile('<IconBug />'))
+		icon: h(compile('<icon-code-sandbox />'))
 	}
 ];
 const changeMenu = async (url: string) => {

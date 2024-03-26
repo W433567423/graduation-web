@@ -38,7 +38,7 @@
 								v-for="(e, i) in codeResultList"
 								:key="i"
 								:class="e.status ? 'success-result' : 'err-result'">
-								<div class="mr-12px">
+								<div class="mr-12px flex">
 									{{ `${e.status ? '[+]' : '[!]'} ${e.date}:` }}
 									<text class="text-yellow">{{ !i ? '(new*)' : '' }}</text>
 								</div>

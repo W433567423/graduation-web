@@ -23,9 +23,9 @@
 
 				<a-form-item label="项目语言" v-if="form.projectType === 'simple'">
 					<a-select class="w-400px!" placeholder="请选择项目语言" v-model="form.projectLanguage">
-						<a-option>JavaScript</a-option>
-						<a-option>Python</a-option>
-						<a-option>Json</a-option>
+						<a-option label="JavaScript" value="JavaScript" />
+						<a-option label="Python(暂未支持)" value="Python" />
+						<a-option label="Json(暂未支持)" value="Json" />
 						<a-option disabled>其他语言待开通</a-option>
 					</a-select>
 				</a-form-item>
@@ -68,8 +68,7 @@ const handleCreate = async () => {
 		// 创建成功
 		Notification.success({
 			title: '创建成功',
-			content:
-				'项目创建成功,即将自动跳转到' + form.value.projectType === 'simple' ? '代码编辑页' : '工作目录',
+			content: `项目创建成功,即将自动跳转到${form.value.projectType === 'simple' ? '代码编辑页' : '工作目录'}`,
 			// 跳转到项目详情页
 			onClose: async () => {
 				if (form.value.projectType === 'simple')
