@@ -26,12 +26,12 @@ export const getProjectCode = async (projectId: number) => {
 	return await request.get<IGetProjectCodeRes>(baseUrl + `/code/${projectId}`);
 };
 
-// 修改 项目代码
-export const patchProjectCode = async (projectId: number, code: string) => {
-	return await request.patch<string>(baseUrl + `/code/${projectId}`, {
-		data: { code }
-	});
-};
+// // 修改 项目代码
+// export const patchProjectCode = async (projectId: number, code: string) => {
+// 	return await request.patch<string>(baseUrl + `/code/${projectId}`, {
+// 		data: { code }
+// 	});
+// };
 
 // 运行 项目代码
 export const postProjectCode = async (projectId: number, code: string, codeLanguage: string) => {
@@ -41,12 +41,12 @@ export const postProjectCode = async (projectId: number, code: string, codeLangu
 	});
 };
 
-// 重命名 项目
-export const putReNameProject = async (projectId: number, newName: string) => {
-	return await request.patch(baseUrl + `/rename/${projectId}`, {
-		data: { newName }
-	});
-};
+// // 重命名 项目
+// export const patchReNameProject = async (projectId: number, newName: string) => {
+// 	return await request.patch(baseUrl + `/rename/${projectId}`, {
+// 		data: { newName }
+// 	});
+// };
 
 // 禁用 项目
 export const disableProjectById = async (projectIds: number[], disable: boolean) => {

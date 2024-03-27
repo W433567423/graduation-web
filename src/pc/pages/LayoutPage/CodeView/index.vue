@@ -60,7 +60,7 @@
 
 <script setup lang="ts">
 import type { IRunProjectResultErrorRes } from '@/services/interfaces/projects';
-import { getProjectCode, patchProjectCode, postProjectCode } from '@/services/projects.api';
+import { getProjectCode, patchProjectConfig, postProjectCode } from '@/services/projects.api';
 import { Scrollbar as AScrollbar, Notification } from '@arco-design/web-vue';
 import { computed, onMounted, ref, type Ref, type VNodeRef } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -114,7 +114,7 @@ const runCode = async (projectId: number) => {
 
 // 保存代码
 const saveCode = async () => {
-	await patchProjectCode(projectIdC.value, codeEditorRef.value.codeVal);
+	await patchProjectConfig(projectIdC.value, { code: codeEditorRef.value.codeVal });
 	Notification.success({
 		content: '修改代码成功,3s后返回项目列表',
 		position: 'bottomRight',

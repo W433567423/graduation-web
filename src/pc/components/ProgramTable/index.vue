@@ -100,7 +100,7 @@
 
 <script lang="ts" setup>
 import type { IProjectListItemRes } from '@/services/interfaces/projects';
-import { deleteProjectByIds, disableProjectById, putReNameProject } from '@/services/projects.api';
+import { deleteProjectByIds, disableProjectById, patchProjectConfig } from '@/services/projects.api';
 import { mapRunStatus } from '@/utils';
 import {
 	Modal,
@@ -189,7 +189,7 @@ const renameProject: (done: (closed: boolean) => void) => boolean | Promise<bool
 	return await new Promise((resolve) => {
 		void formRef.value!.validateField('newName', (errors) => {
 			if (!errors) {
-				void putReNameProject(localProject.value?.id!, form.value.newName).then(() => {
+				void patchProjectConfig(localProject.value?.id!, { projectName: form.value.newName }).then(() => {
 					renameDialogFormVisible.value = false;
 					Notification.success({ content: '重命名成功' });
 					emits('update:list');
