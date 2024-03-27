@@ -5,7 +5,7 @@ const proBaseURL = 'https://ag.wtututu.top';
 export const BASE_URL = import.meta.env.MODE === 'development' ? devBaseURL : proBaseURL;
 // export const BASE_URL = proBaseURL;
 
-export const TIMEOUT = 5 * 1000;
+export const TIMEOUT = 10 * 1000;
 
 export const createAxiosConfig: CreateAxiosDefaults = {
 	baseURL: BASE_URL, // 默认地址

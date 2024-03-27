@@ -2,7 +2,8 @@ import type {
 	ICreateProjectReq,
 	IGetProjectCodeRes,
 	IProjectListRes,
-	IRunProjectResultRes
+	IRunProjectResultRes,
+	ISetProjectReq
 } from '@/services/interfaces/projects';
 import request from '@/services/require.ts';
 
@@ -57,5 +58,12 @@ export const disableProjectById = async (projectIds: number[], disable: boolean)
 export const deleteProjectByIds = async (projectIds: number[]) => {
 	return await request.delete(baseUrl + `/delete`, {
 		data: { projectIds }
+	});
+};
+
+// 修改 项目代码
+export const patchProjectConfig = async (projectId: number, data: ISetProjectReq) => {
+	return await request.patch<string>(baseUrl + `/set/${projectId}`, {
+		data
 	});
 };

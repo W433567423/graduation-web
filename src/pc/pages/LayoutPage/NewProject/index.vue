@@ -73,7 +73,11 @@ const handleCreate = async () => {
 			onClose: async () => {
 				if (form.value.projectType === 'simple')
 					await router.push({ path: `/pc/code`, query: { id: res.projectId } });
-				else await router.push({ path: `/pc-workspace`, query: { parentId: res.rootWorkFoldId! } });
+				else
+					await router.push({
+						path: `/pc-workspace`,
+						query: { parentId: res.rootWorkFoldId!, projectId: res.projectId }
+					});
 			}
 		});
 	}

@@ -32,26 +32,39 @@
 				</div>
 			</a-layout-sider>
 			<!-- 主要内容 -->
-			<a-spin :loading="loadingStatus">
+
+			<a-spin :loading="loadingStatus" class="w-100%">
 				<a-layout-content class="content-wrap">
 					<div class="content-inner-wrap">
-						<a-card
-							hoverable
-							class="folder-wrap"
+						<a-dropdown
+							trigger="contextMenu"
+							alignPoint
+							:style="{ display: 'block' }"
 							v-for="(item, index) in dataList"
-							:key="index"
-							@click="handleClickItem(item.mimetype)">
-							<icon-folder class="file-icon color-yellow!" v-if="item.isFolder" />
-							<template v-else>
-								<icon-file class="file-icon" v-if="item.mimetype === ''" />
-								<icon-file-image
-									class="file-icon color-pink!!"
-									v-else-if="item.mimetype === 'image/jpeg'" />
-								<icon-file-video class="file-icon color-green!" v-else-if="item.mimetype === 'video/mp4'" />
-								<icon-file class="file-icon" v-else />
+							:key="index">
+							<a-card
+								hoverable
+								class="folder-wrap"
+								@click="handleClickItem(item.isFolder, item.id, item.mimetype)">
+								<icon-folder class="file-icon color-yellow!" v-if="item.isFolder" />
+								<template v-else>
+									<icon-file class="file-icon" v-if="item.mimetype === ''" />
+									<icon-file-image
+										class="file-icon color-pink!!"
+										v-else-if="item.mimetype === 'image/jpeg'" />
+									<icon-file-video
+										class="file-icon color-green!"
+										v-else-if="item.mimetype === 'video/mp4'" />
+									<icon-file class="file-icon" v-else />
+								</template>
+								<div class="file-name">{{ item.name }}</div>
+							</a-card>
+							<template #content>
+								<a-doption @click="handleSetIndex(item.fileName)">设置为运行入口 TODO</a-doption>
+								<a-doption>删除文件 TODO</a-doption>
+								<a-doption>Option 3 TODO 重命名</a-doption>
 							</template>
-							<div class="file-name">{{ item.fileName }}</div>
-						</a-card>
+						</a-dropdown>
 					</div>
 				</a-layout-content>
 			</a-spin>
@@ -69,8 +82,10 @@
 </template>
 
 <script lang="ts" setup>
+import router from '@/router';
 import { getWorkFileMenu, postNewFile, postNewFolder } from '@/services/files.api';
 import type { IFileType, IGetFileMenuRes } from '@/services/interfaces/files.d';
+import { patchProjectConfig } from '@/services/projects.api';
 import { Notification } from '@arco-design/web-vue';
 import PcHeader from '@pc/components/PcHeader/index.vue';
 import { onMounted, ref } from 'vue';
@@ -82,7 +97,8 @@ const collapsed = ref(false); // 侧边栏是否折叠
 const onCollapse = (val: boolean) => (collapsed.value = val); // 折叠事件
 
 const dataList = ref<IGetFileMenuRes[]>([]); // 项目菜单
-const parentId = ref(0); // 父级id
+const parentId = ref(0); // 父目录id
+const projectId = ref(0); // 项目id
 
 const loadingStatus = ref(false); // loading
 const newFolderVisible = ref(false); // 新建文件夹弹窗
@@ -95,12 +111,20 @@ const newFileName = ref(''); // 新建文件名称
  * @description 刷新列表
  * @author tutu
  * @time 2024-03-23 09:49:03
- * @param {number} parentId 父级id
  */
-const flashMenu = async (parentId: number) => {
-	const res = await getWorkFileMenu(parentId);
+const flashMenu = async () => {
+	console.log('刷新列表');
+
+	loadingStatus.value = true;
+	parentId.value = Number(route.query.parentId);
+	let res = await getWorkFileMenu(parentId.value);
+	console.log('🚀 ~ flashMenu ~ res:', res);
+	if (!res?.length) {
+		res = await getWorkFileMenu(parentId.value);
+	}
 	// 排序,文件夹在前
-	dataList.value = res.sort((a, b) => Number(b.isFolder) - Number(a.isFolder));
+	dataList.value = res?.sort((a, b) => Number(b.isFolder) - Number(a.isFolder));
+	loadingStatus.value = false;
 };
 /**
  * DONE
@@ -109,15 +133,13 @@ const flashMenu = async (parentId: number) => {
  * @time 2024-03-23 09:49:35
  */
 const handleNewFolder = async () => {
-	loadingStatus.value = true;
 	const res = await postNewFolder(newFolderName.value, parentId.value);
 	if (res.code === 200)
 		Notification.success({
 			content: res.message,
 			duration: 1500,
 			onClose: async () => {
-				await flashMenu(parentId.value);
-				loadingStatus.value = false;
+				await flashMenu();
 				newFolderName.value = '';
 			}
 		});
@@ -136,8 +158,7 @@ const handleNewFile = async () => {
 			content: res.message,
 			duration: 1500,
 			onClose: async () => {
-				await flashMenu(parentId.value);
-				loadingStatus.value = false;
+				await flashMenu();
 				newFileName.value = '';
 			}
 		});
@@ -149,8 +170,14 @@ const handleNewFile = async () => {
  * @author tutu
  * @time 2024-03-23 17:38:14
  */
-const handleClickItem = (type: IFileType) => {
-	console.log('🚀 ~ handleClickFold ~', type);
+const handleClickItem = async (isFold: boolean, fileId: number, type: IFileType) => {
+	console.log('🚀 ~ handleClickFold ~', isFold, type);
+	if (isFold) {
+		await router.push({ query: { parentId: fileId } });
+		flashMenu();
+	} else {
+		// TODO 文件类型（查看图片/视频/等）
+	}
 };
 
 /**
@@ -162,10 +189,29 @@ const handleClickItem = (type: IFileType) => {
 const handleUploadFile = () => {
 	console.log('🚀 ~ handleUploadFile ~ handleUploadFile');
 };
+/**
+ * TODO
+ * @description 设置为运行入口 功能未实现，待后续开发
+ * @author tutu
+ * @time 2024-03-27 10:49:05
+ * @param {string} indexFile	入口文件
+ */
+const handleSetIndex = (indexFile: string) => {
+	patchProjectConfig(projectId.value, {
+		indexFile
+	});
+};
 
 onMounted(async () => {
-	parentId.value = Number(route.query.parentId);
-	flashMenu(parentId.value);
+	projectId.value = Number(route.query.projectId);
+	flashMenu();
+	window.addEventListener(
+		'hashchange',
+		async () => {
+			await flashMenu();
+		},
+		false
+	);
 });
 </script>
 

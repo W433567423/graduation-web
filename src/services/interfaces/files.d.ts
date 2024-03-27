@@ -10,7 +10,8 @@ export enum IFileType {
 }
 
 export interface IGetFileMenuRes {
-	fileName: string;
+	name: string; // 展示的文件名
+	fileName: string; // 文件路径
 	id: number;
 	isFolder: boolean;
 	parentFolder: number;

@@ -38,3 +38,11 @@ export interface ICreateProjectReq {
 	projectLanguage: string;
 	projectCode: string;
 }
+
+export interface ISetProjectReq {
+	projectName?: string;
+	indexFile?: string;
+	codeLanguage?: string;
+	code?: string;
+	disable?: boolean;
+}
