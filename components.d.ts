@@ -15,6 +15,7 @@ declare module 'vue' {
     ACardMeta: typeof import('@arco-design/web-vue')['CardMeta']
     ACheckbox: typeof import('@arco-design/web-vue')['Checkbox']
     ADoption: typeof import('@arco-design/web-vue')['Doption']
+    ADrawer: typeof import('@arco-design/web-vue')['Drawer']
     ADropdown: typeof import('@arco-design/web-vue')['Dropdown']
     AForm: typeof import('@arco-design/web-vue')['Form']
     AFormItem: typeof import('@arco-design/web-vue')['FormItem']

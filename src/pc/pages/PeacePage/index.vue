@@ -16,7 +16,7 @@
 				:collapsed="collapsed"
 				@collapse="onCollapse"
 				:width="220">
-				<a-spin :loading="loading" class="w-100% h-100%">
+				<a-spin :loading="loading" class="w100% h-100%">
 					<a-menu
 						:default-selected-keys="['11_12']"
 						:default-openKeys="['11']"

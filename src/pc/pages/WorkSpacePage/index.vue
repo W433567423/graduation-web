@@ -40,7 +40,7 @@
 				</div>
 			</a-layout-sider>
 			<!-- 主要内容 -->
-			<a-spin :loading="loadingStatus" class="w-100% relative">
+			<a-spin :loading="loadingStatus" class="w100% relative">
 				<a-layout-content class="content-wrap">
 					<!-- TODO面包屑 -->
 					<a-breadcrumb class="pt-20px pl-20px">
@@ -92,6 +92,37 @@
 	<a-modal v-model:visible="newFileVisible" @ok="handleNewFile" title="新建文件">
 		<a-input v-model="newFileName" placeholder="请输入文件名称" />
 	</a-modal>
+	<!-- 项目运行结果 -->
+	<a-modal
+		popup-container="#parentNode"
+		:visible="runCodeVisible"
+		:simple="true"
+		:mask-closable="false"
+		modalClass="w80vw! h80vh!"
+		:body-style="{ height: 'calc(100% - 52px)' }"
+		@ok="runCodeVisible = false"
+		:esc-to-close="false"
+		:hide-cancel="true"
+		:ok-text="isSocketing ? '项目正在运行中...' : '关闭'"
+		:hide-title="true"
+		:ok-loading="isSocketing">
+		<a-scrollbar
+			id="modalScrollbar"
+			class="overflow-auto overflow-y-scroll w100% h100%"
+			outer-class="h100%  w100%">
+			<div
+				v-for="(e, i) in resultArr"
+				:key="i"
+				:class="[
+					'color-gray whitespace-nowrap w-auto',
+					i === 0 ? 'color-green' : '',
+					i > resultArr.length - 3 ? 'color-pink' : ''
+				]">
+				<span>{{ i }}</span>
+				--{{ e }}
+			</div>
+		</a-scrollbar>
+	</a-modal>
 </template>
 
 <script lang="ts" setup>
@@ -99,8 +130,10 @@ import router from '@/router';
 import { getWorkFileMenu, postNewFile, postNewFolder } from '@/services/files.api';
 import type { IFileType, IGetFileMenuRes } from '@/services/interfaces/files.d';
 import { patchProjectConfig, postRunProject } from '@/services/projects.api';
+import { socket } from '@/utils/socket';
 import { Notification } from '@arco-design/web-vue';
 import PcHeader from '@pc/components/PcHeader/index.vue';
+import dayjs from 'dayjs';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -108,6 +141,7 @@ const route = useRoute(); // 路由
 
 const collapsed = ref(false); // 侧边栏是否折叠
 const onCollapse = (val: boolean) => (collapsed.value = val); // 折叠事件
+const isSocketing = ref(false); // 是否正在连接socket
 
 const dataList = ref<IGetFileMenuRes[]>([]); // 项目菜单
 const parentId = ref(0); // 父目录id
@@ -116,9 +150,11 @@ const projectId = ref(0); // 项目id
 const loadingStatus = ref(false); // loading
 const newFolderVisible = ref(false); // 新建文件夹弹窗
 const newFileVisible = ref(false); // 新建文件弹窗
+const runCodeVisible = ref(false); // 运行结果弹窗
 const newFolderName = ref(''); // 新建文件夹名称
 const newFileName = ref(''); // 新建文件名称
 
+const resultArr = ref<string[]>([]);
 /**
  * DONE
  * @description 刷新列表
@@ -126,12 +162,9 @@ const newFileName = ref(''); // 新建文件名称
  * @time 2024-03-23 09:49:03
  */
 const flashMenu = async () => {
-	console.log('刷新列表');
-
 	loadingStatus.value = true;
 	parentId.value = Number(route.query.parentId);
 	let res = await getWorkFileMenu(parentId.value);
-	console.log('🚀 ~ flashMenu ~ res:', res);
 	if (!res?.length) {
 		res = await getWorkFileMenu(parentId.value);
 	}
@@ -220,20 +253,40 @@ const handleSetIndex = async (indexFile: string) => {
 	});
 };
 /**
- * TODO
- * @description 运行项目 功能未实现，待后续开发
+ * DONE
+ * @description 运行项目
  * @author tutu
  * @time 2024-03-27 11:50:03
- * @param {number} projectId	项目id
  */
 const handleRunProject = async () => {
+	runCodeVisible.value = true;
+	const scrollElement = document.querySelector('#modalScrollbar')!;
 	await postRunProject(projectId.value);
-	Notification.success({
-		content: '运行成功',
-		duration: 1500
+	isSocketing.value = true;
+	resultArr.value = [];
+	socket.connect();
+	const startTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
+	resultArr.value.push(`${startTime}: 项目开始运行!`);
+	socket.on('runCode', (e: any) => {
+		console.log('🚀 ~ socket.on ~ e:', e);
+		if (e !== 'tutu~end') {
+			scrollElement.scrollTop += 22;
+			resultArr.value.push(e);
+		} else {
+			const endTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
+			resultArr.value.push(`${endTime}: 项目运行结束!`);
+			resultArr.value.push(`${dayjs(endTime).diff(startTime, 'millisecond')}: 项目运行结束!`);
+			socket.disconnect();
+			isSocketing.value = false;
+			scrollElement.scrollTop = scrollElement.scrollHeight + 100;
+
+			Notification.success({
+				content: '项目运行成功',
+				duration: 3000
+			});
+		}
 	});
 };
-
 onMounted(async () => {
 	projectId.value = Number(route.query.projectId);
 	flashMenu();

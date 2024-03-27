@@ -31,10 +31,13 @@
     "pinia": "^2.1.7",
     "process": "^0.11.10",
     "rollup-plugin-visualizer": "^5.12.0",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
     "vue": "^3.3.11",
     "vue-codemirror6": "^1.2.5",
     "vue-dompurify-html": "^5.0.1",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "websocket": "^1.0.34"
   },
   "devDependencies": {
     "@arco-design/web-vue": "^2.54.4",
@@ -42,6 +45,7 @@
     "@commitlint/config-conventional": "^18.4.4",
     "@types/axios": "^0.14.0",
     "@types/node": "^20.11.0",
+    "@types/websocket": "^1.0.10",
     "@typescript-eslint/eslint-plugin": "^6.18.1",
     "@typescript-eslint/parser": "^6.18.1",
     "@vitejs/plugin-vue": "^4.5.2",

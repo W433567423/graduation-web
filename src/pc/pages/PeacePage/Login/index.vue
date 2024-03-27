@@ -40,7 +40,7 @@
 				field="code">
 				<a-input-number v-model="form.code" placeholder="请输入动态码"></a-input-number>
 			</a-form-item>
-			<a-button type="primary" class="w-100px mt-20px" html-type="submit">登录</a-button>
+			<a-button type="primary" class="w100px mt-20px" html-type="submit">登录</a-button>
 		</a-form>
 	</a-card>
 </template>

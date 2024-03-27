@@ -6,7 +6,7 @@
 -->
 <template>
 	<div class="forget-password-wrap">
-		<a-steps :active="active" class="w-full" finish-status="success">
+		<a-steps :active="active" class="wfull" finish-status="success">
 			<a-step title="选择验证方式" />
 			<a-step title="重置密码" />
 			<a-step title="完成" />
@@ -37,12 +37,7 @@
 						<text class="forget-icon-text">邮箱找回</text>
 					</div>
 				</section>
-				<a-button
-					type="primary"
-					status="success"
-					class="w-80px"
-					size="large"
-					@click="emits('changeStatus')">
+				<a-button type="primary" status="success" class="w80px" size="large" @click="emits('changeStatus')">
 					上一步
 				</a-button>
 			</template>

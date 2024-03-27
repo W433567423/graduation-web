@@ -51,7 +51,7 @@
 					</a-input>
 					<div class="valid-wrap" @click="flashValidCode" v-html="imgSrc" v-if="imgSrc" />
 					<div class="valid-wrap" v-else>
-						<a-image class="w-108px h-40px" />
+						<a-image class="w108px h-40px" />
 					</div>
 				</div>
 			</a-form-item>

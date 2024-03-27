@@ -11,7 +11,7 @@
 			<header class="header-title-wrap">新建项目</header>
 			<a-form :model="form" layout="vertical" @submit="handleCreate" class="pt-20px">
 				<a-form-item required label="项目名称">
-					<a-input v-model="form.projectName" placeholder="请输入项目名称" class="w-400px!"></a-input>
+					<a-input v-model="form.projectName" placeholder="请输入项目名称" class="w400px!"></a-input>
 				</a-form-item>
 
 				<a-form-item required label="项目类型" tooltip="创建后不可更改">
@@ -22,7 +22,7 @@
 				</a-form-item>
 
 				<a-form-item label="项目语言" v-if="form.projectType === 'simple'">
-					<a-select class="w-400px!" placeholder="请选择项目语言" v-model="form.projectLanguage">
+					<a-select class="w400px!" placeholder="请选择项目语言" v-model="form.projectLanguage">
 						<a-option label="JavaScript" value="JavaScript" />
 						<a-option label="Python(暂未支持)" value="Python" />
 						<a-option label="Json(暂未支持)" value="Json" />
