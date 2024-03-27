@@ -29,6 +29,10 @@
 						<icon-upload />
 						{{ collapsed ? '' : '上传文件' }}
 					</a-button>
+					<a-button class="p-0! gap-12px" type="primary" @click="handleRunProject">
+						<icon-play-arrow />
+						{{ collapsed ? '' : '运行项目' }}
+					</a-button>
 				</div>
 			</a-layout-sider>
 			<!-- 主要内容 -->
@@ -60,9 +64,9 @@
 								<div class="file-name">{{ item.name }}</div>
 							</a-card>
 							<template #content>
-								<a-doption @click="handleSetIndex(item.fileName)">设置为运行入口 TODO</a-doption>
+								<a-doption @click="handleSetIndex(item.fileName)">设置为运行入口</a-doption>
 								<a-doption>删除文件 TODO</a-doption>
-								<a-doption>Option 3 TODO 重命名</a-doption>
+								<a-doption>重命名文件 TODO</a-doption>
 							</template>
 						</a-dropdown>
 					</div>
@@ -85,7 +89,7 @@
 import router from '@/router';
 import { getWorkFileMenu, postNewFile, postNewFolder } from '@/services/files.api';
 import type { IFileType, IGetFileMenuRes } from '@/services/interfaces/files.d';
-import { patchProjectConfig } from '@/services/projects.api';
+import { patchProjectConfig, postRunProject } from '@/services/projects.api';
 import { Notification } from '@arco-design/web-vue';
 import PcHeader from '@pc/components/PcHeader/index.vue';
 import { onMounted, ref } from 'vue';
@@ -190,15 +194,33 @@ const handleUploadFile = () => {
 	console.log('🚀 ~ handleUploadFile ~ handleUploadFile');
 };
 /**
- * TODO
+ * DONE
  * @description 设置为运行入口 功能未实现，待后续开发
  * @author tutu
  * @time 2024-03-27 10:49:05
  * @param {string} indexFile	入口文件
  */
-const handleSetIndex = (indexFile: string) => {
-	patchProjectConfig(projectId.value, {
+const handleSetIndex = async (indexFile: string) => {
+	await patchProjectConfig(projectId.value, {
 		indexFile
+	});
+	Notification.success({
+		content: '设置成功',
+		duration: 1500
+	});
+};
+/**
+ * TODO
+ * @description 运行项目 功能未实现，待后续开发
+ * @author tutu
+ * @time 2024-03-27 11:50:03
+ * @param {number} projectId	项目id
+ */
+const handleRunProject = async () => {
+	await postRunProject(projectId.value);
+	Notification.success({
+		content: '运行成功',
+		duration: 1500
 	});
 };
 

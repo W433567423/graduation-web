@@ -41,6 +41,11 @@ export const postProjectCode = async (projectId: number, code: string, codeLangu
 	});
 };
 
+// 运行 项目
+export const postRunProject = async (projectId: number) => {
+	return await request.post<IRunProjectResultRes>(baseUrl + `/run/${projectId}`);
+};
+
 // // 重命名 项目
 // export const patchReNameProject = async (projectId: number, newName: string) => {
 // 	return await request.patch(baseUrl + `/rename/${projectId}`, {
