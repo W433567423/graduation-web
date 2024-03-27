@@ -17,6 +17,10 @@
 				@collapse="onCollapse"
 				:width="220">
 				<div class="action-menu-button-wrap">
+					<a-button class="p-0! gap-12px" type="primary" @click="router.replace('/pc/dash')">
+						<icon-reply />
+						{{ collapsed ? '' : '返回项目面板' }}
+					</a-button>
 					<a-button class="p-0! gap-12px" type="primary" @click="newFolderVisible = true">
 						<icon-folder-add />
 						{{ collapsed ? '' : '新建文件夹' }}
@@ -36,9 +40,14 @@
 				</div>
 			</a-layout-sider>
 			<!-- 主要内容 -->
-
-			<a-spin :loading="loadingStatus" class="w-100%">
+			<a-spin :loading="loadingStatus" class="w-100% relative">
 				<a-layout-content class="content-wrap">
+					<!-- TODO面包屑 -->
+					<a-breadcrumb class="pt-20px pl-20px">
+						<a-breadcrumb-item>todo</a-breadcrumb-item>
+						<a-breadcrumb-item>todo</a-breadcrumb-item>
+						<a-breadcrumb-item>todo</a-breadcrumb-item>
+					</a-breadcrumb>
 					<div class="content-inner-wrap">
 						<a-dropdown
 							trigger="contextMenu"
@@ -128,6 +137,7 @@ const flashMenu = async () => {
 	}
 	// 排序,文件夹在前
 	dataList.value = res?.sort((a, b) => Number(b.isFolder) - Number(a.isFolder));
+
 	loadingStatus.value = false;
 };
 /**
@@ -177,7 +187,7 @@ const handleNewFile = async () => {
 const handleClickItem = async (isFold: boolean, fileId: number, type: IFileType) => {
 	console.log('🚀 ~ handleClickFold ~', isFold, type);
 	if (isFold) {
-		await router.push({ query: { parentId: fileId } });
+		await router.push({ query: { parentId: fileId, projectId: projectId.value } });
 		flashMenu();
 	} else {
 		// TODO 文件类型（查看图片/视频/等）

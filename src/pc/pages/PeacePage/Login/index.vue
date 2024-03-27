@@ -29,7 +29,9 @@
 					{ required: true, message: '动态码必填' },
 					{
 						validator: (value: number, callback): undefined => {
-							if (value.toString().length !== 6) callback('动态码错误');
+							console.log('🚀 ~ value:', value);
+
+							if (value.toString().length !== 6 && value !== 0) callback('动态码错误');
 						}
 					}
 				]"
@@ -84,7 +86,7 @@ const handleLogin = async (
 	if (typeof route.query.redirect === 'string') {
 		await router.replace(route.query.redirect);
 	} else {
-		await router.replace('/peace/yard');
+		await router.replace('/peace/Order/yu_list');
 	}
 };
 
