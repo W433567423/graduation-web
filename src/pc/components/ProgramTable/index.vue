@@ -13,76 +13,81 @@
 			<a-button type="primary" @click="openDeleteDialog(selectedKeys)">删除所选</a-button>
 		</div>
 
-		<!-- 表格部分 -->
-		<a-table
-			row-key="id"
-			:columns="columns"
-			:data="list"
-			stripe
-			scrollbar
-			:scroll="{ y: '100%' }"
-			sticky-header
-			summary-text="操作"
-			:pagination="false"
-			v-model:selectedKeys="selectedKeys"
-			:row-selection="rowSelection">
-			<!-- 列内容 -->
-			<template #num="{ i }">{{ i }}</template>
+		<a-scrollbar style="width: 100%; overflow: auto" outer-class="w-100%">
+			<!-- 表格部分 -->
+			<a-table
+				row-key="id"
+				:columns="columns"
+				:data="list"
+				stripe
+				scrollbar
+				:scroll="{ y: '100%' }"
+				class="min-w-960px"
+				sticky-header
+				summary-text="操作"
+				:pagination="false"
+				v-model:selectedKeys="selectedKeys"
+				:row-selection="rowSelection">
+				<!-- 列内容 -->
+				<template #num="{ i }">{{ i }}</template>
 
-			<template #status="{ record }: { record: IProjectListItemRes }">
-				<template v-if="record.disable">
-					<a-tooltip content="已被禁用">
-						<icon-stop class="cursor-help text-red!" />
-					</a-tooltip>
-				</template>
-
-				<template v-else>
-					<icon-pause class="cursor-pointer" />
-					<icon-play-arrow class="cursor-pointer" />
-				</template>
-			</template>
-
-			<template #action="{ record }: { record: IProjectListItemRes }">
-				<a-dropdown trigger="hover" :popup-max-height="false">
-					<a-button circle>
-						<template #icon>
-							<icon-more />
-						</template>
-					</a-button>
-
-					<template #content>
-						<a-doption @click="emits('edit:project', record)" :disabled="record.projectType === 'complex'">
-							<icon-code />
-							编辑代码
-						</a-doption>
-						<a-doption @click="emits('into:project', record)" v-if="record.projectType === 'complex'">
-							<icon-code />
-							进入工作目录
-						</a-doption>
-						<a-doption @click="openRenameDialog(record)">
-							<icon-edit />
-							重命名
-						</a-doption>
-						<a-doption @click="emits('edit:projectType', record)">
-							<icon-edit />
-							修改代码类型
-						</a-doption>
-						<a-doption @click="openDeleteDialog([record.id])">
-							<icon-delete />
-							删除项目
-						</a-doption>
-						<a-doption @click="disableProject([record.id], !record.disable)">
-							<icon-stop />
-							{{ record.disable ? '启用' : '禁用' }}
-						</a-doption>
+				<template #status="{ record }: { record: IProjectListItemRes }">
+					<template v-if="record.disable">
+						<a-tooltip content="已被禁用">
+							<icon-stop class="cursor-help text-red!" />
+						</a-tooltip>
 					</template>
-				</a-dropdown>
-			</template>
 
-			<template #lastStatus="{ record }: { record: IProjectListItemRes }">
-				{{ mapRunStatus(record.lastStatus) }}
-			</template>
-		</a-table>
+					<template v-else>
+						<icon-pause class="cursor-pointer" />
+						<icon-play-arrow class="cursor-pointer" />
+					</template>
+				</template>
+
+				<template #action="{ record }: { record: IProjectListItemRes }">
+					<a-dropdown trigger="hover" :popup-max-height="false">
+						<a-button circle>
+							<template #icon>
+								<icon-more />
+							</template>
+						</a-button>
+
+						<template #content>
+							<a-doption
+								@click="emits('edit:project', record)"
+								:disabled="record.projectType === 'complex'">
+								<icon-code />
+								编辑代码
+							</a-doption>
+							<a-doption @click="emits('into:project', record)" v-if="record.projectType === 'complex'">
+								<icon-code />
+								进入工作目录
+							</a-doption>
+							<a-doption @click="openRenameDialog(record)">
+								<icon-edit />
+								重命名
+							</a-doption>
+							<a-doption @click="emits('edit:projectType', record)">
+								<icon-edit />
+								修改代码类型
+							</a-doption>
+							<a-doption @click="openDeleteDialog([record.id])">
+								<icon-delete />
+								删除项目
+							</a-doption>
+							<a-doption @click="disableProject([record.id], !record.disable)">
+								<icon-stop />
+								{{ record.disable ? '启用' : '禁用' }}
+							</a-doption>
+						</template>
+					</a-dropdown>
+				</template>
+
+				<template #lastStatus="{ record }: { record: IProjectListItemRes }">
+					{{ mapRunStatus(record.lastStatus) }}
+				</template>
+			</a-table>
+		</a-scrollbar>
 	</div>
 	<!-- 弹框部分 -->
 	<a-modal

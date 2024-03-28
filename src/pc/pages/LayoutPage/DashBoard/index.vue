@@ -14,47 +14,6 @@
 			@edit:project="editCode"
 			@into:project="intoWorkSpace" />
 	</main>
-	<!-- <a-modal width="80vw" v-model:visible="codeVisible" title-align="start" :onClose="handleClearModal">
-		<template #title>
-			<text class="font-600">项目名称:</text>
-			{{ projectVal?.projectName }}
-		</template>
-<a-scrollbar style="max-height: 72vh; overflow: auto">
-	<CodeEditor ref="codeEditorRef" />
-</a-scrollbar>
-
-<template #footer>
-			<div class="modal-footer-wrap">
-				<a-spin :loading="isLoading">
-					<div class="code-result-wrap">
-						<a-scrollbar style="max-height: 100px; overflow: auto" ref="resultScrollRef">
-							<div
-								v-for="(e, i) in codeResultList"
-								:key="i"
-								:class="e.status ? 'success-result' : 'err-result'">
-								<div class="w20px">{{ e.status ? '[+]' : '[!]' }}</div>
-								<div class="mr-8px">{{ e.date }}</div>
-								<div v-if="typeof e.message === 'string'">{{ e.message }}</div>
-								<div v-else-if="typeof e.message === 'object'">
-									<div v-for="(item, index) in e.message" :key="index">{{ item }}</div>
-								</div>
-							</div>
-						</a-scrollbar>
-					</div>
-				</a-spin>
-
-				<div>
-					<a-button @click="codeResultList = []" v-if="codeResultList.length">
-						<icon-delete />
-						清空运行结果
-					</a-button>
-					<a-button @click="codeVisible = false">取消(不保存)</a-button>
-					<a-button status="success" @click="runCode(projectVal!.id)" :loading="isLoading">运行</a-button>
-					<a-button type="primary" @click="saveCode">保存</a-button>
-				</div>
-			</div>
-		</template>
-</a-modal> -->
 </template>
 
 <script lang="ts" setup>

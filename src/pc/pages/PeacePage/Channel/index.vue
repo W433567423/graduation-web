@@ -7,7 +7,7 @@
 <template>
 	<main class="main-contain-wrap">
 		<a-spin :loading="loading" class="w100% h-100%">
-			<a-scrollbar style="height: 100%; overflow: auto" outer-class="h-100%">
+			<a-scrollbar style="width: 100%; overflow: auto" outer-class="w-100%">
 				<div class="flex flex-wrap gap-20px min-w-766px">
 					<a-card v-for="(e, i) in channelList" :key="i" class="h-240px w-240px">
 						<div class="w100% h-152px">

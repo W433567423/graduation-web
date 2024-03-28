@@ -6,7 +6,7 @@
 -->
 <template>
 	<a-layout>
-		<PcHeader><h2 class="color-red">空间</h2></PcHeader>
+		<PcHeader><h2 class="color-red">项目空间</h2></PcHeader>
 
 		<a-layout>
 			<!-- 侧边栏 -->
@@ -183,7 +183,7 @@ const handleNewFolder = async () => {
 	const res = await postNewFolder(newFolderName.value, parentId.value);
 	if (res.code === 200)
 		Notification.success({
-			content: res.message,
+			content: res.msg,
 			duration: 1500,
 			onClose: async () => {
 				await flashMenu();
@@ -202,7 +202,7 @@ const handleNewFile = async () => {
 	const res = await postNewFile({ fileName: newFileName.value, parentId: parentId.value });
 	if (res.code === 200)
 		Notification.success({
-			content: res.message,
+			content: res.msg,
 			duration: 1500,
 			onClose: async () => {
 				await flashMenu();
@@ -259,33 +259,40 @@ const handleSetIndex = async (indexFile: string) => {
  * @time 2024-03-27 11:50:03
  */
 const handleRunProject = async () => {
-	runCodeVisible.value = true;
-	const scrollElement = document.querySelector('#modalScrollbar')!;
-	await postRunProject(projectId.value);
-	isSocketing.value = true;
-	resultArr.value = [];
-	socket.connect();
-	const startTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
-	resultArr.value.push(`${startTime}: 项目开始运行!`);
-	socket.on('runCode', (e: any) => {
-		console.log('🚀 ~ socket.on ~ e:', e);
-		if (e !== 'tutu~end') {
-			scrollElement.scrollTop += 22;
-			resultArr.value.push(e);
-		} else {
-			const endTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
-			resultArr.value.push(`${endTime}: 项目运行结束!`);
-			resultArr.value.push(`${dayjs(endTime).diff(startTime, 'millisecond')}: 项目运行结束!`);
-			socket.disconnect();
-			isSocketing.value = false;
-			scrollElement.scrollTop = scrollElement.scrollHeight + 100;
+	const res = await postRunProject(projectId.value);
+	if (!res.data) {
+		Notification.error({
+			content: res.msg,
+			duration: 3000
+		});
+	} else {
+		runCodeVisible.value = true;
+		const scrollElement = document.querySelector('#modalScrollbar')!;
+		isSocketing.value = true;
+		resultArr.value = [];
+		socket.connect();
+		const startTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
+		resultArr.value.push(`${startTime}: 项目开始运行!`);
+		socket.on('runCode', (e: any) => {
+			console.log('🚀 ~ socket.on ~ e:', e);
+			if (e !== 'tutu~end') {
+				scrollElement.scrollTop += 22;
+				resultArr.value.push(e);
+			} else {
+				const endTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
+				resultArr.value.push(`${endTime}: 项目运行结束!`);
+				resultArr.value.push(`${dayjs(endTime).diff(startTime, 'millisecond')}: 项目运行结束!`);
+				socket.disconnect();
+				isSocketing.value = false;
+				scrollElement.scrollTop = scrollElement.scrollHeight + 100;
 
-			Notification.success({
-				content: '项目运行成功',
-				duration: 3000
-			});
-		}
-	});
+				Notification.success({
+					content: '项目运行成功',
+					duration: 3000
+				});
+			}
+		});
+	}
 };
 onMounted(async () => {
 	projectId.value = Number(route.query.projectId);

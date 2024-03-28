@@ -6,6 +6,7 @@ import type {
 	ISetProjectReq
 } from '@/services/interfaces/projects';
 import request from '@/services/require.ts';
+import { type IResponseData } from './interfaces';
 
 const baseUrl = `/projects`;
 // 获取 项目列表
@@ -43,7 +44,7 @@ export const postProjectCode = async (projectId: number, code: string, codeLangu
 
 // 运行 项目
 export const postRunProject = async (projectId: number) => {
-	return await request.post<IRunProjectResultRes>(baseUrl + `/run/${projectId}`);
+	return await request.post<IResponseData<boolean>>(baseUrl + `/run/${projectId}`, { originData: true });
 };
 
 // // 重命名 项目

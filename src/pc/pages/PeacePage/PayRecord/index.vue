@@ -7,7 +7,7 @@
 <template>
 	<main class="main-contain-wrap">
 		<a-spin :loading="loading" class="w100% h-100%">
-			<a-scrollbar style="height: 100%; overflow: auto" outer-class="h-100%">
+			<a-scrollbar style="width: 100%; overflow: auto" outer-class="w-100%">
 				<a-table
 					:data="payRecordList"
 					:columns="columns"

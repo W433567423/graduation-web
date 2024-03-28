@@ -95,7 +95,7 @@ class HttpRequest {
 			});
 		} else if (code > 299) {
 			Message.error({
-				content: typeof msg === 'string' ? msg : msg.join('且')
+				content: typeof msg === 'string' ? msg : msg?.join('且')
 			});
 		}
 	}
