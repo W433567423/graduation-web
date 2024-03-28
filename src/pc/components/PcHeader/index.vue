@@ -9,7 +9,7 @@
 	<a-layout-header class="pc-header-wrap">
 		<slot><div /></slot>
 		<a-dropdown trigger="hover">
-			<a-avatar>
+			<a-avatar class="mr-36px">
 				<img alt="avatar" class="header-avatar-img" src="@/assets/images/avatar.jpg" />
 			</a-avatar>
 			<template #content>
