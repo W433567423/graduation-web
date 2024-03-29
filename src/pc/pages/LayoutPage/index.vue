@@ -60,6 +60,12 @@ const menuList: IMenuItem[] = [
 		title: '平安平台',
 		link: '/peace-login',
 		icon: h(compile('<icon-code-sandbox />'))
+	},
+	{
+		id: '5',
+		title: '平安平台',
+		link: '/DRWBNCF',
+		icon: h(compile('<icon-code-sandbox />'))
 	}
 ];
 const changeMenu = async (url: string) => {

@@ -58,13 +58,6 @@ onBeforeMount(async () => {
 </script>
 
 <style lang="less" scoped>
-.main-contain-wrap {
-	width: 100%;
-	box-sizing: border-box;
-	padding: 20px;
-	height: calc(100vh - 112px);
-}
-
 .modal-footer-wrap {
 	display: flex;
 	justify-content: space-between;

@@ -137,10 +137,4 @@ onBeforeUnmount(() => {
 .a-menu-vertical-demo:not(.a-menu--collapse) {
 	height: calc(100vh - 64px);
 }
-.main-contain-wrap {
-	width: 100%;
-	box-sizing: border-box;
-	padding: 20px;
-	height: calc(100vh - 64px);
-}
 </style>

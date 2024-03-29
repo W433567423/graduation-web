@@ -42,7 +42,8 @@ const routes: RouteRecordRaw[] = [
 			{ path: 'dash', component: async () => await import('@/pc/pages/LayoutPage/DashBoard/index.vue') },
 			{ path: 'new', component: async () => await import('@/pc/pages/LayoutPage/NewProject/index.vue') },
 			{ path: 'set', component: async () => await import('@/pc/pages/LayoutPage/SetConfig/index.vue') },
-			{ path: 'code', component: async () => await import('@/pc/pages/LayoutPage/CodeView/index.vue') }
+			{ path: 'code', component: async () => await import('@/pc/pages/LayoutPage/CodeView/index.vue') },
+			{ path: 'DRWBNCF', component: async () => await import('@/pc/pages/LayoutPage/DRWBNCF/index.vue') }
 		]
 	},
 	{ path: '/pc-workspace', component: async () => await import('@/pc/pages/WorkSpacePage/index.vue') },

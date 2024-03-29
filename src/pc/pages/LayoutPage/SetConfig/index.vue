@@ -15,11 +15,4 @@
 import breadNav from '@pc/components/BreadNav/index.vue';
 </script>
 
-<style lang="less" scoped>
-.main-contain-wrap {
-	width: 100%;
-	box-sizing: border-box;
-	padding: 20px;
-	height: calc(100vh - 112px);
-}
-</style>
+<style lang="less" scoped></style>
