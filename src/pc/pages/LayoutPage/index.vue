@@ -63,7 +63,7 @@ const menuList: IMenuItem[] = [
 	},
 	{
 		id: '5',
-		title: '平安平台',
+		title: 'DRWBNCF',
 		link: '/DRWBNCF',
 		icon: h(compile('<icon-code-sandbox />'))
 	}

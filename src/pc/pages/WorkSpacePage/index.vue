@@ -276,15 +276,15 @@ const handleRunProject = async () => {
 		socket.on('runCode', (e: any) => {
 			console.log('🚀 ~ socket.on ~ e:', e);
 			if (e !== 'tutu~end') {
-				scrollElement.scrollTop += 22;
 				resultArr.value.push(e);
+				scrollElement.scrollTop = scrollElement.scrollHeight;
 			} else {
 				const endTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
 				resultArr.value.push(`${endTime}: 项目运行结束!`);
 				resultArr.value.push(`${dayjs(endTime).diff(startTime, 'millisecond')}: 项目运行结束!`);
 				socket.disconnect();
 				isSocketing.value = false;
-				scrollElement.scrollTop = scrollElement.scrollHeight + 100;
+				scrollElement.scrollTop = scrollElement.scrollHeight;
 
 				Notification.success({
 					content: '项目运行成功',
