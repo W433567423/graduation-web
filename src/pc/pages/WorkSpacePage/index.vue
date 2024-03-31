@@ -281,7 +281,7 @@ const handleRunProject = async () => {
 			} else {
 				const endTime = dayjs().format('YYYY-MM-DD HH:mm:ss');
 				resultArr.value.push(`${endTime}: 项目运行结束!`);
-				resultArr.value.push(`${dayjs(endTime).diff(startTime, 'millisecond')}: 项目运行结束!`);
+				resultArr.value.push(`总耗时:${dayjs(endTime).diff(startTime, 'second')}s,项目运行结束!`);
 				socket.disconnect();
 				isSocketing.value = false;
 				scrollElement.scrollTop = scrollElement.scrollHeight;

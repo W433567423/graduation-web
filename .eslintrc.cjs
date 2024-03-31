@@ -42,6 +42,7 @@ module.exports = {
 		'@typescript-eslint/no-non-null-asserted-optional-chain': 0,
 		// 关闭promise必须then catch
 		'@typescript-eslint/no-floating-promises': 0,
-		'@typescript-eslint/no-misused-promises': 0
+		'@typescript-eslint/no-misused-promises': 0,
+		'@typescript-eslint/prefer-nullish-coalescing': 0
 	}
 };

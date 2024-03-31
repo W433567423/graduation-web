@@ -7,3 +7,8 @@ const baseUrl = `/drwbncf`;
 export const getRunDrwbncf = async () => {
 	return await request.get<IResponseData<boolean>>(baseUrl + `/run`, { originData: true });
 };
+
+// 运行 DRWBNCF excel
+export const getExcelDrwbncf = async () => {
+	return await request.get<string[][]>(baseUrl + `/excel`);
+};

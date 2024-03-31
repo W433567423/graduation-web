@@ -40,6 +40,7 @@ declare module 'vue' {
     AStep: typeof import('@arco-design/web-vue')['Step']
     ASteps: typeof import('@arco-design/web-vue')['Steps']
     ASubMenu: typeof import('@arco-design/web-vue')['SubMenu']
+    ATabel: typeof import('@arco-design/web-vue')['Tabel']
     ATable: typeof import('@arco-design/web-vue')['Table']
     ATableColumn: typeof import('@arco-design/web-vue')['TableColumn']
     ATextarea: typeof import('@arco-design/web-vue')['Textarea']
