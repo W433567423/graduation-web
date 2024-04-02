@@ -178,9 +178,11 @@ const handleRunProject = async () => {
 		socket.on('runCode', async (e: string) => {
 			// console.log('🚀 ~ socket.on ~ e:', e);
 			if (e !== 'tutu~end') {
+				const last = resultArr.value[resultArr.value.length - 1];
+
 				if (e.includes('[A') || ['', ' ', '\n', '\r\n'].includes(e) || e.match(/^\s*$/)) {
 					console.log('无效传递');
-				} else if (e.includes('Epoch ')) {
+				} else if (e.includes('Epoch ') && last.split(':')[0] === e.split(':')[0]) {
 					resultArr.value.pop();
 					resultArr.value.push(e);
 				} else {
