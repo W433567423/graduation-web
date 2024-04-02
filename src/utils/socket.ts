@@ -1,11 +1,11 @@
 import { io } from 'socket.io-client';
 
-const devSocketURL = '//localhost:8013';
-const proSocketURL = 'http://118.25.22.228:8013/';
+const devSocketURL = 'ws://localhost:8013';
+const proSocketURL = 'ws://118.25.22.228:8013/';
 export const socketURL = import.meta.env.MODE === 'development' ? devSocketURL : proSocketURL;
 
 //  { transports: ['websocket'] }
-export const socket = io(socketURL);
+export const socket = io(socketURL, { transports: ['websocket'] });
 
 socket.on('events', function (data) {
 	console.log('event', data);
