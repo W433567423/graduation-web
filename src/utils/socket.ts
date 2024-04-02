@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 
 const devSocketURL = '//localhost:8013';
-const proSocketURL = '//ag.wtututu.top';
+const proSocketURL = 'http://118.25.22.228:8013/';
 export const socketURL = import.meta.env.MODE === 'development' ? devSocketURL : proSocketURL;
 
 //  { transports: ['websocket'] }
