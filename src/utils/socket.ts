@@ -1,11 +1,11 @@
 import { io } from 'socket.io-client';
 
-const devSocketURL = 'ws://localhost:8013';
-const proSocketURL = 'wss://ag.wtututu.top/';
+const devSocketURL = 'ws://localhost:8014';
+const proSocketURL = 'wss://socket.wtututu.top/';
 export const socketURL = import.meta.env.MODE === 'development' ? devSocketURL : proSocketURL;
 
 //  { transports: ['websocket'] }
-export const socket = io(socketURL, { transports: ['websocket'] });
+export const socket = io(socketURL, { transports: ['polling', 'websocket'] });
 
 socket.on('events', function (data) {
 	console.log('event', data);
