@@ -8,35 +8,33 @@
 	<a-scrollbar style="height: 100%; overflow: auto" outer-class="h100%">
 		<div class="cancer-result-wrap">
 			<section class="bg-#f2f3f5 px-12% py-32px">
-				<div class="cancer-section-title">结果</div>
-				<a-space>
-					<a-card class="p20px">
-						<template #cover>
-							<div>
-								<img
-									:style="{ width: '100%', transform: 'translateY(-20px)' }"
-									alt="dessert"
-									src="@/assets/images/hfsAccuracy.png" />
-							</div>
-						</template>
-						<a-card-meta
-							title="三种癌症的特征与准确率的关系曲线"
-							description="表明随着n继续增加，准确率增加；当n =21、n =12、n =16时，准确率达到峰值，然后呈现下降趋势，这意味着添加的特征包含的噪声多于信息。在本研究中，我们将首先达到最高点时的特征子集作为最优。即分别n = 21、n = 12、n = 16作为BRCA、LUAD和KIRC最终选择的特征数量。"></a-card-meta>
-					</a-card>
-					<a-card class="p20px">
-						<template #cover>
-							<div>
-								<img
-									:style="{ width: '100%', transform: 'translateY(-20px)' }"
-									alt="dessert"
-									src="@/assets/images/hfsAccuracy.png" />
-							</div>
-						</template>
-						<a-card-meta
-							title="三种癌症的特征与准确率的关系曲线"
-							description="表明随着n继续增加，准确率增加；当n =21、n =12、n =16时，准确率达到峰值，然后呈现下降趋势，这意味着添加的特征包含的噪声多于信息。在本研究中，我们将首先达到最高点时的特征子集作为最优。即分别n = 21、n = 12、n = 16作为BRCA、LUAD和KIRC最终选择的特征数量。"></a-card-meta>
-					</a-card>
-				</a-space>
+				<div class="cancer-section-title">诊断结果</div>
+				<a-card class="p20px mb-20px">
+					<template #cover>
+						<div>
+							<img
+								:style="{ width: '100%', transform: 'translateY(-20px)' }"
+								alt="dessert"
+								src="@/assets/images/hfsAccuracy.png" />
+						</div>
+					</template>
+					<a-card-meta
+						title="三种癌症的特征与准确率的关系曲线"
+						description="表明随着n继续增加，准确率增加；当n =21、n =12、n =16时，准确率达到峰值，然后呈现下降趋势，这意味着添加的特征包含的噪声多于信息。在本研究中，我们将首先达到最高点时的特征子集作为最优。即分别n = 21、n = 12、n = 16作为BRCA、LUAD和KIRC最终选择的特征数量。"></a-card-meta>
+				</a-card>
+				<a-card class="p20px">
+					<template #cover>
+						<div>
+							<img
+								:style="{ width: '100%', transform: 'translateY(-20px)' }"
+								alt="dessert"
+								src="@/assets/images/hfsResult.png" />
+						</div>
+					</template>
+					<a-card-meta
+						title="HFS-SLPEE对三种癌症的诊断结果(%)"
+						description="我们利用21个关键特征使BRCA达到99.65%的准确性、99.61%的敏感性、100%的特异性和99.81%的F1分数，并且只有3个样本被误诊。对于LUAD和KIRC，我们选择了12个和16个关键特征来实现四指标100%精准诊断。结果表明，HFS-SLPEE 取得了优异的性能，并且对于三种高发癌症的诊断具有泛化能力。"></a-card-meta>
+				</a-card>
 			</section>
 		</div>
 	</a-scrollbar>
