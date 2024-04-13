@@ -59,6 +59,11 @@
 		padding-bottom: 20px;
 		margin: 0 auto;
 		text-align: center;
+		font-weight: 600;
+		// 屏幕宽度小于500px时，字体大小调整为20px
+		@media (max-width: 500px) {
+			font-size: 20px;
+		}
 	}
 }
 

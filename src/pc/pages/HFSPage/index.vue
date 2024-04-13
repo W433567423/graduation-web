@@ -152,6 +152,10 @@ const handleUploadDataSet = (_fileList: FileItem[], fileItem: FileItem) => {
 	height: 100%;
 	background-color: #d6fcff;
 	font-size: 20px;
+	// 屏幕宽度小于500px时，字体大小调整为20px
+	@media (max-width: 500px) {
+		font-size: 16px;
+	}
 	:deep(.arco-scrollbar) {
 		height: 100%;
 	}
@@ -160,7 +164,13 @@ const handleUploadDataSet = (_fileList: FileItem[], fileItem: FileItem) => {
 		padding-top: 32px;
 		padding-bottom: 20px;
 		margin: 0 auto;
+		font-weight: 600;
 		text-align: center;
+
+		// 屏幕宽度小于500px时，字体大小调整为20px
+		@media (max-width: 500px) {
+			font-size: 20px;
+		}
 	}
 }
 .cancer-spin-wrap {
