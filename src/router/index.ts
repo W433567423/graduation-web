@@ -58,7 +58,11 @@ const routes: RouteRecordRaw[] = [
 	// 癌症诊断系统
 	{
 		path: '/HFS',
-		component: async () => await import('@/pc/pages/HFSPage/index.vue')
+		redirect: '/HFS/index',
+		children: [
+			{ path: 'index', component: async () => await import('@/pc/pages/HFSPage/index.vue') },
+			{ path: 'result', component: async () => await import('@/pc/pages/HFSPage/result.vue') }
+		]
 	}
 ];
 

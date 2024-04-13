@@ -20,7 +20,12 @@
 						</a-select>
 					</a-form-item>
 					<a-form-item label="请上传数据集">
-						<a-upload draggable :auto-upload="false" action="#" v-model="form.fileList" class="mt-24px">
+						<a-upload
+							@change="handleUploadDataSet"
+							draggable
+							action="#"
+							v-model="form.fileList"
+							class="mt-24px">
 							<!-- <template #upload-button>请上传数据集</template> -->
 						</a-upload>
 					</a-form-item>
@@ -111,18 +116,33 @@
 			</section>
 		</div>
 	</a-scrollbar>
+	<div class="cancer-spin-wrap" v-if="loading">
+		<a-spin dot tip="正在检测中..." class="m-auto text-20px" :size="32" />
+	</div>
 </template>
 
 <script lang="ts" setup>
-import { Scrollbar as AScrollbar } from '@arco-design/web-vue';
+import { Scrollbar as AScrollbar, type FileItem } from '@arco-design/web-vue';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 const form = ref({ cancerType: '', fileList: [] });
+const loading = ref(false);
 
 const handleClear = () => {
 	form.value.cancerType = '';
 };
 const handleDetect = () => {
 	console.log('🚀 ~ form:', form.value);
+	loading.value = true;
+	setTimeout(() => {
+		loading.value = false;
+		router.push('/HFS/result');
+	}, 5000);
+};
+const handleUploadDataSet = (_fileList: FileItem[], fileItem: FileItem) => {
+	console.log('🚀 ~ file:', fileItem);
 };
 </script>
 
@@ -141,6 +161,19 @@ const handleDetect = () => {
 		padding-bottom: 20px;
 		margin: 0 auto;
 		text-align: center;
+	}
+}
+.cancer-spin-wrap {
+	position: fixed;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.6);
+	display: flex;
+	:deep(.arco-spin-tip) {
+		margin-top: 40px;
+		font-size: 20px;
+		color: red;
 	}
 }
 </style>
