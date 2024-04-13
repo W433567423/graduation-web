@@ -31,6 +31,7 @@ declare module 'vue' {
     AMenuItem: typeof import('@arco-design/web-vue')['MenuItem']
     AModal: typeof import('@arco-design/web-vue')['Modal']
     AOption: typeof import('@arco-design/web-vue')['Option']
+    AProgress: typeof import('@arco-design/web-vue')['Progress']
     ARadio: typeof import('@arco-design/web-vue')['Radio']
     ARadioGroup: typeof import('@arco-design/web-vue')['RadioGroup']
     AScrollbar: typeof import('@arco-design/web-vue')['Scrollbar']

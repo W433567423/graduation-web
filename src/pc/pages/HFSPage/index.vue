@@ -117,7 +117,14 @@
 		</div>
 	</a-scrollbar>
 	<div class="cancer-spin-wrap" v-if="loading">
-		<a-spin dot tip="正在检测中..." class="m-auto text-20px" :size="32" />
+		<a-progress
+			:percent="percent"
+			:style="{ width: '50%' }"
+			:color="{
+				'0%': 'rgb(var(--primary-6))',
+				'100%': 'rgb(var(--success-6))'
+			}" />
+		<a-spin dot tip="正在检测中..." class="text-20px" :size="32" />
 	</div>
 </template>
 
@@ -129,18 +136,32 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const form = ref({ cancerType: '', fileList: [] });
 const loading = ref(false);
+const percent = ref(0);
 
+// 清除
 const handleClear = () => {
 	form.value.cancerType = '';
 };
+
+// 开始检测
 const handleDetect = () => {
 	console.log('🚀 ~ form:', form.value);
 	loading.value = true;
-	setTimeout(() => {
-		loading.value = false;
-		router.push('/HFS/result');
-	}, 5000);
+	const interval = setInterval(() => {
+		const rand = Math.random() * 0.08;
+		percent.value = Number((percent.value + rand).toFixed(2));
+		if (percent.value >= 1) {
+			percent.value = 1;
+			clearInterval(interval);
+			setTimeout(() => {
+				loading.value = false;
+				router.push('/HFS/result');
+			}, 300);
+		}
+	}, 200);
 };
+
+// 上传数据集
 const handleUploadDataSet = (_fileList: FileItem[], fileItem: FileItem) => {
 	console.log('🚀 ~ file:', fileItem);
 };
@@ -180,9 +201,16 @@ const handleUploadDataSet = (_fileList: FileItem[], fileItem: FileItem) => {
 	height: 100vh;
 	background-color: rgba(0, 0, 0, 0.6);
 	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 32px;
 	:deep(.arco-spin-tip) {
 		margin-top: 40px;
 		font-size: 20px;
+		color: red;
+	}
+	:deep(.arco-progress-line-text) {
 		color: red;
 	}
 }
