@@ -35,6 +35,7 @@ declare module 'vue' {
     ARadioGroup: typeof import('@arco-design/web-vue')['RadioGroup']
     AScrollbar: typeof import('@arco-design/web-vue')['Scrollbar']
     ASelect: typeof import('@arco-design/web-vue')['Select']
+    ASpace: typeof import('@arco-design/web-vue')['Space']
     ASpin: typeof import('@arco-design/web-vue')['Spin']
     ASplit: typeof import('@arco-design/web-vue')['Split']
     AStep: typeof import('@arco-design/web-vue')['Step']

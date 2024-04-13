@@ -54,6 +54,11 @@ const routes: RouteRecordRaw[] = [
 			{ path: '/setting', component: async () => await import('@/mobile/pages/Setting/index.vue') },
 			{ path: '/result', component: async () => await import('@/mobile/pages/Result/index.vue') }
 		]
+	},
+	// 癌症诊断系统
+	{
+		path: '/HFS',
+		component: async () => await import('@/pc/pages/HFSPage/index.vue')
 	}
 ];
 

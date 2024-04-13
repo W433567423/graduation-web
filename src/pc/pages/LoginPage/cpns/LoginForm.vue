@@ -198,7 +198,9 @@ const userLoginOrRegistry = async ({
 			// 登录/注册成功后跳转
 			if (typeof route.query.redirect === 'string') {
 				await router.replace(route.query.redirect);
-			} else await router.replace('/pc/dash');
+			}
+			// await router.replace('/pc/dash');
+			else await router.replace('/HFS');
 		} else await flashValidCode();
 	}
 };
@@ -233,7 +235,7 @@ const init = () => {
 onBeforeMount(async () => {
 	if (userStore.token) {
 		// 如果有token直接去面板页面
-		await router.replace('/pc/dash');
+		await router.replace('/HFS');
 	} else {
 		init();
 	}
