@@ -1,9 +1,10 @@
 import type {
 	// 系列类型的定义后缀都为 SeriesOption
 	BarSeriesOption,
+	HeatmapSeriesOption,
 	LineSeriesOption
 } from 'echarts/charts';
-import { BarChart, LineChart } from 'echarts/charts';
+import { BarChart, HeatmapChart, LineChart } from 'echarts/charts';
 import type {
 	DatasetComponentOption,
 	GridComponentOption,
@@ -20,7 +21,8 @@ import {
 	ToolboxComponent,
 	TooltipComponent,
 	// 内置数据转换器组件 (filter, sort)
-	TransformComponent
+	TransformComponent,
+	VisualMapComponent
 } from 'echarts/components';
 import type { ComposeOption } from 'echarts/core';
 import * as echarts from 'echarts/core';
@@ -35,6 +37,7 @@ export type ECOption = ComposeOption<
 	| TooltipComponentOption
 	| GridComponentOption
 	| DatasetComponentOption
+	| HeatmapSeriesOption
 >;
 
 // 注册必须的组件
@@ -46,11 +49,13 @@ echarts.use([
 	TransformComponent,
 	BarChart,
 	LineChart,
+	HeatmapChart,
 	LabelLayout,
 	UniversalTransition,
 	CanvasRenderer,
 	LegendComponent,
-	ToolboxComponent
+	ToolboxComponent,
+	VisualMapComponent
 ]);
 
 export default echarts;
