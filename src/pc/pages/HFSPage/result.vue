@@ -11,15 +11,16 @@
 				<div class="cancer-section-title">诊断结果</div>
 				<a-card class="p20px mb-20px">
 					<template #cover>
-						<div>
-							<img
-								:style="{ width: '100%', transform: 'translateY(-20px)' }"
-								alt="dessert"
-								src="@/assets/images/hfsAccuracy.png" />
-						</div>
+						<div id="chat2" class="aspect-ratio-1 max-w-800px mx-auto"></div>
 					</template>
 					<a-card-meta
-						title="三种癌症的特征与准确率的关系曲线"
+						description="表明随着n继续增加，准确率增加；当n =21、n =12、n =16时，准确率达到峰值，然后呈现下降趋势，这意味着添加的特征包含的噪声多于信息。在本研究中，我们将首先达到最高点时的特征子集作为最优。即分别n = 21、n = 12、n = 16作为BRCA、LUAD和KIRC最终选择的特征数量。"></a-card-meta>
+				</a-card>
+				<a-card class="p20px mb-20px">
+					<template #cover>
+						<div id="chat1" class="aspect-ratio-1 max-w-800px mx-auto"></div>
+					</template>
+					<a-card-meta
 						description="表明随着n继续增加，准确率增加；当n =21、n =12、n =16时，准确率达到峰值，然后呈现下降趋势，这意味着添加的特征包含的噪声多于信息。在本研究中，我们将首先达到最高点时的特征子集作为最优。即分别n = 21、n = 12、n = 16作为BRCA、LUAD和KIRC最终选择的特征数量。"></a-card-meta>
 				</a-card>
 				<a-card class="p20px">
@@ -40,7 +41,18 @@
 	</a-scrollbar>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import echarts from '@/config/chart.config';
+import { onMounted } from 'vue';
+import { chatAccuracyOption, chatDifferentOption } from './mock';
+
+onMounted(() => {
+	const myChart1 = echarts.init(document.getElementById('chat1'), null, { width: 'auto', height: 'auto' });
+	myChart1.setOption(chatAccuracyOption);
+	const myChart2 = echarts.init(document.getElementById('chat2'), null, { width: 'auto', height: 'auto' });
+	myChart2.setOption(chatDifferentOption);
+});
+</script>
 
 <style lang="less" scoped>
 .cancer-result-wrap {
