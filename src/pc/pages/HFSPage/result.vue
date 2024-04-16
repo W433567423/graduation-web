@@ -12,7 +12,7 @@
 				<a-card class="p20px mb-20px">
 					<template #cover>
 						<a-scrollbar style="width: 100%; overflow-x: auto" outer-class="w100%">
-							<div id="chat0" class="aspect-ratio-1 max-w-800px mx-auto min-w-540px"></div>
+							<div id="chat0" class="aspect-ratio-2 mx-auto min-w-540px w80%"></div>
 						</a-scrollbar>
 					</template>
 					<a-card-meta
@@ -22,11 +22,11 @@
 					<template #cover>
 						<h3 class="text-center">不同数据集的比较结果</h3>
 						<a-scrollbar style="width: 100%; overflow-x: auto" outer-class="w100%">
-							<div class="flex! flex-wrap flex-content-between min-w-900px">
-								<div id="chat1" class="aspect-ratio-1 max-w-450px w100% mx-auto" />
-								<div id="chat2" class="aspect-ratio-1 max-w-450px w100% mx-auto" />
-								<div id="chat3" class="aspect-ratio-1 max-w-450px w100% mx-auto" />
-								<div id="chat4" class="aspect-ratio-1 max-w-450px w100% mx-auto" />
+							<div class="flex! flex-wrap flex-content-between min-w-1000px">
+								<div id="chat1" class="aspect-ratio-1 max-w-500px w100% mx-auto" />
+								<div id="chat2" class="aspect-ratio-1 max-w-500px w100% mx-auto" />
+								<div id="chat3" class="aspect-ratio-1 max-w-500px w100% mx-auto" />
+								<div id="chat4" class="aspect-ratio-1 max-w-500px w100% mx-auto" />
 							</div>
 						</a-scrollbar>
 						<h3 class="text-center">比较结果的热图</h3>

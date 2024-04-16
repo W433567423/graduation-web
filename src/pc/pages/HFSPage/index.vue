@@ -119,12 +119,14 @@
 	<div class="cancer-spin-wrap" v-if="loading">
 		<a-progress
 			:percent="percent"
+			class="my-32px"
 			:style="{ width: '50%' }"
+			size="large"
 			:color="{
 				'0%': 'rgb(var(--primary-6))',
 				'100%': 'rgb(var(--success-6))'
 			}" />
-		<a-spin dot tip="正在检测中..." class="text-20px" :size="32" />
+		<a-spin dot tip="正在检测中..." class="text-20px" :size="24" />
 	</div>
 </template>
 
@@ -135,7 +137,7 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const form = ref({ cancerType: '', fileList: [] });
-const loading = ref(false);
+const loading = ref(true);
 const percent = ref(0);
 
 // 清除
