@@ -8,10 +8,7 @@
 	<a-scrollbar style="height: 100%; overflow: auto" outer-class="h100%">
 		<div class="cancer-wrap">
 			<section class="bg-#fff px-12% py-32px">
-				<div class="cancer-section-title">
-					HFS-SLPEE: A Novel Hierarchical Feature Selection and Second Learning Probability Error Ensemble
-					Model for Precision Cancer Diagnosis
-				</div>
+				<div class="cancer-section-title">基于web的乳腺癌分类系统</div>
 				<a-form :model="form" class="mt-24px" layout="vertical">
 					<a-form-item label="请选择癌症类型">
 						<a-select v-model="form.cancerType" placeholder="请选择癌症类型">
@@ -20,12 +17,7 @@
 						</a-select>
 					</a-form-item>
 					<a-form-item label="请上传数据集">
-						<a-upload
-							@change="handleUploadDataSet"
-							draggable
-							action="#"
-							v-model="form.fileList"
-							class="mt-24px">
+						<a-upload @change="handleUploadDataSet" draggable action="#" v-model="form.fileList" class="mt-24px">
 							<!-- <template #upload-button>请上传数据集</template> -->
 						</a-upload>
 					</a-form-item>
@@ -117,15 +109,10 @@
 		</div>
 	</a-scrollbar>
 	<div class="cancer-spin-wrap" v-if="loading">
-		<a-progress
-			:percent="percent"
-			class="my-32px"
-			:style="{ width: '50%' }"
-			size="large"
-			:color="{
-				'0%': 'rgb(var(--primary-6))',
-				'100%': 'rgb(var(--success-6))'
-			}" />
+		<a-progress :percent="percent" class="my-32px" :style="{ width: '50%' }" size="large" :color="{
+			'0%': 'rgb(var(--primary-6))',
+			'100%': 'rgb(var(--success-6))'
+		}" />
 		<a-spin dot tip="正在检测中..." class="text-20px" :size="24" />
 	</div>
 </template>
@@ -175,13 +162,16 @@ const handleUploadDataSet = (_fileList: FileItem[], fileItem: FileItem) => {
 	height: 100%;
 	background-color: #d6fcff;
 	font-size: 20px;
+
 	// 屏幕宽度小于500px时，字体大小调整为20px
 	@media (max-width: 500px) {
 		font-size: 16px;
 	}
+
 	:deep(.arco-scrollbar) {
 		height: 100%;
 	}
+
 	.cancer-section-title {
 		font-size: 42px;
 		padding-top: 32px;
@@ -196,6 +186,7 @@ const handleUploadDataSet = (_fileList: FileItem[], fileItem: FileItem) => {
 		}
 	}
 }
+
 .cancer-spin-wrap {
 	position: fixed;
 	top: 0;
@@ -207,11 +198,13 @@ const handleUploadDataSet = (_fileList: FileItem[], fileItem: FileItem) => {
 	justify-content: center;
 	align-items: center;
 	gap: 32px;
+
 	:deep(.arco-spin-tip) {
 		margin-top: 40px;
 		font-size: 20px;
 		color: red;
 	}
+
 	:deep(.arco-progress-line-text) {
 		color: red;
 	}
