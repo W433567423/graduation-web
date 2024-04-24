@@ -40,7 +40,10 @@ const routes: RouteRecordRaw[] = [
 			{ path: 'new', component: async () => await import('@/pc/pages/LayoutPage/NewProject/index.vue') },
 			{ path: 'set', component: async () => await import('@/pc/pages/LayoutPage/SetConfig/index.vue') },
 			{ path: 'code', component: async () => await import('@/pc/pages/LayoutPage/CodeView/index.vue') },
-			{ path: 'DRWBNCF', component: async () => await import('@/pc/pages/LayoutPage/DRWBNCF/index.vue') }
+			{ path: 'DRWBNCF', component: async () => await import('@/pc/pages/LayoutPage/DRWBNCF/index.vue') },
+			// 癌症诊断系统
+			{ path: 'hfs-index', component: async () => await import('@/pc/pages/HFSPage/index.vue') },
+			{ path: 'hfs-result', component: async () => await import('@/pc/pages/HFSPage/result.vue') }
 		]
 	},
 	{ path: '/pc-workspace', component: async () => await import('@/pc/pages/WorkSpacePage/index.vue') },
@@ -49,17 +52,9 @@ const routes: RouteRecordRaw[] = [
 	{
 		path: '/mobile',
 		children: [
-			{ path: '/hfs-index', component: async () => await import('@/mobile/pages/HFSPage/index.vue') },
-			{ path: '/hfs-result', component: async () => await import('@/mobile/pages/HFSPage/result.vue') }
-		]
-	},
-	// 癌症诊断系统
-	{
-		path: '/HFS',
-		redirect: '/HFS/index',
-		children: [
-			{ path: 'index', component: async () => await import('@/pc/pages/HFSPage/index.vue') },
-			{ path: 'result', component: async () => await import('@/pc/pages/HFSPage/result.vue') }
+			// 癌症诊断系统
+			{ path: 'hfs-index', component: async () => await import('@/pc/pages/HFSPage/index.vue') },
+			{ path: 'hfs-result', component: async () => await import('@/pc/pages/HFSPage/result.vue') }
 		]
 	}
 ];

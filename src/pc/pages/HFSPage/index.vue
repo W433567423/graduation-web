@@ -17,12 +17,7 @@
 						</a-select>
 					</a-form-item>
 					<a-form-item label="请上传数据集">
-						<a-upload
-							@change="handleUploadDataSet"
-							draggable
-							action="#"
-							v-model="form.fileList"
-							class="mt-24px">
+						<a-upload @change="handleUploadDataSet" draggable action="#" v-model="form.fileList" class="mt-24px">
 							<!-- <template #upload-button>请上传数据集</template> -->
 						</a-upload>
 					</a-form-item>
@@ -114,15 +109,10 @@
 		</div>
 	</a-scrollbar>
 	<div class="cancer-spin-wrap" v-if="loading">
-		<a-progress
-			:percent="percent"
-			class="my-32px"
-			:style="{ width: '50%' }"
-			size="large"
-			:color="{
-				'0%': 'rgb(var(--primary-6))',
-				'100%': 'rgb(var(--success-6))'
-			}" />
+		<a-progress :percent="percent" class="my-32px" :style="{ width: '50%' }" size="large" :color="{
+			'0%': 'rgb(var(--primary-6))',
+			'100%': 'rgb(var(--success-6))'
+		}" />
 		<a-spin dot tip="正在检测中..." class="text-20px" :size="24" />
 	</div>
 </template>
@@ -154,7 +144,7 @@ const handleDetect = () => {
 			clearInterval(interval);
 			setTimeout(() => {
 				loading.value = false;
-				router.push('/HFS/result');
+				router.push('/pc/hfs-result');
 			}, 300);
 		}
 	}, 200);
