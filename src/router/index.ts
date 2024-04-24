@@ -1,5 +1,6 @@
 import { getLocalStorage } from '@/utils';
-import Login from '@pc/pages/LoginPage/index.vue';
+import MobileLogin from '@mobile/pages/LoginPage/index.vue';
+import PcLogin from '@pc/pages/LoginPage/index.vue';
 import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
@@ -29,7 +30,7 @@ const routes: RouteRecordRaw[] = [
 		]
 	},
 	// pc端
-	{ path: '/pc-login', component: Login },
+	{ path: '/pc-login', component: PcLogin },
 	{
 		path: '/pc',
 		component: async () => await import('@/pc/pages/LayoutPage/index.vue'),
@@ -44,6 +45,7 @@ const routes: RouteRecordRaw[] = [
 	},
 	{ path: '/pc-workspace', component: async () => await import('@/pc/pages/WorkSpacePage/index.vue') },
 	// 移动端
+	{ path: '/m-login', component: MobileLogin },
 	{
 		path: '/mobile',
 		children: [
