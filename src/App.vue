@@ -9,10 +9,10 @@ const userStore = useUserStore();
 userStore.init();
 onMounted(() => {
 	if (isMobile()) {
-		alert('手机端');
+		console.log('手机端');
 		router.replace('/m-login');
 	} else {
-		alert('pc端');
+		console.log('pc端');
 		router.replace('/pc-login');
 	}
 });

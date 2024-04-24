@@ -124,7 +124,7 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const form = ref({ cancerType: '', fileList: [] });
-const loading = ref(true);
+const loading = ref(false);
 const percent = ref(0);
 
 // 清除

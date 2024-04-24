@@ -9,7 +9,12 @@
 		<!-- logo -->
 		<div class="login-text">{{ isLoginPage ? 'Login' : 'Registry' }}</div>
 		<!-- 表单 -->
-		<a-form :model="form" :rules="formRules" class="form-wrap" layout="vertical" @submit="userLoginOrRegistry">
+		<a-form
+			:model="form"
+			:rules="formRules"
+			class="form-wrap"
+			layout="vertical"
+			@submit="userLoginOrRegistry">
 			<a-form-item validate-trigger="blur" label="账户名" field="username" required>
 				<a-input name="username" v-model="form.username" clearable placeholder="请输入账号名">
 					<template #prefix><icon-user /></template>
@@ -17,13 +22,24 @@
 			</a-form-item>
 
 			<a-form-item validate-trigger="blur" label="密码" field="password" required>
-				<a-input name="password" v-model="form.password" clearable placeholder="请输入密码" show-password type="password">
+				<a-input
+					name="password"
+					v-model="form.password"
+					clearable
+					placeholder="请输入密码"
+					show-password
+					type="password">
 					<template #prefix><icon-Lock /></template>
 				</a-input>
 			</a-form-item>
 
 			<a-form-item validate-trigger="blur" v-if="!isLoginPage" label="邮箱" field="emailNum" required>
-				<a-input name="emailNum" v-model="form.emailNum" :prefix-icon="Message" clearable placeholder="请输入邮箱">
+				<a-input
+					name="emailNum"
+					v-model="form.emailNum"
+					:prefix-icon="Message"
+					clearable
+					placeholder="请输入邮箱">
 					<template #prefix><icon-email /></template>
 				</a-input>
 			</a-form-item>
@@ -246,7 +262,6 @@ onBeforeMount(async () => {
 	}
 
 	.form-wrap {
-
 		// 验证码
 		.form-valid-wrap {
 			display: flex;
