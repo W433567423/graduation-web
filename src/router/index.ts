@@ -49,8 +49,8 @@ const routes: RouteRecordRaw[] = [
 	{
 		path: '/mobile',
 		children: [
-			{ path: '/setting', component: async () => await import('@/mobile/pages/Setting/index.vue') },
-			{ path: '/result', component: async () => await import('@/mobile/pages/Result/index.vue') }
+			{ path: '/hfs-index', component: async () => await import('@/mobile/pages/HFSPage/index.vue') },
+			{ path: '/hfs-result', component: async () => await import('@/mobile/pages/HFSPage/result.vue') }
 		]
 	},
 	// 癌症诊断系统
