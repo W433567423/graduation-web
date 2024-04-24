@@ -50,7 +50,7 @@ const routes: RouteRecordRaw[] = [
 	// 移动端
 	{ path: '/m-login', component: MobileLogin },
 	{
-		path: '/mobile',
+		path: '/m',
 		children: [
 			// 癌症诊断系统
 			{ path: 'hfs-index', component: async () => await import('@/pc/pages/HFSPage/index.vue') },
