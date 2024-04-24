@@ -3,10 +3,6 @@ import Login from '@pc/pages/LoginPage/index.vue';
 import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
-	{
-		path: '/',
-		redirect: '/pc-login'
-	},
 	// 平安平台
 	{ path: '/peace-login', component: async () => await import('@/pc/pages/PeacePage/Login/index.vue') },
 	{

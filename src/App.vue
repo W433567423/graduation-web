@@ -10,10 +10,10 @@ userStore.init();
 onMounted(() => {
 	if (isMobile()) {
 		alert('手机端');
-		router.replace('/m_index');
+		router.replace('/m-login');
 	} else {
 		alert('pc端');
-		router.replace('/pc_index');
+		router.replace('/pc-login');
 	}
 });
 </script>
