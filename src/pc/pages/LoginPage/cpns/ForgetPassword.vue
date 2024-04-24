@@ -15,23 +15,19 @@
 			<template v-if="active === 0">
 				<section class="flex justify-around w-100%">
 					<div class="flex flex-col flex-items-center">
-						<div
-							class="forget-icon-radius-box mb-32px"
-							@click="
-								active++;
-								whichMethod = 0;
-							">
+						<div class="forget-icon-radius-box mb-32px" @click="
+							active++;
+						whichMethod = 0;
+						">
 							<icon-phone size="108px" style="color: #79bbff" />
 						</div>
 						<text class="forget-icon-text">手机号找回</text>
 					</div>
 					<div class="flex flex-col flex-items-center">
-						<div
-							class="forget-icon-radius-box mb-32px border-#95d475!"
-							@click="
-								active++;
-								whichMethod = 1;
-							">
+						<div class="forget-icon-radius-box mb-32px border-#95d475!" @click="
+							active++;
+						whichMethod = 1;
+						">
 							<icon-email size="108px" style="color: #95d475" />
 						</div>
 						<text class="forget-icon-text">邮箱找回</text>
@@ -42,14 +38,8 @@
 				</a-button>
 			</template>
 			<template v-if="active === 1">
-				<a-form
-					label-position="right"
-					ref="ruleFormRef"
-					class="forget-form-wrap"
-					:rules="formRules"
-					size="large"
-					:model="form"
-					label-width="96px">
+				<a-form label-position="right" ref="ruleFormRef" class="forget-form-wrap" :rules="formRules" size="large"
+					:model="form" label-width="96px">
 					<a-form-item label="手机号" filed="phoneNum" required v-if="whichMethod === 0">
 						<a-input v-model="form.emailNum" clearable placeholder="请输入手机号">
 							<template #prefix><icon-phone /></template>
@@ -62,12 +52,7 @@
 					</a-form-item>
 
 					<a-form-item label="新密码" filed="newPassword" required>
-						<a-input
-							v-model="form.newPassword"
-							clearable
-							placeholder="请输入新密码"
-							show-password
-							type="password">
+						<a-input v-model="form.newPassword" clearable placeholder="请输入新密码" show-password type="password">
 							<template #prefix><icon-lock /></template>
 						</a-input>
 					</a-form-item>
@@ -204,7 +189,8 @@ const handleLastStep = (isClearForm = false) => {
 
 // 跳转到面板页面
 const gotoDash = async () => {
-	await router.push({ path: '/pc/dash' });
+	// await router.push({ path: '/pc/dash' });
+	await router.push({ path: '/hfs/index' });
 };
 </script>
 
@@ -215,6 +201,7 @@ const gotoDash = async () => {
 	height: 100%;
 	padding: 32px 32px;
 	box-sizing: border-box;
+
 	.forget-password-step-wrap {
 		display: flex;
 		flex-direction: column;
@@ -222,6 +209,7 @@ const gotoDash = async () => {
 		align-items: center;
 		height: 350px;
 		padding-top: 50px;
+
 		.forget-icon-radius-box {
 			position: relative;
 			border: 2px solid #79bbff;
@@ -234,11 +222,13 @@ const gotoDash = async () => {
 				transform: scale(1.1);
 			}
 		}
+
 		.guide-dash-wrap {
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
+
 			.check-icon {
 				width: 64px;
 				height: 64px;
@@ -251,12 +241,15 @@ const gotoDash = async () => {
 			}
 		}
 	}
+
 	.forget-icon-text {
 		font-size: 24px;
 	}
+
 	.forget-form-wrap {
 		width: 80%;
 		margin: 32px auto;
+
 		// 验证码
 		.form-valid-wrap {
 			display: flex;
