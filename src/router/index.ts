@@ -36,6 +36,13 @@ const routes: RouteRecordRaw[] = [
 		component: async () => await import('@/pc/pages/LayoutPage/index.vue'),
 		redirect: '/pc/dash',
 		children: [
+			// 癌症诊断系统
+			{ path: 'hfs-index', component: async () => await import('@/pc/pages/LayoutPage/HFSPage/index.vue') },
+			{
+				path: 'hfs-result',
+				component: async () => await import('@/pc/pages/LayoutPage/HFSPage/result.vue')
+			},
+			// 移动端
 			{ path: 'dash', component: async () => await import('@/pc/pages/LayoutPage/DashBoard/index.vue') },
 			{ path: 'new', component: async () => await import('@/pc/pages/LayoutPage/NewProject/index.vue') },
 			{ path: 'set', component: async () => await import('@/pc/pages/LayoutPage/SetConfig/index.vue') },
@@ -44,17 +51,16 @@ const routes: RouteRecordRaw[] = [
 		]
 	},
 	{ path: '/pc-workspace', component: async () => await import('@/pc/pages/WorkSpacePage/index.vue') },
-	// 癌症诊断系统
-	{ path: '/hfs/index', component: async () => await import('@/pc/pages/HFSPage/index.vue') },
-	{ path: '/hfs/result', component: async () => await import('@/pc/pages/HFSPage/result.vue') },
-	// 移动端
 	{ path: '/m-login', component: MobileLogin },
 	{
 		path: '/m',
 		children: [
 			// 癌症诊断系统
-			{ path: 'hfs-index', component: async () => await import('@/pc/pages/HFSPage/index.vue') },
-			{ path: 'hfs-result', component: async () => await import('@/pc/pages/HFSPage/result.vue') }
+			{ path: 'hfs-index', component: async () => await import('@/pc/pages/LayoutPage/HFSPage/index.vue') },
+			{
+				path: 'hfs-result',
+				component: async () => await import('@/pc/pages/LayoutPage/HFSPage/result.vue')
+			}
 		]
 	}
 ];

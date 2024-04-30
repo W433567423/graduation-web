@@ -3,26 +3,14 @@
 		"target": "ES2020",
 		"useDefineForClassFields": true,
 		"module": "ESNext",
-		"lib": [
-			"ES2020",
-			"DOM",
-			"DOM.Iterable"
-		],
+		"lib": ["ES2020", "DOM", "DOM.Iterable"],
 		"skipLibCheck": true,
 		"baseUrl": ".",
 		"paths": {
-			"@/*": [
-				"./src/*"
-			],
-			"@pc/*": [
-				"./src/pc/*"
-			],
-			"@mobile/*": [
-				"./src/mobile/*"
-			],
-			"vue": [
-				"vue/dist/vue.esm-bundler.js"
-			]
+			"@/*": ["./src/*"],
+			"@pc/*": ["./src/pc/*"],
+			"@mobile/*": ["./src/mobile/*"],
+			"vue": ["vue/dist/vue.esm-bundler.js"]
 		},
 		/* Bundler mode */
 		"moduleResolution": "bundler",
@@ -37,14 +25,8 @@
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true
 	},
-	"include": [
-		"src/**/*.ts",
-		"src/**/*.tsx",
-		"src/**/*.vue"
-	],
-	"exclude": [
-		"node_modules"
-	],
+	"include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
+	"exclude": ["node_modules"],
 	"references": [
 		{
 			"path": "./tsconfig.node.json"

@@ -5,12 +5,12 @@
 		<a-layout>
 			<!-- 侧边栏 -->
 			<a-layout-sider
+				:collapsible="true"
 				breakpoint="lg"
-				collapsible
 				:collapsed="collapsed"
 				@collapse="onCollapse"
 				:width="220">
-				<a-menu mode="pop" :default-selected-keys="['1']">
+				<a-menu mode="pop" :default-selected-keys="['0']">
 					<a-menu-item v-for="e in menuList" @click="changeMenu(e.link)" :key="e.id">
 						<template #icon>
 							<component :is="e.icon" />
@@ -39,16 +39,17 @@ const customBreadNav = ref(false);
 const menuList: IMenuItem[] = [
 	{
 		id: '1',
-		title: '面板',
+		title: '乳腺癌分类',
 		link: '/dash',
-		icon: h(compile('<icon-apps />'))
+		icon: h(compile('<icon-heart />'))
 	},
 	{
 		id: '2',
-		title: '新建项目',
-		link: '/new',
-		icon: h(compile('<icon-plus />'))
+		title: '乳腺癌相关知识',
+		link: '/dash',
+		icon: h(compile('<icon-heart />'))
 	},
+
 	{
 		id: '3',
 		title: '设置',
@@ -57,16 +58,28 @@ const menuList: IMenuItem[] = [
 	},
 	{
 		id: '4',
-		title: '平安平台',
-		link: '/peace-login',
-		icon: h(compile('<icon-code-sandbox />'))
+		title: '脚本项目管理面板',
+		link: '/dash',
+		icon: h(compile('<icon-home />'))
 	},
 	{
 		id: '5',
-		title: 'DRWBNCF',
-		link: '/DRWBNCF',
+		title: '新建脚本项目',
+		link: '/new',
+		icon: h(compile('<icon-plus />'))
+	},
+	{
+		id: '6',
+		title: '平安平台',
+		link: '/peace-login',
 		icon: h(compile('<icon-code-sandbox />'))
 	}
+	// {
+	// 	id: '5',
+	// 	title: 'DRWBNCF',
+	// 	link: '/DRWBNCF',
+	// 	icon: h(compile('<icon-code-sandbox />'))
+	// }
 ];
 const changeMenu = async (url: string) => {
 	// 特殊处理

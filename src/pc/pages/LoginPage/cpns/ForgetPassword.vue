@@ -205,7 +205,7 @@ const handleLastStep = (isClearForm = false) => {
 // 跳转到面板页面
 const gotoDash = async () => {
 	// await router.push({ path: '/pc/dash' });
-	await router.push({ path: '/hfs/index' });
+	router.push('/pc/hfs-index');
 };
 </script>
 

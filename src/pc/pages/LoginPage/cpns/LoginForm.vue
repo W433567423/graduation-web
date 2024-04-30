@@ -200,7 +200,7 @@ const userLoginOrRegistry = async ({
 				await router.replace(route.query.redirect);
 			}
 			// await router.replace('/pc/dash');
-			router.push('/hfs/index');
+			router.push('/pc/hfs-index');
 		} else await flashValidCode();
 	}
 };
@@ -235,7 +235,7 @@ const init = () => {
 onBeforeMount(async () => {
 	if (userStore.token) {
 		// 如果有token直接去面板页面
-		router.push('/hfs/index');
+		router.push('/pc/hfs-index');
 	} else {
 		init();
 	}
