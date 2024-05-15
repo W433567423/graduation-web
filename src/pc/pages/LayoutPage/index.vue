@@ -1,8 +1,8 @@
 <template>
-	<a-layout>
+	<a-layout class="h100%">
 		<PcHeader />
 
-		<a-layout>
+		<a-layout class="h100%">
 			<!-- 侧边栏 -->
 			<a-layout-sider
 				:collapsible="true"
@@ -10,7 +10,7 @@
 				:collapsed="collapsed"
 				@collapse="onCollapse"
 				:width="220">
-				<a-menu mode="pop" :default-selected-keys="['0']">
+				<a-menu mode="pop" :default-selected-keys="['1']">
 					<a-menu-item v-for="e in menuList" @click="changeMenu(e.link)" :key="e.id">
 						<template #icon>
 							<component :is="e.icon" />
@@ -40,36 +40,48 @@ const menuList: IMenuItem[] = [
 	{
 		id: '1',
 		title: '乳腺癌分类',
-		link: '/dash',
+		link: '/hfs-index',
 		icon: h(compile('<icon-heart />'))
 	},
 	{
 		id: '2',
 		title: '乳腺癌相关知识',
-		link: '/dash',
+		link: '/hfs-about',
+		icon: h(compile('<icon-heart />'))
+	},
+	{
+		id: '3',
+		title: '病例上传',
+		link: '/hfs-upload-case',
+		icon: h(compile('<icon-heart />'))
+	},
+	{
+		id: '3',
+		title: '查看诊断历史',
+		link: '/hfs-history',
 		icon: h(compile('<icon-heart />'))
 	},
 
 	{
-		id: '3',
+		id: '4',
 		title: '设置',
 		link: '/set',
 		icon: h(compile('<icon-bug />'))
 	},
 	{
-		id: '4',
+		id: '5',
 		title: '脚本项目管理面板',
 		link: '/dash',
 		icon: h(compile('<icon-home />'))
 	},
 	{
-		id: '5',
+		id: '6',
 		title: '新建脚本项目',
 		link: '/new',
 		icon: h(compile('<icon-plus />'))
 	},
 	{
-		id: '6',
+		id: '7',
 		title: '平安平台',
 		link: '/peace-login',
 		icon: h(compile('<icon-code-sandbox />'))
