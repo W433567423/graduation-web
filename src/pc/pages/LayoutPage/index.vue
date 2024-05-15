@@ -9,7 +9,7 @@
 				breakpoint="lg"
 				:collapsed="collapsed"
 				@collapse="onCollapse"
-				:width="220">
+				:width="300">
 				<a-menu :default-selected-keys="['1']">
 					<template v-for="e in menuList" :key="e.id">
 						<a-sub-menu @click="changeMenu(e.link)" v-if="e.children?.length">
@@ -29,7 +29,7 @@
 							</a-menu-item>
 						</a-sub-menu>
 
-						<a-menu-item @click="changeMenu(e.link)" v-else :disabled="e.disabled">
+						<a-menu-item @click="changeMenu(e.link)" v-else :key="e.id" :disabled="e.disabled">
 							<template #icon>
 								<component :is="e.icon" />
 							</template>
@@ -62,40 +62,41 @@ const menuList: IMenuItem[] = [
 		link: '/hfs-index',
 		icon: h(compile('<icon-heart />'))
 	},
+	// {
+	// 	id: '2',
+	// 	title: '查看上次分类结果',
+	// 	link: '',
+	// 	icon: h(compile('<icon-heart />')),
+	// 	children: [
+
+	// 	]
+	// },
 	{
 		id: '2',
-		title: '查看上次分类结果',
-		link: '',
-		icon: h(compile('<icon-heart />')),
-		children: [
-			{
-				id: '2_1',
-				title: '本模型对乳腺癌的诊断结果',
-				link: '/result',
-				icon: h(compile('<icon-code-sandbox />'))
-			},
-			{
-				id: '2_1',
-				title: '特征与结果关系',
-				link: '/special-result',
-				icon: h(compile('<icon-code-sandbox />'))
-			},
-			{
-				id: '2_2',
-				title: '不同数据集的各项指标比较',
-				link: '/diffData-result',
-				icon: h(compile('<icon-code-sandbox />'))
-			},
-			{
-				id: '2_3',
-				title: '热力图展示',
-				link: '/hot-result',
-				icon: h(compile('<icon-code-sandbox />'))
-			}
-		]
+		title: '本模型对乳腺癌的诊断结果',
+		link: '/result',
+		icon: h(compile('<icon-code-sandbox />'))
 	},
 	{
 		id: '3',
+		title: '特征与结果关系',
+		link: '/special-result',
+		icon: h(compile('<icon-code-sandbox />'))
+	},
+	{
+		id: '4',
+		title: '不同数据集的比较',
+		link: '/diffData-result',
+		icon: h(compile('<icon-code-sandbox />'))
+	},
+	{
+		id: '5',
+		title: '不同数据集的比较（热力图）',
+		link: '/hot-result',
+		icon: h(compile('<icon-code-sandbox />'))
+	},
+	{
+		id: '0',
 		title: '设置',
 		link: '/set',
 		icon: h(compile('<icon-bug />')),

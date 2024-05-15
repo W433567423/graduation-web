@@ -2,12 +2,12 @@ import { type ECOption } from '@/config/chart.config';
 
 // 准确率与特征数量的关系
 export const chatAccuracyOption: ECOption = {
-	title: [
-		{
-			text: '三种癌症的特征与准确率的关系曲线',
-			left: 'center'
-		}
-	],
+	// title: [
+	// 	{
+	// 		text: '三种癌症的特征与准确率的关系曲线',
+	// 		left: 'center'
+	// 	}
+	// ],
 	tooltip: {
 		trigger: 'axis',
 		axisPointer: {
@@ -32,11 +32,11 @@ export const chatAccuracyOption: ECOption = {
 	},
 	series: [
 		{
-			name: 'BRCA的准确度',
+			name: '乳腺癌的准确度',
 			type: 'line',
 			endLabel: {
 				show: true,
-				formatter: (e) => e.seriesName?.slice(0, 4) || '',
+				formatter: (e) => e.seriesName?.slice(0, 3) || '',
 				distance: 20
 			},
 			emphasis: {

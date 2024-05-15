@@ -7,37 +7,18 @@
 <template>
 	<a-scrollbar style="height: 100%; overflow: auto" outer-class="h100%">
 		<div class="cancer-result-wrap">
-			<section class="bg-#f2f3f5 px-12% py-32px">
+			<section class="bg-#f2f3f5 px-12% py-32px h100%">
+				<h3 class="text-center">不同数据集比较结果的热图</h3>
+
 				<a-card class="p20px mb-20px">
 					<template #cover>
-						<h3 class="text-center">比较结果的热图</h3>
 						<a-scrollbar style="width: 100%; overflow-x: auto" outer-class="w100%">
-							<div id="chat5" class="aspect-ratio-1.5 mx-auto min-w-480px mx-auto"></div>
+							<div id="chat5" class="aspect-ratio-1.5 mx-auto min-w-480px max-w-900px mx-auto"></div>
 						</a-scrollbar>
 					</template>
 					<a-card-meta>
-						<template #description>
-							<div class="indent-2xl">
-								如图所示，消融分析的 HFS-SLPEE
-								性能,我们提出的方法主要由三部分组成，即三重数据集（TDS）、新颖的分层特征选择算法和SLPEE模型。为了检查每个组件的贡献，我们将所提出的方法与几种组合进行了比较。
-							</div>
-							<div class="indent-2xl">
-								首先，我们将三重数据集与其他七个数据集（包括mRNA、miRNA、lncRNA、ncRNA、DNA甲基化、转录组以及mRNA和DNA甲基化）进行比较，以检查三重数据集的贡献。我们发现，与其他七个数据集相比，三元组数据集取得了最佳性能（见图4A、B）。具体来说，miRNA、mRNA、ncRNA、DNA甲基化都是单一类型的数据集，没有绝对的优势，它们在不同癌症中的贡献率和诊断表现也不同。与所包含的单一类型数据集相比，双链型数据集（转录组、mRNA
-								和
-								DNA甲基化）在许多情况下具有改进的性能。结果表明，三元组数据集包含了更全面、更有用的信息，提供了强有力的数据支持。
-							</div>
-						</template>
+						<template #description></template>
 					</a-card-meta>
-				</a-card>
-				<a-card class="p20px">
-					<template #cover>
-						<div>
-							<img :style="{ width: '100%' }" alt="dessert" src="@/assets/images/hfsResult.png" />
-						</div>
-					</template>
-					<a-card-meta
-						title="HFS-SLPEE对三种癌症的诊断结果(%)"
-						description="我们利用21个关键特征使BRCA达到99.65%的准确性、99.61%的敏感性、100%的特异性和99.81%的F1分数，并且只有3个样本被误诊。对于LUAD和KIRC，我们选择了12个和16个关键特征来实现四指标100%精准诊断。结果表明，HFS-SLPEE 取得了优异的性能，并且对于三种高发癌症的诊断具有泛化能力。"></a-card-meta>
 				</a-card>
 			</section>
 		</div>
@@ -47,14 +28,7 @@
 <script lang="ts" setup>
 import echarts from '@/config/chart.config';
 import { onMounted } from 'vue';
-import {
-	chatAccuracyOption,
-	chatDifferentOption1,
-	chatDifferentOption2,
-	chatDifferentOption3,
-	chatDifferentOption4,
-	chatHeatmapOption
-} from './mock';
+import { chatHeatmapOption } from './mock';
 
 onMounted(() => {
 	const myChart5 = echarts.init(document.getElementById('chat5'), null, { width: 'auto', height: 'auto' });

@@ -7,17 +7,17 @@
 <template>
 	<a-scrollbar style="height: 100%; overflow: auto" outer-class="h100%">
 		<div class="cancer-result-wrap">
-			<section class="bg-#f2f3f5 px-12% py-32px">
-				<div class="cancer-section-title">诊断结果</div>
+			<section class="bg-#f2f3f5 px-12% py-32px h100%">
+				<h3 class="text-center">本系统对乳腺癌的诊断结果(%)</h3>
 				<a-card class="p20px">
 					<template #cover>
 						<div>
-							<img :style="{ width: '100%' }" alt="dessert" src="@/assets/images/hfsResult.png" />
+							<a-table :columns="columns" :data="data" :pagination="false" />
 						</div>
 					</template>
+					<!-- title="HFS-SLPEE对三种癌症的诊断结果(%)" -->
 					<a-card-meta
-						title="HFS-SLPEE对三种癌症的诊断结果(%)"
-						description="我们利用21个关键特征使BRCA达到99.65%的准确性、99.61%的敏感性、100%的特异性和99.81%的F1分数，并且只有3个样本被误诊。对于LUAD和KIRC，我们选择了12个和16个关键特征来实现四指标100%精准诊断。结果表明，HFS-SLPEE 取得了优异的性能，并且对于三种高发癌症的诊断具有泛化能力。"></a-card-meta>
+						description="我们利用21个关键特征使对乳腺癌的分类诊断达到99.65%的准确性、99.61%的敏感性、100%的特异性和99.81%的F1分数，并且只有3个样本被误诊。结果表明，本系统采用的集成分类算法取得了优异的性能，并且对于乳腺癌的诊断具有泛化能力。"></a-card-meta>
 				</a-card>
 			</section>
 		</div>
@@ -25,39 +25,77 @@
 </template>
 
 <script lang="ts" setup>
-import echarts from '@/config/chart.config';
-import { onMounted } from 'vue';
-import {
-	chatAccuracyOption,
-	chatDifferentOption1,
-	chatDifferentOption2,
-	chatDifferentOption3,
-	chatDifferentOption4,
-	chatHeatmapOption
-} from './mock';
-
-onMounted(() => {
-	const myChart0 = echarts.init(document.getElementById('chat0'), null, { width: 'auto', height: 'auto' });
-	myChart0.setOption(chatAccuracyOption);
-	const myChart1 = echarts.init(document.getElementById('chat1'), null, { width: 'auto', height: 'auto' });
-	myChart1.setOption(chatDifferentOption1);
-	const myChart2 = echarts.init(document.getElementById('chat2'), null, { width: 'auto', height: 'auto' });
-	myChart2.setOption(chatDifferentOption2);
-	const myChart3 = echarts.init(document.getElementById('chat3'), null, { width: 'auto', height: 'auto' });
-	myChart3.setOption(chatDifferentOption3);
-	const myChart4 = echarts.init(document.getElementById('chat4'), null, { width: 'auto', height: 'auto' });
-	myChart4.setOption(chatDifferentOption4);
-	const myChart5 = echarts.init(document.getElementById('chat5'), null, { width: 'auto', height: 'auto' });
-	myChart5.setOption(chatHeatmapOption);
-	window.addEventListener('resize', function () {
-		myChart0.resize();
-		myChart1.resize();
-		myChart2.resize();
-		myChart3.resize();
-		myChart4.resize();
-		myChart5.resize();
-	});
-});
+import type { TableColumnData, TableData } from '@arco-design/web-vue';
+import { ref } from 'vue';
+const columns: TableColumnData[] = [
+	{
+		title: '指标',
+		dataIndex: 'metrics',
+		// ellipsis: true,
+		// tooltip: true,
+		align: 'center'
+	},
+	{
+		title: '乳腺癌',
+		dataIndex: 'BRCA',
+		align: 'center'
+	},
+	{
+		title: '其他癌症',
+		dataIndex: 'other',
+		align: 'center'
+	}
+];
+const data = ref<TableData[]>([
+	{
+		key: '1',
+		metrics: '关键特征数量',
+		BRCA: 21,
+		other: '/'
+	},
+	{
+		key: '2',
+		metrics: '真阳性(TP)',
+		BRCA: 775,
+		other: '/'
+	},
+	{
+		key: '3',
+		metrics: '真阴性(TN)',
+		BRCA: 83,
+		other: '/'
+	},
+	{
+		key: '4',
+		metrics: '假阴性(FN)',
+		BRCA: 3,
+		other: '/'
+	},
+	{
+		key: '5',
+		metrics: '准确率',
+		BRCA: '99.65%',
+		other: '/'
+	},
+	{
+		key: '6',
+		metrics: '灵敏度',
+		BRCA: '99.61%',
+		other: '/'
+	},
+	{
+		key: '7',
+		metrics: '特异性',
+		BRCA: '100%',
+		other: '/'
+	},
+	{
+		key: '8',
+		metrics: 'F1分数',
+		BRCA: '99.81%',
+		other: '/'
+	}
+]);
 </script>
 
 <style lang="less" scoped>

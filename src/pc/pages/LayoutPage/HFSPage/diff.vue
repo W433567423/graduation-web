@@ -8,32 +8,25 @@
 	<a-scrollbar style="height: 100%; overflow: auto" outer-class="h100%">
 		<div class="cancer-result-wrap">
 			<section class="bg-#f2f3f5 px-12% py-32px">
+				<h3 class="text-center">不同数据集的比较结果</h3>
 				<a-card class="p20px mb-20px">
 					<template #cover>
-						<h3 class="text-center">不同数据集的比较结果</h3>
 						<a-scrollbar style="width: 100%; overflow-x: auto" outer-class="w100%">
-							<div class="flex! flex-wrap flex-content-between min-w-1000px">
-								<div id="chat1" class="aspect-ratio-1 max-w-500px w100% mx-auto" />
-								<div id="chat2" class="aspect-ratio-1 max-w-500px w100% mx-auto" />
-								<div id="chat3" class="aspect-ratio-1 max-w-500px w100% mx-auto" />
-								<div id="chat4" class="aspect-ratio-1 max-w-500px w100% mx-auto" />
+							<div class="flex! flex-wrap flex-content-between min-w-840px">
+								<div id="chat1" class="aspect-ratio-1 max-w-420px w100% mx-auto" />
+								<div id="chat2" class="aspect-ratio-1 max-w-420px w100% mx-auto" />
+								<div id="chat3" class="aspect-ratio-1 max-w-420px w100% mx-auto" />
+								<div id="chat4" class="aspect-ratio-1 max-w-420px w100% mx-auto" />
 							</div>
 						</a-scrollbar>
-						<!-- <h3 class="text-center">比较结果的热图</h3>
-						<a-scrollbar style="width: 100%; overflow-x: auto" outer-class="w100%">
-							<div id="chat5" class="aspect-ratio-1.5 mx-auto min-w-960px mx-auto"></div>
-						</a-scrollbar> -->
 					</template>
 					<a-card-meta>
 						<template #description>
 							<div class="indent-2xl">
-								如图所示，消融分析的 HFS-SLPEE
-								性能,我们提出的方法主要由三部分组成，即三重数据集（TDS）、新颖的分层特征选择算法和SLPEE模型。为了检查每个组件的贡献，我们将所提出的方法与几种组合进行了比较。
+								如图所示，本系统使用的数据集提出的方法主要由三部分组成，即三重数据集（TDS）、新颖的分层特征选择算法和集成模型。为了检查每个组件的贡献，我们将所提出的方法与几种组合进行了比较。
 							</div>
 							<div class="indent-2xl">
-								首先，我们将三重数据集与其他七个数据集（包括mRNA、miRNA、lncRNA、ncRNA、DNA甲基化、转录组以及mRNA和DNA甲基化）进行比较，以检查三重数据集的贡献。我们发现，与其他七个数据集相比，三元组数据集取得了最佳性能（见图4A、B）。具体来说，miRNA、mRNA、ncRNA、DNA甲基化都是单一类型的数据集，没有绝对的优势，它们在不同癌症中的贡献率和诊断表现也不同。与所包含的单一类型数据集相比，双链型数据集（转录组、mRNA
-								和
-								DNA甲基化）在许多情况下具有改进的性能。结果表明，三元组数据集包含了更全面、更有用的信息，提供了强有力的数据支持。
+								首先，我们将三重数据集与其他七个数据集（包括mRNA、miRNA、lncRNA、ncRNA、DNA甲基化、转录组以及mRNA和DNA甲基化）进行比较，以检查三重数据集的贡献。我们发现，与其他七个数据集相比，三元组数据集取得了最佳性能（见图4A、B）。具体来说，miRNA、mRNA、ncRNA、DNA甲基化都是单一类型的数据集，没有绝对的优势，它们在不同癌症中的贡献率和诊断表现也不同。与所包含的单一类型数据集相比，双链型数据集（转录组、mRNA和DNA甲基化）在许多情况下具有改进的性能。结果表明，三元组数据集包含了更全面、更有用的信息，提供了强有力的数据支持。
 							</div>
 						</template>
 					</a-card-meta>

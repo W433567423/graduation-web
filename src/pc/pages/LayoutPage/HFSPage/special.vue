@@ -7,7 +7,8 @@
 <template>
 	<a-scrollbar style="height: 100%; overflow: auto" outer-class="h100%">
 		<div class="cancer-result-wrap">
-			<section class="bg-#f2f3f5 px-12% py-20vh h100%">
+			<section class="bg-#f2f3f5 px-12% py-32px h100%">
+				<h3 class="text-center">乳腺癌的特征与准确率的关系曲线</h3>
 				<a-card class="p20px mb-20px">
 					<template #cover>
 						<a-scrollbar style="width: 100%; overflow-x: auto" outer-class="w100%">
@@ -15,7 +16,7 @@
 						</a-scrollbar>
 					</template>
 					<a-card-meta
-						description="表明随着n继续增加，准确率增加；当n =21、n =12、n =16时，准确率达到峰值，然后呈现下降趋势，这意味着添加的特征包含的噪声多于信息。在本研究中，我们将首先达到最高点时的特征子集作为最优。即分别n = 21、n = 12、n = 16作为BRCA、LUAD和KIRC最终选择的特征数量。"></a-card-meta>
+						description="表明随着n继续增加，准确率增加；当n =21时，对乳腺癌诊断的准确率达到峰值，然后呈现下降趋势，这意味着添加的特征包含的噪声多于信息。在本研究中，我们将首先达到最高点时的特征子集作为最优。即n = 21作为乳腺癌的最终选择的特征数量。"></a-card-meta>
 				</a-card>
 			</section>
 		</div>
