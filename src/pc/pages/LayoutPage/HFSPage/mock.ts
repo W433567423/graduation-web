@@ -68,77 +68,77 @@ export const chatAccuracyOption: ECOption = {
 				[29, 0.9925],
 				[30, 0.9895]
 			]
-		},
-		{
-			name: 'LUAD的准确度',
-			type: 'line',
-			endLabel: {
-				show: true,
-				formatter: (e) => e.seriesName?.slice(0, 4) || '',
-				distance: 20
-			},
-			emphasis: {
-				focus: 'series'
-			},
-			data: [
-				[5, 0.996],
-				[6, 0.996],
-				[7, 0.994],
-				[8, 0.998],
-				[9, 0.998],
-				[10, 0.996],
-				[11, 0.996],
-				[12, 1],
-				[13, 0.998],
-				[14, 0.998],
-				[15, 0.996],
-				[16, 0.998],
-				[17, 0.996],
-				[18, 0.996],
-				[19, 0.988],
-				[20, 0.996],
-				[21, 0.996],
-				[22, 0.998],
-				[24, 0.994],
-				[25, 0.994],
-				[26, 0.996],
-				[27, 0.992],
-				[28, 0.994],
-				[29, 0.99],
-				[30, 0.994]
-			]
-		},
-		{
-			name: 'KIRC的准确度',
-			type: 'line',
-			endLabel: {
-				show: true,
-				formatter: (e) => e.seriesName?.slice(0, 4) || '',
-				distance: 20
-			},
-			emphasis: {
-				focus: 'series'
-			},
-			data: [
-				[5, 0.994],
-				[6, 0.997],
-				[15, 0.997],
-				[16, 1],
-				[17, 0.994],
-				[18, 0.994],
-				[19, 1],
-				[20, 1],
-				[22, 0.994],
-				[23, 0.994],
-				[24, 0.997],
-				[25, 0.997],
-				[26, 0.994],
-				[27, 0.997],
-				[28, 0.994],
-				[29, 0.997],
-				[30, 0.997]
-			]
 		}
+		// {
+		// 	name: 'LUAD的准确度',
+		// 	type: 'line',
+		// 	endLabel: {
+		// 		show: true,
+		// 		formatter: (e) => e.seriesName?.slice(0, 4) || '',
+		// 		distance: 20
+		// 	},
+		// 	emphasis: {
+		// 		focus: 'series'
+		// 	},
+		// 	data: [
+		// 		[5, 0.996],
+		// 		[6, 0.996],
+		// 		[7, 0.994],
+		// 		[8, 0.998],
+		// 		[9, 0.998],
+		// 		[10, 0.996],
+		// 		[11, 0.996],
+		// 		[12, 1],
+		// 		[13, 0.998],
+		// 		[14, 0.998],
+		// 		[15, 0.996],
+		// 		[16, 0.998],
+		// 		[17, 0.996],
+		// 		[18, 0.996],
+		// 		[19, 0.988],
+		// 		[20, 0.996],
+		// 		[21, 0.996],
+		// 		[22, 0.998],
+		// 		[24, 0.994],
+		// 		[25, 0.994],
+		// 		[26, 0.996],
+		// 		[27, 0.992],
+		// 		[28, 0.994],
+		// 		[29, 0.99],
+		// 		[30, 0.994]
+		// 	]
+		// },
+		// {
+		// 	name: 'KIRC的准确度',
+		// 	type: 'line',
+		// 	endLabel: {
+		// 		show: true,
+		// 		formatter: (e) => e.seriesName?.slice(0, 4) || '',
+		// 		distance: 20
+		// 	},
+		// 	emphasis: {
+		// 		focus: 'series'
+		// 	},
+		// 	data: [
+		// 		[5, 0.994],
+		// 		[6, 0.997],
+		// 		[15, 0.997],
+		// 		[16, 1],
+		// 		[17, 0.994],
+		// 		[18, 0.994],
+		// 		[19, 1],
+		// 		[20, 1],
+		// 		[22, 0.994],
+		// 		[23, 0.994],
+		// 		[24, 0.997],
+		// 		[25, 0.997],
+		// 		[26, 0.994],
+		// 		[27, 0.997],
+		// 		[28, 0.994],
+		// 		[29, 0.997],
+		// 		[30, 0.997]
+		// 	]
+		// }
 	]
 };
 
@@ -160,7 +160,8 @@ export const chatDifferentOption1: ECOption = {
 		{
 			type: 'category',
 			axisTick: { show: false },
-			data: ['BRCA_21', 'LUAD_12', 'KIRC_16']
+			// data: ['BRCA_21', 'LUAD_12', 'KIRC_16'],
+			data: ['BRCA_21']
 		}
 	],
 	yAxis: [
@@ -269,7 +270,7 @@ export const chatDifferentOption2: ECOption = {
 		{
 			type: 'category',
 			axisTick: { show: false },
-			data: ['BRCA_21', 'LUAD_12', 'KIRC_16']
+			data: ['BRCA_21']
 		}
 	],
 	yAxis: [
@@ -378,7 +379,7 @@ export const chatDifferentOption3: ECOption = {
 		{
 			type: 'category',
 			axisTick: { show: false },
-			data: ['BRCA_21', 'LUAD_12', 'KIRC_16']
+			data: ['BRCA_21']
 		}
 	],
 	yAxis: [
@@ -487,7 +488,7 @@ export const chatDifferentOption4: ECOption = {
 		{
 			type: 'category',
 			axisTick: { show: false },
-			data: ['BRCA_21', 'LUAD_12', 'KIRC_16']
+			data: ['BRCA_21']
 		}
 	],
 	yAxis: [
@@ -583,15 +584,15 @@ const cancerValue = [
 	'BRCA\nAccuracy',
 	'BRCA\nSpecificity',
 	'BRCA\nSensitivity',
-	'BRCA\nF1-score',
-	'LUAD\nAccuracy',
-	'LUAD\nSpecificity',
-	'LUAD\nSensitivity',
-	'LUAD\nF1-score',
-	'KIRC\nAccuracy',
-	'KIRC\nSpecificity',
-	'KIRC\nSensitivity',
-	'KIRC\nF1-score'
+	'BRCA\nF1-score'
+	// 'LUAD\nAccuracy',
+	// 'LUAD\nSpecificity',
+	// 'LUAD\nSensitivity',
+	// 'LUAD\nF1-score',
+	// 'KIRC\nAccuracy',
+	// 'KIRC\nSpecificity',
+	// 'KIRC\nSensitivity',
+	// 'KIRC\nF1-score'
 ];
 const cancerType = ['mRNA', 'IncRNA', 'DM', 'mRNA+DM', 'miRNA', 'ncRNA', 'Transcriptomic', 'TDS'];
 
@@ -627,7 +628,7 @@ export const chatHeatmapOption: ECOption = {
 		}
 	},
 	visualMap: {
-		min: 97,
+		min: 83,
 		max: 100,
 		calculable: true,
 		orient: 'horizontal',
