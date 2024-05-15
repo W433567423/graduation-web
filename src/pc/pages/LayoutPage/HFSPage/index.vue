@@ -13,22 +13,17 @@
 					<a-form-item label="请选择癌症类型">
 						<a-select v-model="form.cancerType" placeholder="请选择癌症类型">
 							<a-option value="乳腺癌">乳腺癌</a-option>
-							<a-option value="肺癌">肺癌</a-option>
+							<a-option value="肺癌" :disabled="true">其他癌症</a-option>
 						</a-select>
 					</a-form-item>
 					<a-form-item label="请上传数据集">
-						<a-upload
-							@change="handleUploadDataSet"
-							draggable
-							action="#"
-							v-model="form.fileList"
-							class="mt-24px">
+						<a-upload :custom-request="customRequest" draggable v-model="form.fileList" class="mt-24px">
 							<!-- <template #upload-button>请上传数据集</template> -->
 						</a-upload>
 					</a-form-item>
 					<a-space size="large">
 						<a-button @click="handleClear">清除</a-button>
-						<a-button type="primary" @click="handleDetect">开始检测</a-button>
+						<a-button type="primary" @click="handleDetect">开始分类</a-button>
 					</a-space>
 				</a-form>
 			</section>
@@ -67,23 +62,30 @@
 </template>
 
 <script lang="ts" setup>
-import { Scrollbar as AScrollbar, type FileItem } from '@arco-design/web-vue';
+import useHfsStore from '@/stores/hfs';
+import { Notification, type RequestOption } from '@arco-design/web-vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+const hfsStore = useHfsStore();
 
+const emits = defineEmits(['changeMenu']);
 const router = useRouter();
-const form = ref({ cancerType: '', fileList: [] });
+const form = ref<{ cancerType: ''; fileList: any[] }>({ cancerType: '', fileList: [] });
 const loading = ref(false);
 const percent = ref(0);
 
 // 清除
 const handleClear = () => {
 	form.value.cancerType = '';
+	form.value.fileList = [];
 };
 
 // 开始检测
 const handleDetect = () => {
 	console.log('🚀 ~ form:', form.value);
+	if (form.value.cancerType === '' || form.value.fileList.length === 0) {
+		return Notification.error({ content: '请选择癌症类型和上传数据集' });
+	}
 	loading.value = true;
 	const interval = setInterval(() => {
 		const rand = Math.random() * 0.08;
@@ -93,6 +95,8 @@ const handleDetect = () => {
 			clearInterval(interval);
 			setTimeout(() => {
 				loading.value = false;
+				hfsStore.setDetect(false);
+				emits('changeMenu', '2');
 				router.push('/pc/result');
 			}, 300);
 		}
@@ -100,8 +104,43 @@ const handleDetect = () => {
 };
 
 // 上传数据集
-const handleUploadDataSet = (_fileList: FileItem[], fileItem: FileItem) => {
-	console.log('🚀 ~ file:', fileItem);
+const devBaseURL = 'http://localhost:8013';
+const proBaseURL = 'https://ag.wtututu.top';
+const BASE_URL = import.meta.env.MODE === 'development' ? devBaseURL : proBaseURL;
+const customRequest = (option: RequestOption) => {
+	const { onProgress, onError, onSuccess, fileItem, name } = option;
+	const xhr = new XMLHttpRequest();
+	if (xhr.upload) {
+		xhr.upload.onprogress = function (event) {
+			let percent = 0;
+			if (event.total > 0) {
+				// 0 ~ 1
+				percent = event.loaded / event.total;
+			}
+			onProgress(percent, event);
+		};
+	}
+	xhr.onerror = function error(e) {
+		onError(e);
+	};
+	xhr.onload = function onload() {
+		if (xhr.status < 200 || xhr.status >= 300) {
+			onError(xhr.responseText);
+			return;
+		}
+		form.value.fileList.push(fileItem);
+		onSuccess(xhr.response);
+	};
+
+	const formData = new FormData();
+	xhr.open('post', `${BASE_URL}/hfs/upload`, true);
+	formData.append((name as any) || 'file', fileItem.file as any);
+	xhr.send(formData);
+	return {
+		abort() {
+			xhr.abort();
+		}
+	};
 };
 </script>
 

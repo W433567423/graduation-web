@@ -10,52 +10,40 @@
 				:collapsed="collapsed"
 				@collapse="onCollapse"
 				:width="300">
-				<a-menu :default-selected-keys="['1']">
-					<template v-for="e in menuList" :key="e.id">
-						<a-sub-menu @click="changeMenu(e.link)" v-if="e.children?.length">
-							<template #title>
-								{{ e.title }}
-							</template>
-
-							<a-menu-item
-								v-for="item in e.children"
-								:key="item.id"
-								@click="changeMenu(item.link)"
-								:disabled="item.disabled">
-								<template #icon>
-									<component :is="item.icon" />
-								</template>
-								{{ item.title }}
-							</a-menu-item>
-						</a-sub-menu>
-
-						<a-menu-item @click="changeMenu(e.link)" v-else :key="e.id" :disabled="e.disabled">
-							<template #icon>
-								<component :is="e.icon" />
-							</template>
-							{{ e.title }}
-						</a-menu-item>
-					</template>
+				<a-menu :selected-keys="selectMenu">
+					<a-menu-item
+						v-for="e in menuList"
+						@click="changeMenu(e.link, e.id)"
+						:key="e.id"
+						:disabled="e.disabled">
+						<template #icon>
+							<component :is="e.icon" />
+						</template>
+						{{ e.title }}
+					</a-menu-item>
 				</a-menu>
 			</a-layout-sider>
 			<!-- 主要内容 -->
 			<a-layout-content class="p0!">
-				<router-view />
+				<router-view @changeMenu="handleChangeMenu" />
 			</a-layout-content>
 		</a-layout>
 	</a-layout>
 </template>
 
 <script lang="ts" setup>
+import useHfsStore from '@/stores/hfs';
+import { Notification } from '@arco-design/web-vue';
 import PcHeader from '@pc/components/PcHeader/index.vue';
 import { compile, h, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { type IMenuItem } from '../type';
-
 const router = useRouter();
 const customBreadNav = ref(false);
+const hfsStore = useHfsStore();
 
-const menuList: IMenuItem[] = [
+const selectMenu = ref(['1']);
+const menuList = ref<IMenuItem[]>([
 	{
 		id: '1',
 		title: '乳腺癌分类',
@@ -126,9 +114,15 @@ const menuList: IMenuItem[] = [
 	// 	link: '/DRWBNCF',
 	// 	icon: h(compile('<icon-code-sandbox />'))
 	// }
-];
-const changeMenu = async (url: string) => {
-	console.log('🚀 ~ changeMenu ~ url:', url);
+]);
+const changeMenu = async (url: string, i: string) => {
+	if (hfsStore.isDetected && !['index', 'set'].includes(url)) {
+		return Notification.error({
+			title: '提示',
+			content: '请先进行分类'
+		});
+	}
+	selectMenu.value = [i];
 	// 特殊处理
 	switch (url) {
 		case '':
@@ -142,10 +136,15 @@ const changeMenu = async (url: string) => {
 const collapsed = ref(false);
 const onCollapse = (val: boolean) => (collapsed.value = val);
 
+const handleChangeMenu = (i: string) => {
+	selectMenu.value = [i];
+};
+
 onMounted(() => {
 	if (router.currentRoute.value.path === '/pc/code') {
 		customBreadNav.value = true;
 	}
+	hfsStore.init();
 });
 </script>
 
