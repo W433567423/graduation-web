@@ -13,8 +13,8 @@
 				<img alt="avatar" class="header-avatar-img" src="@/assets/images/avatar.jpg" />
 			</a-avatar>
 			<template #content>
-				<a-doption>个人资料</a-doption>
-				<a-doption>其他功能</a-doption>
+				<a-doption :disabled="true">个人资料</a-doption>
+				<a-doption :disabled="true">其他功能</a-doption>
 				<a-doption divided @click="handleLogout">退出登录</a-doption>
 			</template>
 		</a-dropdown>
