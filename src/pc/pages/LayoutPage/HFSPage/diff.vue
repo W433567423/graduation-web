@@ -22,10 +22,10 @@
 					</template>
 					<a-card-meta>
 						<template #description>
-							<div class="indent-2xl">
+							<div class="indent-2xl text-20px">
 								如图所示，本系统使用的数据集提出的方法主要由三部分组成，即三重数据集（TDS）、新颖的分层特征选择算法和集成模型。为了检查每个组件的贡献，我们将所提出的方法与几种组合进行了比较。
 							</div>
-							<div class="indent-2xl">
+							<div class="indent-2xl text-20px">
 								首先，我们将三重数据集与其他七个数据集（包括mRNA、miRNA、lncRNA、ncRNA、DNA甲基化、转录组以及mRNA和DNA甲基化）进行比较，以检查三重数据集的贡献。我们发现，与其他七个数据集相比，三元组数据集取得了最佳性能（见图4A、B）。具体来说，miRNA、mRNA、ncRNA、DNA甲基化都是单一类型的数据集，没有绝对的优势，它们在不同癌症中的贡献率和诊断表现也不同。与所包含的单一类型数据集相比，双链型数据集（转录组、mRNA和DNA甲基化）在许多情况下具有改进的性能。结果表明，三元组数据集包含了更全面、更有用的信息，提供了强有力的数据支持。
 							</div>
 						</template>
