@@ -62,14 +62,13 @@
 					</a-form-item>
 
 					<a-form-item label="新密码" filed="newPassword" required>
-						<a-input
+						<a-input-password
 							v-model="form.newPassword"
-							clearable
-							placeholder="请输入新密码"
-							show-password
-							type="password">
+							:defaultVisibility="true"
+							allow-clear
+							placeholder="请输入新密码">
 							<template #prefix><icon-lock /></template>
-						</a-input>
+						</a-input-password>
 					</a-form-item>
 					<a-form-item :label="whichMethod === 0 ? '手机验证码' : '邮箱验证码'" required filed="emailValid">
 						<div class="form-valid-wrap mb-16px">
@@ -110,7 +109,7 @@
 import { getEmailValidCode } from '@/services/captchas.api';
 import type { IForgetLoginForm } from '@/services/interfaces/users';
 import { postUserForgetPassword } from '@/services/users.api';
-import { Notification, type FormInstance } from '@arco-design/web-vue';
+import { InputPassword as AInputPassword, Notification, type FormInstance } from '@arco-design/web-vue';
 import { ref, type Ref } from 'vue';
 import { useRouter } from 'vue-router';
 

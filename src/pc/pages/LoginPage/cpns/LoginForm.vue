@@ -16,21 +16,20 @@
 			layout="vertical"
 			@submit="userLoginOrRegistry">
 			<a-form-item validate-trigger="blur" label="账户名" field="username" required>
-				<a-input name="username" v-model="form.username" clearable placeholder="请输入账号名">
+				<a-input name="username" v-model="form.username" allow-clear placeholder="请输入账号名">
 					<template #prefix><icon-user /></template>
 				</a-input>
 			</a-form-item>
 
 			<a-form-item validate-trigger="blur" label="密码" field="password" required>
-				<a-input
+				<a-input-password
 					name="password"
 					v-model="form.password"
-					clearable
+					allow-clear
 					placeholder="请输入密码"
-					show-password
-					type="password">
+					:defaultVisibility="true">
 					<template #prefix><icon-Lock /></template>
-				</a-input>
+				</a-input-password>
 			</a-form-item>
 
 			<a-form-item validate-trigger="blur" v-if="!isLoginPage" label="邮箱" field="emailNum" required>
@@ -38,7 +37,7 @@
 					name="emailNum"
 					v-model="form.emailNum"
 					:prefix-icon="Message"
-					clearable
+					allow-clear
 					placeholder="请输入邮箱">
 					<template #prefix><icon-email /></template>
 				</a-input>
@@ -46,7 +45,7 @@
 
 			<a-form-item validate-trigger="blur" v-if="isLoginPage" label="验证码" field="valid" required>
 				<div class="form-valid-wrap">
-					<a-input name="valid" v-model="form.valid" clearable placeholder="请输入验证码">
+					<a-input name="valid" v-model="form.valid" allow-clear placeholder="请输入验证码">
 						<template #prefix><icon-message /></template>
 					</a-input>
 					<div class="valid-wrap" @click="flashValidCode" v-html="imgSrc" v-if="imgSrc" />
@@ -58,7 +57,7 @@
 
 			<a-form-item validate-trigger="blur" v-else label="邮箱验证码" required field="emailValid">
 				<div class="form-valid-wrap mb-16px">
-					<a-input name="emailValid" v-model="form.emailValid" clearable placeholder="请输入验证码">
+					<a-input name="emailValid" v-model="form.emailValid" allow-clear placeholder="请输入验证码">
 						<template #prefix><icon-message /></template>
 					</a-input>
 					<a-button :loading="isValidLoading" class="ml-16px" @click="flashEmailValidCode">发送</a-button>
