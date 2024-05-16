@@ -116,7 +116,8 @@ const menuList = ref<IMenuItem[]>([
 	// }
 ]);
 const changeMenu = async (url: string, i: string) => {
-	if (hfsStore.isDetected && !['index', 'set'].includes(url)) {
+	console.log('🚀 ~ changeMenu ~ url:', url);
+	if (hfsStore.isDetected && !['0', '1'].includes(i)) {
 		return Notification.error({
 			title: '提示',
 			content: '请先进行分类'
