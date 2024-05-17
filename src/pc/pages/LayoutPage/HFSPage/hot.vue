@@ -8,7 +8,7 @@
 	<a-scrollbar style="height: 100%; overflow: auto" outer-class="h100%">
 		<div class="cancer-result-wrap">
 			<section class="bg-#f2f3f5 px-12% py-32px h100%">
-				<h3 class="text-center">不同数据集比较结果的热图</h3>
+				<h3 class="text-center">不同数据集各项衡量指标的比较结果热图</h3>
 
 				<a-card class="p20px mb-20px">
 					<template #cover>

@@ -16,7 +16,7 @@ export const chatAccuracyOption: ECOption = {
 	},
 	xAxis: {
 		type: 'value',
-		name: '特征编号',
+		name: '特征数量n',
 		nameLocation: 'middle',
 		min: 5,
 		max: 30,

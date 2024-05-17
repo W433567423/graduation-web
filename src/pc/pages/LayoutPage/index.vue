@@ -1,8 +1,8 @@
 <template>
-	<a-layout class="h100%">
+	<a-layout class="h100vh">
 		<PcHeader />
 
-		<a-layout class="h100%">
+		<a-layout style="height: calc(100vh - 64px)">
 			<!-- 侧边栏 -->
 			<a-layout-sider
 				:collapsible="true"
@@ -46,7 +46,7 @@ const selectMenu = ref(['1']);
 const menuList = ref<IMenuItem[]>([
 	{
 		id: '1',
-		title: '乳腺癌分类',
+		title: '乳腺癌分类系统',
 		link: '/hfs-index',
 		icon: h(compile('<icon-heart />'))
 	},
