@@ -34,6 +34,7 @@ const randomColor = (): string => {
 // 目录
 const menuList = ref<IMenuItem[]>([
 	{ name: '烹饪', path: 'cook', color: randomColor() },
+	{ name: '毕设系统', path: '', color: randomColor() },
 	{ name: '俄罗斯方块', path: '', color: randomColor() }
 ]);
 

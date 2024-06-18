@@ -8,7 +8,7 @@ module.exports = {
 		'standard-with-typescript',
 		'plugin:vue/vue3-essential',
 		'@vue/prettier',
-		'@vue/prettier/@typescript-eslint'
+		'plugin:@typescript-eslint/recommended'
 	],
 	parserOptions: {
 		ecmaVersion: 'latest',
@@ -43,6 +43,8 @@ module.exports = {
 		// 关闭promise必须then catch
 		'@typescript-eslint/no-floating-promises': 0,
 		'@typescript-eslint/no-misused-promises': 0,
+		// 允许any
+		'@typescript-eslint/no-explicit-any': 0,
 		'@typescript-eslint/prefer-nullish-coalescing': 0
 	}
 };
