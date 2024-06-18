@@ -40,7 +40,10 @@ const menuList = ref<IMenuItem[]>([
 ]);
 
 const handleInter = (e: IMenuItem) => {
-	if (!e.path) showNotify({ type: 'danger', message: '已关闭，待整合，敬请期待' });
+	if (!e.path) {
+		showNotify({ type: 'danger', message: '已关闭，待整合，敬请期待' });
+		console.log('🚀 ~ handleInter ~ showNotify:', showNotify);
+	}
 	router.push({ path: e.path });
 };
 </script>
