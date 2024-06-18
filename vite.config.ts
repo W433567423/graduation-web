@@ -15,9 +15,7 @@ export default defineConfig({
 		AutoImport({
 			resolvers: [ArcoResolver(), VantResolver()]
 		}),
-		Components({
-			resolvers: [ArcoResolver({ sideEffect: true }), VantResolver()]
-		}),
+		Components({ dts: true, resolvers: [ArcoResolver({ sideEffect: true }), VantResolver()] }),
 		// eslint(),
 		UnoCSS(),
 		// 代码压缩(300kb以上的文件进行压缩)
