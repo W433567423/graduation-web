@@ -1,3 +1,4 @@
+import { VantResolver } from '@vant/auto-import-resolver';
 import vue from '@vitejs/plugin-vue';
 import { resolve } from 'path';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -7,16 +8,15 @@ import { ArcoResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
 import { defineConfig } from 'vite';
 import viteCompression from 'vite-plugin-compression';
-
 export default defineConfig({
 	base: '/',
 	plugins: [
 		vue(),
 		AutoImport({
-			resolvers: [ArcoResolver()]
+			resolvers: [ArcoResolver(), VantResolver()]
 		}),
 		Components({
-			resolvers: [ArcoResolver({ sideEffect: true })]
+			resolvers: [ArcoResolver({ sideEffect: true }), VantResolver()]
 		}),
 		// eslint(),
 		UnoCSS(),

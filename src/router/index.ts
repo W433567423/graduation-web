@@ -4,6 +4,10 @@ import PcLogin from '@pc/pages/LoginPage/index.vue';
 import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
+	// main
+	{ path: '/', component: async () => await import('@/views/index.vue') },
+	// COOK
+	{ path: '/cook', component: async () => await import('@/views/Cook/index.vue') },
 	// 平安平台
 	{ path: '/peace-login', component: async () => await import('@/pc/pages/PeacePage/Login/index.vue') },
 	{

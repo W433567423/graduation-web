@@ -1,5 +1,5 @@
 import pinia from '@/stores';
-import ArcoVue from '@arco-design/web-vue';
+// import ArcoVue from '@arco-design/web-vue';
 import ArcoVueIcon from '@arco-design/web-vue/es/icon';
 import 'virtual:uno.css';
 import { createApp, type Component } from 'vue';
@@ -12,6 +12,6 @@ const app = createApp(App as Component);
 app.use(pinia);
 app.use(router);
 app.use(VueDOMPurifyHTML);
-app.use(ArcoVue);
+// app.use(ArcoVue);
 app.use(ArcoVueIcon as any);
 app.mount('#app');
