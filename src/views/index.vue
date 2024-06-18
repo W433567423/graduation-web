@@ -18,6 +18,7 @@
 </template>
 
 <script lang="ts" setup>
+import { showNotify } from 'vant';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { type IMenuItem } from './type';
@@ -39,6 +40,7 @@ const menuList = ref<IMenuItem[]>([
 ]);
 
 const handleInter = (e: IMenuItem) => {
+	if (!e.path) showNotify({ type: 'danger', message: '已关闭，待整合，敬请期待' });
 	router.push({ path: e.path });
 };
 </script>
