@@ -9,7 +9,7 @@
 		<div
 			v-for="(e, i) in menuList"
 			:key="i"
-			:class="['menu-wrap']"
+			:class="['menu-wrap', 'color-white']"
 			:style="{ backgroundColor: e.color }"
 			@click="handleInter(e)">
 			{{ e.name }}
@@ -18,22 +18,21 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, type Ref } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { type IMenuItem } from './type';
 const router = useRouter();
 
-// 产生随机颜色六位哈希值
-const randomColor = () => {
-	return '#' + Math.floor(Math.random() * 0xffffff).toString(16);
+// 产生随机主色调
+const randomColor = (): string => {
+	const r = Math.random();
+	if (r < 0.1) return randomColor();
+	const color = Math.floor(r * 0xffffff).toString(16);
+	return `#${color}`;
 };
 
-interface IMenuItem {
-	name: string;
-	path: string;
-	color: string;
-}
 // 目录
-const menuList: Ref<IMenuItem[]> = ref([
+const menuList = ref<IMenuItem[]>([
 	{ name: '烹饪', path: 'cook', color: randomColor() },
 	{ name: '俄罗斯方块', path: '', color: randomColor() }
 ]);

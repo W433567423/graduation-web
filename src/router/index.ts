@@ -7,7 +7,14 @@ const routes: RouteRecordRaw[] = [
 	// main
 	{ path: '/', component: async () => await import('@/views/index.vue') },
 	// COOK
-	{ path: '/cook', component: async () => await import('@/views/Cook/index.vue') },
+	{
+		path: '/cook',
+		children: [
+			{ path: '', redirect: 'cook/index' },
+			{ path: 'index', component: async () => await import('@/views/Cook/index.vue') },
+			{ path: 'make/:id', component: async () => await import('@/views/Cook/make.vue') }
+		]
+	},
 	// 平安平台
 	{ path: '/peace-login', component: async () => await import('@/pc/pages/PeacePage/Login/index.vue') },
 	{

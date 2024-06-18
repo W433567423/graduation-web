@@ -6,13 +6,13 @@
 -->
 <template>
 	<div>
-		<van-space fill>
-			<van-button type="primary" @click="handleNew">新菜品</van-button>
-		</van-space>
+		<div class="mx-auto w10rem">
+			<van-button type="primary" class="w100%" @click="handleNew">新菜品</van-button>
+		</div>
 		<van-collapse v-model="activeNames">
 			<van-collapse-item v-for="e in makeMethodList" :key="e.id" :title="e.name" :name="e.id">
 				<van-grid>
-					<van-grid-item icon="photo-o" text="红烧肉" />
+					<van-grid-item icon="photo-o" text="红烧肉" @click="handleCook(1)" />
 				</van-grid>
 			</van-collapse-item>
 		</van-collapse>
@@ -21,6 +21,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
 const activeNames = ref([4]);
 // 菜的制作方式 溜、焖、烧、汆、蒸、炸酥、烩、扒、炖、爆、炒、砂锅、 拔丝
@@ -41,8 +43,11 @@ const makeMethodList = ref([
 	{ name: '拔丝', id: 14 }
 ]);
 
-const handleNew = () => {
-	console.log('新菜品');
+const handleNew = () => {};
+
+// 做菜具体页面
+const handleCook = (id: number) => {
+	router.push({ path: `/cook/make/${id}` });
 };
 </script>
 
